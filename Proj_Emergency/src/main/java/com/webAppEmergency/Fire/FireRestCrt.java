@@ -1,15 +1,14 @@
 package com.webAppEmergency.Fire;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.webAppEmergency.Fire.Fire;
-import java.util.List;
+import com.project.model.dto.FireDto;
 
 @RestController
 public class FireRestCrt {
@@ -18,12 +17,12 @@ public class FireRestCrt {
 	FireService fServ;
 	
 	@RequestMapping(method=RequestMethod.GET, value="/getAll")
-	public List<Fire> getAllFire() {
+	public List<FireDto> getAllFire() {
 		return fServ.getAllFire();
 	} 
 	
 	@RequestMapping(method=RequestMethod.GET, value="/get/{id}")
-	public Fire getFire(@PathVariable int id) {
+	public FireDto getFire(@PathVariable int id) {
 		return fServ.getFire(id);
 	} 
 	

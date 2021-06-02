@@ -1,11 +1,14 @@
 package com.webAppEmergency.Fire;
 
-import java.util.Optional;
+
+import java.util.ArrayList;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.project.model.dto.FireDto;
 
 //Gestion des feux
 @Service
@@ -19,29 +22,24 @@ public class FireService{
     }
 	
 	//Récupère tous les feux
-	public List<Fire> getAllFire() {
-		List<Fire> L_fire = this.restTemplate.getForObject("http://127.0.0.1:8081/fire", List.class);
-		return L_fire;
+	public List<FireDto> getAllFire() {
+		FireDto[] L_fire = this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
+		List<FireDto> fList=new ArrayList<FireDto>();
+		for(FireDto f: L_fire) {
+			fList.add(f);
+		}
+		return fList;
 	}
 	
-	public Fire getFire(int id) {
-		Fire res=null;
-		List<Fire> L_fire = this.restTemplate.getForObject("http://127.0.0.1:8081/fire", List.class);
-		System.out.println(L_fire);
-		for (Fire feu:L_fire) {
-			System.out.println(feu);
-			if (feu.getId()==id) {
-				res=feu;
+	public FireDto getFire(int id) {
+		FireDto res=null;
+		FireDto[] L_fire = this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
+		for(FireDto f: L_fire) {
+			if(f.getId()==id) {
+				res = f;
 			}
 		}
 		return res;
 	}
-
-//	//Permet de récupérer l'id d'un feu
-//	public int getId(Fire fire) {
-//		return fire.getId();
-//	}
-
-
 
 }
