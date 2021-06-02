@@ -7,10 +7,13 @@ window.onload = function(){
     Display();
     funDefault();
 }
-window.onclick = function(){
+window.onclick = function(event){
     myFireApp.setListFire(getListFire());
     myVehicleApp.setListVehicle(getListVehicle());
     Display();
+    if (event.target == document.getElementById('id01')) {
+        document.getElementById('id01').style.display = "none";
+      }
 }
 
 function Display(){

@@ -18,37 +18,39 @@ class VehicleApp{
         this.ListVehicle.forEach(Vehicle=>{
             let affiche=true;
             switch(Vehicle.type){
-                case 'typeC':
+                case 'CAR':
                     if(!typeC){
                         affiche=false; 
                     }
                     break;
     
-                case 'typeFE':
+                case 'FIRE_ENGINE':
                     if(!typeFE){
                         affiche=false; 
                     }
                     break;
-                case 'typePT':
+                case 'PUMPER_TRUCK':
                     if(!typePT){
                         affiche=false; 
                     }
                     break;
-                case 'typeWT':
+                case 'WATER_TENDER':
                     if(!typeWT){
                         affiche=false; 
                     }
                     break;
-                case 'typeLT':
+                case 'TURNTABLE_LADDER_TRUCK':
                     if(!typeLT){
                         affiche=false; 
                     }
                     break;
-                case 'typeT':
+                case 'TRUCK':
                     if(!typeT){
                         affiche=false; 
                     }
                     break;
+                default:
+                    affiche=false;
             }
             
             if(affiche){
@@ -61,8 +63,8 @@ class VehicleApp{
 
     AddVehicle(Vehicle){
         L.circle([Vehicle.lat,Vehicle.lon], {
-            color: 'red',
-            fillColor: '#f03',
+            color: 'blue',
+            fillColor: '#00f',
             fillOpacity: 0.5,
             radius: 50
         }).addTo(this.markersVehicle);

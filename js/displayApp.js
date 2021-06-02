@@ -32,13 +32,13 @@ class displayApp{
             string += myVehicleApp.ToString(Vehicle);
         }
 
-        else if(string == ""){
-            string = "Il n'y a rien ici";
+        if(string != ""){
+            L.popup()
+            .setLatLng(e.latlng)
+            .setContent(string)
+            .openOn(this);
         }
-        L.popup()
-        .setLatLng(e.latlng)
-        .setContent(string)
-        .openOn(this);
+
     }
     
 
