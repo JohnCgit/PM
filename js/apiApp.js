@@ -20,3 +20,23 @@ function loadRessource(source, method, body) {
 function getListFire(){
     return JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
 };
+
+function getListVehicle(){
+    return JSON.parse(loadRessource('http://127.0.0.1:8081/vehicle',"GET"));
+};
+
+function CreateVehicle(data) {
+    return JSON.parse(loadRessource(`http://127.0.0.1:8081/vehicle`, "POST", data));
+}
+
+function DeleteAllVehicles(){
+    let ListVehicle = getListVehicle();
+    ListVehicle.forEach(Vehicle => {
+         DeleteVehicle(Vehicle.id);
+         }
+    )  
+}
+
+function DeleteVehicle(id) {
+    loadRessource("http://127.0.0.1:8081/vehicle/" + vehicle.id, "DELETE");        
+}
