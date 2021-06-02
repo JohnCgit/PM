@@ -1,7 +1,9 @@
 var port = 8081;
+var ListFireVisible = Array();
+var mymap = L.map(document.getElementById("mapid")).setView([45.752433, 4.834328], 10);
+var markersFire = L.featureGroup();
+mymap.addLayer(markersFire);
 
-var mymap = L.map(document.getElementById("mapid")).setView([45.752433, 4.834328], 13);
-    
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     maxZoom: 18,
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
@@ -11,12 +13,12 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1
 }).addTo(mymap);
 
+
 var popup = L.popup();
 
 function onMapClick(e) {
     var fire = null;
-    var ListFire = JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
-    ListFire.forEach(Fire => {
+    ListFireVisible.forEach(Fire => {
         if(getDistanceFromLatLonInKm(Fire.lat,Fire.lon,e.latlng.lat,e.latlng.lng)*1000 <= Fire.range)
         {
             fire = Fire;
@@ -40,7 +42,7 @@ if (fire == null){
 }
 
 mymap.on('click', onMapClick);
-// Fonction permettant la récupération d'une information située à l'url source avec la méthode method
+
 function loadRessource(source, method) {
     var xhttp = new XMLHttpRequest();
     xhttp.open(method, source, false);
@@ -57,68 +59,85 @@ function AddFire(Fire){
         fillColor: '#f03',
         fillOpacity: 0.5,
         radius: Fire.range
-    }).addTo(mymap);
+    }).addTo(markersFire);
 }
-window.onload = function() {
-    var ListFire = JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
-    affichagePostFiltre(ListFire);
 
-};
+function ResetMarkers(){
+    markersFire.clearLayers();
+}
 
-function affichagePostFiltre(ListFire){
+function FireFilter(ListFire){
     var typeA = document.getElementById("typeA").checked;
     var typeBG = document.getElementById("typeB_Gasoline").checked;
     var typeBA = document.getElementById("typeB_Alcohol").checked;
     var typeBP = document.getElementById("typeB_Plastics").checked;
-    var typeC = document.getElementById("typeC").checked;
-    var typeD = document.getElementById("typeD").checked;
-    var typeE = document.getElementById("typeE").checked;
-    var I = document.location.searchParamns.get("i");
-    var R = document.location.searchParamns.get("r");
+    var typeC = document.getElementById("typeC_Flammable_Gases").checked;
+    var typeD = document.getElementById("typeD_Metals").checked;
+    var typeE = document.getElementById("typeE_Electric").checked;
+    var I = document.getElementById("i").value;
+    var R = document.getElementById("r").value;
 
     ListFire.forEach(Fire=>{
         var affiche=true;
         switch(Fire.type){
             case 'A':
-                if(typeA){
+                if(!typeA){
                     affiche=false; 
                 }
                 break;
 
             case 'B_Gasoline':
-                if(typeBG){
+                if(!typeBG){
                     affiche=false; 
                 }
                 break;
             case 'B_Alcohol':
-                if(typeBA){
+                if(!typeBA){
                     affiche=false; 
                 }
                 break;
             case 'B_Plastics':
-                if(typeBP){
+                if(!typeBP){
                     affiche=false; 
                 }
                 break;
             case 'C_Flammable_Gases':
-                if(typeC){
+                if(!typeC){
                     affiche=false; 
                 }
                 break;
             case 'D_Metals':
-                if(typeD){
+                if(!typeD){
                     affiche=false; 
                 }
                 break;
             case 'E_Electric':
-                if(typeE){
+                if(!typeE){
                     affiche=false; 
                 }
                 break;
         }
         
+        if(Fire.range>R){
+            affiche=false; 
+        } 
+        if(Fire.intensity>I){
+            affiche=false; 
+        }
+        if(affiche){
+            AddFire(Fire);
+            ListFireVisible.push(Fire);
+        }
     })
+    
 }
+
+function displayFire(){
+    ListFireVisible=Array();
+    var ListFire = JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
+    FireFilter(ListFire);
+}
+
 //https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
     var R = 6371; // Radius of the earth in km
@@ -139,3 +158,12 @@ function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   }
   
   
+window.onload = function() {
+    ResetMarkers();
+    displayFire();
+};
+
+window.onchange = function() {
+    ResetMarkers();
+    displayFire();
+};

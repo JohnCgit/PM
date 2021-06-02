@@ -19,7 +19,6 @@
 <body>
     <div id="mapid" ></div>
     <div>
-    <form action method="get">
         <h3>Fire type</h3>
         <input type="checkbox" id="typeA" checked>
         <label for="typeA">A</label>
@@ -41,14 +40,38 @@
 
         <h3>Intensity</h3>
 
-        <input type="range"id="i" name="i" value="0" min="0" max="100" oninput="this.nextElementSibling.value = this.value">
-        <output>0</output>
+        <input type="range"id="i" name="i" value="100" min="0" max="50" oninput="this.nextElementSibling.value = this.value">
+        <output>50</output>
 
         <h3>Range</h3>
-        <input type="range" id="r" name="r" min="0" max="500" oninput="this.nextElementSibling.value = this.value">
-        <output>0</output>
+        <input type="range" id="r" name="r" min="0" max="500" value="500" oninput="this.nextElementSibling.value = this.value">
+        <output>500</output>
 
-    </form>
-    </div>  
+    </div>
+    <div id="content_vehicle">
+        <h3>Vehicle type</h3>
+        <input type="checkbox" id="car" checked>
+        <label for="car">CAR</label>
+        <br/>
+        <input type="checkbox" id="fireengine" checked>
+        <label for="fireengine">FIRE_ENGINE</label>
+        <br/>
+        <input type="checkbox" id="pumpertruck" checked>
+        <label for="pumpertruck">PUMPER_TRUCK</label>
+        <br/>
+        <input type="checkbox" id="watertender" checked>
+        <label for="watertender">WATER_TENDER</label><br/>
+        <input type="checkbox" id="laddertruck" checked>
+        <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
+        <input type="checkbox" id="truck" checked>
+        <label for="truck">TRUCK</label><br/>
+
+        <!--<button type="button">Create Vehicle</button><br/>
+        <button type="button">Update Vehicle</button><br/>
+        <button type="button">Delete Vehicle</button><br/>-->
+
+
+    </div>    
 </body>
 <script src="../js/FireForce.js"></script>
+<script src="../js/Vehicle.js"></script>
