@@ -100,5 +100,9 @@ class FireApp{
     setListFire(ListFire){
         this.ListFire = ListFire;
     }
+
+    getMarkers(){
+       return markersFire;
+    }
 }
 

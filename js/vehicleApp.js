@@ -1,4 +1,4 @@
-class FireApp{
+class VehicleApp{
 
     constructor(markersVehicle,ListVehicleVisible,ListVehicle){
         this.markersVehicle = markersVehicle;

@@ -2,7 +2,6 @@ var port = 8081;
 
 function loadRessource(source, method, body) {
     var xhttp = new XMLHttpRequest();
-    source = `http://127.0.0.1:${port}`+source;
     xhttp.open(method, source, false);
     xhttp.overrideMimeType("application/json");
     if (body != null) {
