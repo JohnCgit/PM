@@ -21,11 +21,9 @@ class displayApp{
     }
 
     onMapClick(){
-        
+
     }
     
-
-
 
 }
 
