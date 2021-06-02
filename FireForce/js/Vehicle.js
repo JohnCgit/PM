@@ -1,20 +1,3 @@
-var port = 8081;
-
-function loadRessource(source, method, body) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.open(method, source, false);
-    xhttp.overrideMimeType("application/json");
-    if (body != null) {
-        xhttp.setRequestHeader("Content-type", "application/json")
-        xhttp.send(body);
-    }
-    else {
-        xhttp.send();
-    }
-    if (xhttp.status == 200) {
-        return xhttp.response;
-    }
-};
 
 function funDefault() {
     var create = document.createElement("button");
