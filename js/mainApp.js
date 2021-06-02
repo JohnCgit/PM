@@ -1,12 +1,13 @@
 const myFireApp = new FireApp(L.featureGroup(),Array(),getListFire());
 const myVehicleApp = new VehicleApp(L.featureGroup(),Array(),getListVehicle());
-const mydisplayApp = new displayApp(L.map(document.getElementById("mapid")).setView([45.752433, 4.834328], 10));
+const mydisplayApp = new displayApp();
 
 
 window.onload = function(){
     Display();
+    funDefault();
 }
-window.onchange = function(){
+window.onclick = function(){
     myFireApp.setListFire(getListFire());
     myVehicleApp.setListVehicle(getListVehicle());
     Display();
@@ -19,6 +20,22 @@ function Display(){
     myVehicleApp.VehicleFilter();
     mydisplayApp.addTo(myFireApp.getMarkers())
     mydisplayApp.addTo(myVehicleApp.getMarkers())
+}
+
+function funDefault() {
+    var create = document.createElement("button");
+    create.appendChild(document.createTextNode('Create Vehicle'));
+    document.getElementById('content_vehicle').appendChild(create);
+
+    var delAll = document.createElement("button");
+    delAll.appendChild(document.createTextNode('Delete All Vehicles'));
+    document.getElementById('content_vehicle').appendChild(delAll);
+
+    create.onclick = function(){
+        CreateVehicle(JSON.stringify({}))
+    };
+    delAll.onclick = DeleteAllVehicles;
+
 }
 
 //https://stackoverflow.com/questions/27928/calculate-distance-between-two-latitude-longitude-points-haversine-formula

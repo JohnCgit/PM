@@ -52,7 +52,7 @@ class VehicleApp{
             }
             
             if(affiche){
-                AddVehicle(Vehicle);
+                this.AddVehicle(Vehicle);
                 this.ListVehicleVisible.push(Vehicle);
             }
         })
@@ -83,10 +83,14 @@ class VehicleApp{
     ToString(vehicle){
         return '<p>Véhicule n°'+vehicle.id+'</p>' +
         '<p> Type: '+vehicle.type+'</p>' +
-        '<button onclick="DeleteVehicle(vehicle.id)">Delete Vehicle</button>';
+        `<button onclick="DeleteVehicle(${vehicle.id})">Delete Vehicle</button>`;
     }
 
     setListVehicle(ListVehicle){
         this.ListVehicle = ListVehicle;
     }
+
+    getMarkers(){
+        return this.markersVehicle;
+     }
 }

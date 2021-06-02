@@ -37,7 +37,7 @@ function DeleteAllVehicles(){
 }
 
 function DeleteVehicle(id) {
-    loadRessource("http://127.0.0.1:8081/vehicle/" + vehicle.id, "DELETE");        
+    loadRessource("http://127.0.0.1:8081/vehicle/" + id, "DELETE");        
 }
 
 function UpdateVehicle(id, data) {

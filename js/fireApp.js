@@ -64,7 +64,7 @@ class FireApp{
                 affiche=false; 
             }
             if(affiche){
-                AddFire(Fire);
+                this.AddFire(Fire);
                 this.ListFireVisible.push(Fire);
             }
         })
@@ -102,7 +102,7 @@ class FireApp{
     }
 
     getMarkers(){
-       return markersFire;
+       return this.markersFire;
     }
 }
 
