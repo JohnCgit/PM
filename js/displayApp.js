@@ -21,6 +21,8 @@ class displayApp{
         arg.clearLayers();
     }
 
+    
+
     onMapClick(e){
         let Fire = myFireApp.getFireAt(e.latlng.lat,e.latlng.lng);
         let Vehicle = myVehicleApp.getVehicleAt(e.latlng.lat,e.latlng.lng);
