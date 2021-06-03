@@ -180,9 +180,6 @@ class VehicleApp{
 
 
         <button type="submit">Create</button>
-      </div>
-
-      <div class="container" style="background-color:#f1f1f1">
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
   </form>`;
@@ -228,10 +225,11 @@ class VehicleApp{
       
       
               `<button type="submit">Update</button>`+
+              
             `</div>`+
             `<div class="container" style="background-color:#f1f1f1">`+
-            `<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>`+
-  
+            +
+            `button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>`+
             `</form>`; 
             document.getElementById('id02').style.display='block';
     }
