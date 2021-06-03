@@ -1,4 +1,4 @@
-package com.webAppEmergency.Caserne;
+package com.webAppEmergency.Assignation;
 
 import java.util.List;
 

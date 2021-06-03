@@ -22,7 +22,7 @@ public class MoveRunnable implements Runnable{
 		this.Fire=f;
 		this.restTemplate = restTemplateBuilder.build();
 
-		this.c1 = new Coord(v.getLon(), v.getLat());
+		this.c1 = v.getCoord();
 		this.c2 = new Coord(f.getLon(), f.getLat());
 	}
 

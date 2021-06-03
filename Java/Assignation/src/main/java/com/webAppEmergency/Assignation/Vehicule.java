@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.project.model.dto.Coord;
+
 @Entity
 public class Vehicule {
 
 	@Id
 	@GeneratedValue
 	private int realid;
-	private float lon;
-	private float lat;
 	private String type;
 	private float efficiency;
 	private String liquidType;
@@ -23,7 +23,7 @@ public class Vehicule {
 	private int crewMemberCapacity;
 	private int facilityRefID;
 	private String Etat;
-	
+	private Coord coord;
 	
 	public Vehicule() {}
 	
@@ -32,8 +32,6 @@ public class Vehicule {
 			int crewMember, int crewMemberCapacity, int facilityRefID) {
 		
 		super();
-		this.lon=lon;
-		this.lat=lat;
 		this.type=type;
 		this.efficiency=efficiency;
 		this.liquidType=liquidType;
@@ -45,6 +43,7 @@ public class Vehicule {
 		this.crewMemberCapacity=crewMemberCapacity;
 		this.facilityRefID=facilityRefID;
 		this.Etat="chill";
+		this.coord=new Coord(lon, lat);
 		
 	}
 	
@@ -140,25 +139,20 @@ public class Vehicule {
 		this.realid = realid;
 	}
 
-	public float getLon() {
-		return lon;
+	public String getEtat() {
+		return Etat;
 	}
 
-	public void setLon(float lon) {
-		this.lon = lon;
+	public void setEtat(String etat) {
+		Etat = etat;
 	}
 
-	public float getLat() {
-		return lat;
+	public Coord getCoord() {
+		return coord;
 	}
 
-	public void setLat(float lat) {
-		this.lat = lat;
-	}
-
-	
-	
-	
-	
+	public void setCoord(Coord coord) {
+		this.coord = coord;
+	}	
 	
 }

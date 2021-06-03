@@ -40,8 +40,7 @@ public class MainRunnable implements Runnable {
 //				List<FireDto> fList=new ArrayList<FireDto>();
 				for (FireDto feu:Tab_Fire) {
 					if (!List_Feu.contains(feu)) {
-						Coord CoordFire=new Coord(feu.getLon(), feu.getLat());
-						Vehicule v = ClosestVehicule(CoordFire);
+						Vehicule v = PickVehicule1(feu);
 						List_Feu.add(feu);
 						deplacement(v, feu);
 					}
@@ -74,14 +73,18 @@ public class MainRunnable implements Runnable {
 		this.isEnd=true;
 	}
 	
+	public Vehicule PickVehicule1(FireDto feu) {
+		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
+		return ClosestVehicule(CoordFire);
+	}
+	
 	public Vehicule ClosestVehicule(Coord CoordFire) {
 		Vehicule Tab_Vehicule[]=this.restTemplate.getForObject("http://127.0.0.1:8090/getAll", null);
 		Vehicule res = new Vehicule();
 		Integer minDistance = -1;
 		//TODO hashmap vehicule, distance, regarder le type
 		for (Vehicule v:Tab_Vehicule) {
-			Coord CoordVehicule=new Coord(v.getLon(), v.getLat());
-			Integer Distance=GisTools.computeDistance2(CoordVehicule, CoordFire);
+			Integer Distance=GisTools.computeDistance2(v.getCoord(), CoordFire);
 			if (minDistance<=0 || minDistance>=Distance) {
 				res=v;
 				minDistance=Distance;
@@ -90,4 +93,33 @@ public class MainRunnable implements Runnable {
 		return res;
 	}
 
+	public Vehicule PickVehicule2(FireDto feu) {
+		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
+		Caserne c = ClosestCaserne(CoordFire);
+		Vehicule v = SelectVehiculeInCaserne(c, CoordFire, feu.getType());
+	}
+	
+	public Caserne ClosestCaserne(Coord CoordFire) {
+		List<Caserne> ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8010/caserne/getAll", null);
+		Caserne res = new Caserne();
+		Integer minDistance = -1;
+		//TODO hashmap vehicule, distance, regarder le type
+		for (Caserne c:ListCaserne) {
+			Integer Distance=GisTools.computeDistance2(c.getCoord(), CoordFire);
+			if (minDistance<=0 || minDistance>=Distance) {
+				res=c;
+				minDistance=Distance;
+			}
+		}
+		return res;
+	}
+	
+	
+	/*
+	public Vehicule SelectVehiculeInCaserne(Caserne c, Coord CoordFire, String type)
+	{
+		for (Integer idVehicule:c.getListVehicules()) {
+			//TODO prendre vehicule type adapté
+		}
+	}*/
 }
