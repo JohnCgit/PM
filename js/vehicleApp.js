@@ -152,28 +152,18 @@ class VehicleApp{
         <input type="double" name="lat" id="lat" >
         <br/>
         <label for="type"><b>Type</b></label>
-        <input type="text" name="type" id="type" >
-        <label for="Efficiency"><b>Efficiency</b></label>
-        <input type="double" name="Efficiency" id="eff" >
+        <br/>
+        <select id="type" name="type">
+          <option value="car">Car</option>
+          <option value="fire_engine">Fire Engine</option>
+          <option value="pumper_truck">Pumper Truck</option>
+          <option value="water_tender">Water Tender</option>
+          <option value="turntable_ladder_truck">Turntable Ladder Truck</option>
+          <option value="truck">Truck</option>
+        </select>
         <br/>
         <label for="LiquidType"><b>LiquidType</b></label>
         <input type="double" name="LiquidType" id="lt" >
-        <label for="LiquidQuantiy"><b>LiquidQuantiy</b></label>
-        <input type="double" name="LiquidQuantiy" id="lq" >
-        <br/>
-        <label for="LiquidConsumption"><b>LiquidConsumption</b></label>
-        <input type="double" name="LiquidConsumption" id="lc" >
-        <br/>
-        <label for="fuel"><b>fuel</b></label>
-        <input type="double" name="fuel" id="f" >
-        <label for="fuelConsumption"><b>fuelConsumption</b></label>
-        <input type="double" name="fuelConsumption" id="fc" >
-        <br/>
-        <br/>
-        <label for="CrewMember"><b>CrewMember</b></label>
-        <input type="int" name="CrewMember" id="cm" >
-        <label for="CrewMemberCapacity"><b>CrewMemberCapacity</b></label>
-        <input type="int" name="CrewMemberCapacity" id="cmc" >
         <br/>
         <label for="facilityRefID"><b>facilityRefID</b></label>
         <input type="int" name="facilityRefID" id="fRID" >
@@ -186,7 +176,7 @@ class VehicleApp{
   document.getElementById('id01').style.display='block';
     }
 //,liquidType
-    Update(id,lon,lat,type,efficiency,liquidQuantity,liquidConsumption,fuel,fuelConsumption,crewMember,crewMemberCapacity,facilityRefID){
+    Update(id,lon,lat,type,liquidQuantity,fuel,crewMember,facilityRefID){
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
@@ -198,38 +188,29 @@ class VehicleApp{
              `<br/>`+
               `<label for="type"><b>Type</b></label>
               <input type="text" name="type" id="type" placeholder=${type}>`+
-              `<label for="Efficiency"><b>Efficiency</b></label>`+
-              `<input type="double" name="Efficiency" id="eff" placeholder=${efficiency}>`+
               `<br/>`+
               //`<label for="LiquidType"><b>LiquidType</b></label>`+
             //`<input type="double" name="LiquidType" id="lt" placeholder=${liquidType}>`+
-              `<label for="LiquidQuantiy"><b>LiquidQuantiy</b></label>`+
-              `<input type="double" name="LiquidQuantiy" id="lq" placeholder=${liquidQuantity}>`+
-              `<br/>`+
-              `<label for="LiquidConsumption"><b>LiquidConsumption</b></label>`+
-              `<input type="double" name="LiquidConsumption" id="lc" placeholder=${liquidConsumption}>`+
+              `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
+              `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
               `<br/>`+
               `<label for="fuel"><b>fuel</b></label>`+
               `<input type="double" name="fuel" id="f" placeholder=${fuel}>`+
-              `<label for="fuelConsumption"><b>fuelConsumption</b></label>`+
-              `<input type="double" name="fuelConsumption" id="fc" placeholder=${fuelConsumption}>`+
-              `<br/>`+
               `<br/>`+
               `<label for="CrewMember"><b>CrewMember</b></label>`+
               `<input type="int" name="CrewMember" id="cm" placeholder=${crewMember}>`+
-              `<label for="CrewMemberCapacity"><b>CrewMemberCapacity</b></label>`+
-              `<input type="int" name="CrewMemberCapacity" id="cmc" placeholder=${crewMemberCapacity}>`+
               `<br/>`+
               `<label for="facilityRefID"><b>facilityRefID</b></label>`+
               `<input type="int" name="facilityRefID" id="fRID" placeholder=${facilityRefID}>`+
       
       
               `<button type="submit">Update</button>`+
+
+              +
+              `<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>` + 
               
             `</div>`+
-            `<div class="container" style="background-color:#f1f1f1">`+
-            +
-            `button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>`+
+          
             `</form>`; 
             document.getElementById('id02').style.display='block';
     }
