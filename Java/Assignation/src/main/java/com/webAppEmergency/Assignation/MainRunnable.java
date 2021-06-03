@@ -97,6 +97,8 @@ public class MainRunnable implements Runnable {
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
 		Caserne c = ClosestCaserne(CoordFire);
 		Vehicule v = SelectVehiculeInCaserne(c, CoordFire, feu.getType());
+		//TODO GetPompiers
+		return v;
 	}
 	
 	public Caserne ClosestCaserne(Coord CoordFire) {
@@ -115,11 +117,13 @@ public class MainRunnable implements Runnable {
 	}
 	
 	
-	/*
-	public Vehicule SelectVehiculeInCaserne(Caserne c, Coord CoordFire, String type)
-	{
-		for (Integer idVehicule:c.getListVehicules()) {
-			//TODO prendre vehicule type adapté
-		}
-	}*/
+	
+//	public Vehicule SelectVehiculeInCaserne(Caserne c, Coord CoordFire, String type)
+//	{
+//		float efficacite=-1;
+//		for (Integer idVehicule:c.getListVehicules()) {
+//			Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8010/vehicule/id/"+idVehicule, Vehicule.class);
+//			
+//		}
+//	}
 }

@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.project.model.dto.Coord;
+import com.project.model.dto.LiquidType;
+import com.project.model.dto.VehicleType;
 
 @Entity
 public class Vehicule {
@@ -12,9 +14,12 @@ public class Vehicule {
 	@Id
 	@GeneratedValue
 	private int realid;
-	private String type;
+//	private float lon;
+//	private float lat;
+	private Coord coord;
+	private VehicleType  type;
 	private float efficiency;
-	private String liquidType;
+	private LiquidType liquidType;
 	private float liquidQuantity;
 	private float liquidConsumption;
 	private float fuel;
@@ -23,15 +28,18 @@ public class Vehicule {
 	private int crewMemberCapacity;
 	private int facilityRefID;
 	private String Etat;
-	private Coord coord;
+	
 	
 	public Vehicule() {}
 	
-	public Vehicule(int id, float lon, float lat, String type, float efficiency, String liquidType,
+	public Vehicule(int id, float lon, float lat, VehicleType  type, float efficiency, LiquidType liquidType,
 			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption,
 			int crewMember, int crewMemberCapacity, int facilityRefID) {
 		
 		super();
+//		this.lon=lon;
+//		this.lat=lat;
+		this.coord=new Coord(lon, lat);
 		this.type=type;
 		this.efficiency=efficiency;
 		this.liquidType=liquidType;
@@ -43,7 +51,6 @@ public class Vehicule {
 		this.crewMemberCapacity=crewMemberCapacity;
 		this.facilityRefID=facilityRefID;
 		this.Etat="chill";
-		this.coord=new Coord(lon, lat);
 		
 	}
 	
@@ -51,11 +58,11 @@ public class Vehicule {
 //Getter & Setter
 //////////////////////////////////////
 	
-	public String getType() {
+	public VehicleType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(VehicleType type) {
 		this.type = type;
 	}
 
@@ -67,11 +74,11 @@ public class Vehicule {
 		this.efficiency = efficiency;
 	}
 
-	public String getLiquidType() {
+	public LiquidType getLiquidType() {
 		return liquidType;
 	}
 
-	public void setLiquidType(String liquidType) {
+	public void setLiquidType(LiquidType liquidType) {
 		this.liquidType = liquidType;
 	}
 
@@ -139,6 +146,14 @@ public class Vehicule {
 		this.realid = realid;
 	}
 
+	public Coord getCoord() {
+		return coord;
+	}
+
+	public void setCoord(Coord coord) {
+		this.coord = coord;
+	}
+
 	public String getEtat() {
 		return Etat;
 	}
@@ -147,12 +162,5 @@ public class Vehicule {
 		Etat = etat;
 	}
 
-	public Coord getCoord() {
-		return coord;
-	}
-
-	public void setCoord(Coord coord) {
-		this.coord = coord;
-	}	
 	
 }

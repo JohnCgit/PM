@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.project.model.dto.LiquidType;
+import com.project.model.dto.VehicleType;
+
 @Entity
 public class Vehicule {
 
@@ -12,9 +15,9 @@ public class Vehicule {
 	private int realid;
 	private float lon;
 	private float lat;
-	private String type;
+	private VehicleType  type;
 	private float efficiency;
-	private String liquidType;
+	private LiquidType liquidType;
 	private float liquidQuantity;
 	private float liquidConsumption;
 	private float fuel;
@@ -22,12 +25,12 @@ public class Vehicule {
 	private int crewMember;
 	private int crewMemberCapacity;
 	private int facilityRefID;
-	private String Etat;
+	private Etat Etat;
 	
 	
 	public Vehicule() {}
 	
-	public Vehicule(int id, float lon, float lat, String type, float efficiency, String liquidType,
+	public Vehicule(int id, float lon, float lat, VehicleType  type, float efficiency, LiquidType liquidType,
 			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption,
 			int crewMember, int crewMemberCapacity, int facilityRefID) {
 		
@@ -36,27 +39,21 @@ public class Vehicule {
 		this.lat=lat;
 		this.type=type;
 		this.efficiency=efficiency;
-		this.liquidType=liquidType;
-		this.liquidQuantity=liquidQuantity;
-		this.liquidConsumption=liquidConsumption;
 		this.fuel=fuel;
-		this.fuelConsumption=fuelConsumption;
 		this.crewMember=crewMember;
-		this.crewMemberCapacity=crewMemberCapacity;
 		this.facilityRefID=facilityRefID;
-		this.Etat="chill";
-		
+		this.Etat=Etat.DISPONIBLE;		
 	}
 	
 //////////////////////////////////////
 //Getter & Setter
 //////////////////////////////////////
 	
-	public String getType() {
+	public VehicleType getType() {
 		return type;
 	}
 
-	public void setType(String type) {
+	public void setType(VehicleType type) {
 		this.type = type;
 	}
 
@@ -68,11 +65,11 @@ public class Vehicule {
 		this.efficiency = efficiency;
 	}
 
-	public String getLiquidType() {
+	public LiquidType getLiquidType() {
 		return liquidType;
 	}
 
-	public void setLiquidType(String liquidType) {
+	public void setLiquidType(LiquidType liquidType) {
 		this.liquidType = liquidType;
 	}
 
