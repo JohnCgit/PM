@@ -16,7 +16,7 @@ public class AppAssignation {
 		mRunnable=new MainRunnable();
 		
 		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread=new Thread(dRunnable);
+		displayThread=new Thread(mRunnable);
 		
 		// The Thread is started and the method run() of the associated DisplayRunnable is launch
 		displayThread.start();
