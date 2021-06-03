@@ -101,35 +101,28 @@ class VehicleApp{
      }
 
     createUpdate(cU,id){
-        
+
+        let data = {};
         let lon = document.getElementById("lon").value;
         let lat = document.getElementById("lat").value;
         let type = document.getElementById("type").value;
-        let eff = document.getElementById("eff").value;
-        let lt = document.getElementById("lt").value;
-        let lq = document.getElementById("lq").value;
-        let lc = document.getElementById("lc").value;
-        let f = document.getElementById("f").value;
-        let fc = document.getElementById("fc").value;
-        let cm = document.getElementById("cm").value;
-        let cmc = document.getElementById("cmc").value;
+        //let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
-
-        let data = {};
-
         if (lon != "")    {data["lon"] = lon;}
         if (lat != "")    {data["lat"] = lat;}
         if (type != "")    {data["type"] = type;}
-        if (eff != "")    {data["efficiency"] = eff;}
-        if (lt != "")    {data["liquidType"] = lt;}
-        if (lq != "")    {data["liquidQuantity"] = lq;}
-        if (lc != "")    {data["liquidConsumption"] = lc;}
-        if (f != "")    {data["fuel"] = f;}
-        if (fc != "")    {data["fuelConsumption"] = fc;}
-        if (cm != "")    {data["crewMember"] = cm;}
-        if (cmc != "")    {data["crewMemberCapacity"] = cmc;}
+        //if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
-        
+        if(!cU){
+            data["id"]=id;
+            let lq = document.getElementById("lq").value;
+            let f = document.getElementById("f").value;
+            let cm = document.getElementById("cm").value;
+            if (lq != "")    {data["liquidQuantity"] = lq;}
+            if (f != "")    {data["fuel"] = f;}
+            if (cm != "")    {data["crewMember"] = cm;}
+        }
+
         if(cU){
             CreateVehicle(JSON.stringify(data));
             document.getElementById('createForm').innerHTML="";
