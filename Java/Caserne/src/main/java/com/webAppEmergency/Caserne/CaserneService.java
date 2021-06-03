@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.VehicleType;
+import com.webAppEmergency.Caserne.CaserneDto.CaserneDto;
 
 @Service
 public class CaserneService {
@@ -48,7 +49,7 @@ public class CaserneService {
 	
 	//Récupérer informations Casernes de Lyon
 	public void getCaserneLyon() {
-		List<String> json = this.restTemplate.getForObject(this.url,List.class);
+		CaserneDto json = this.restTemplate.getForObject(this.url,CaserneDto.class);
 		System.out.println(json);
 	}
 
