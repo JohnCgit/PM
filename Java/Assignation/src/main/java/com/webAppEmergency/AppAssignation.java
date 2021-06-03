@@ -9,17 +9,17 @@ import com.webAppEmergency.Assignation.MainRunnable;
 public class AppAssignation {
 	public static void main(String [] args) {
 		SpringApplication.run(AppAssignation.class, args);
-		MainRunnable mRunnable;
+
+		MainRunnable mainRunnable;
 		Thread displayThread;
 		
 		//Create a Runnable is charge of executing cyclic actions 
-		mRunnable=new MainRunnable();
+		mainRunnable=new MainRunnable();
 		
 		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread=new Thread(mRunnable);
+		displayThread=new Thread(mainRunnable);
 		
 		// The Thread is started and the method run() of the associated DisplayRunnable is launch
 		displayThread.start();
-
 	}
 }

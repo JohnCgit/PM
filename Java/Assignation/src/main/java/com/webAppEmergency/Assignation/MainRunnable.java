@@ -7,6 +7,7 @@ import com.project.model.dto.FireDto;
 import com.webAppEmergency.Assignation.Assignation;
 import com.project.tools.GisTools;
 import com.project.model.dto.Coord;
+import com.webAppEmergency.Assignation.MoveRunnable;
 
 
 
@@ -42,7 +43,7 @@ public class MainRunnable implements Runnable {
 						Coord CoordFire=new Coord(feu.getLon(), feu.getLat());
 						Vehicule v = ClosestVehicule(CoordFire);
 						List_Feu.add(feu);
-						//TODO send deplacement
+						deplacement(v, feu);
 					}
 				}
 
@@ -53,6 +54,20 @@ public class MainRunnable implements Runnable {
 
 		}
 		
+	}
+	
+	public void deplacement(Vehicule v, FireDto f) {
+		MoveRunnable moveRunnable;
+		Thread displayThread;
+		
+		//Create a Runnable is charge of executing cyclic actions 
+		moveRunnable=new MoveRunnable(v, f);
+		
+		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+		displayThread=new Thread(moveRunnable);
+		
+		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+		displayThread.start();
 	}
 	
 	public void stop() {
