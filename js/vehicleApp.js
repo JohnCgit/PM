@@ -154,12 +154,12 @@ class VehicleApp{
         <label for="type"><b>Type</b></label>
         <br/>
         <select id="type" name="type">
-          <option value="car">Car</option>
-          <option value="fire_engine">Fire Engine</option>
-          <option value="pumper_truck">Pumper Truck</option>
-          <option value="water_tender">Water Tender</option>
-          <option value="turntable_ladder_truck">Turntable Ladder Truck</option>
-          <option value="truck">Truck</option>
+          <option value="CAR">Car</option>
+          <option value="FIRE_ENGINE">Fire Engine</option>
+          <option value="PUMPER_TRUCK">Pumper Truck</option>
+          <option value="WATER_TENDERS">Water Tender</option>
+          <option value="TURNTABLE_LADDER_TRUCK">Turntable Ladder Truck</option>
+          <option value="TRUCK">Truck</option>
         </select>
         <br/>
         <label for="LiquidType"><b>LiquidType</b></label>
