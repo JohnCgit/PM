@@ -2,4 +2,4 @@ https://stackoverflow.com/questions/33860704/org-hibernate-mappingexceptioncould
 
 https://stackoverflow.com/questions/42708070/how-do-i-create-a-dto-in-c-sharp-asp-net-from-a-fairly-complex-json-response
 
-
+this.restTemplate.getForObject() json
