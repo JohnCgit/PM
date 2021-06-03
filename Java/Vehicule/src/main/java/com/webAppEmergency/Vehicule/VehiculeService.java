@@ -11,6 +11,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleType;
 
 @Service
@@ -59,17 +60,17 @@ public class VehiculeService {
 	public void createVehiculeFireSim(Vehicule v) {
 		JSONObject obj = new JSONObject();
 		obj.put("id", v.getRealid());
-		obj.put("lon", v.getLon());
-		obj.put("lat", v.getLat());
+		obj.put("lon", v.getCoord().getLon());
+		obj.put("lat", v.getCoord().getLon());
 		obj.put("type", v.getType());
 		obj.put("efficiency", v.getEfficiency());
-		obj.put("liquideType", v.getLiquidType());
+		obj.put("liquideType", v.getType().getLiquidType());
 		obj.put("liquideQuantity", v.getLiquidQuantity());
-		obj.put("liquidConsumption", v.getLiquidConsumption());
+		obj.put("liquidConsumption", v.getType().getLiquidConsumption());
 		obj.put("fuel", v.getFuel());
-		obj.put("fuelConsumption", v.getFuelConsumption());
+		obj.put("fuelConsumption", v.getType().getFuelConsumption());
 		obj.put("crewMember", v.getCrewMember());
-		obj.put("crewMemberCapacity", v.getCrewMemberCapacity());
+		obj.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
 		obj.put("facilityRefID", v.getFacilityRefID());
 	}
 	
@@ -87,8 +88,7 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, float lon, float lat) {
 		Vehicule v = getVehicule(id);
-		v.setLat(lat);
-		v.setLon(lon);
+		v.setCoord(new Coord(lon, lat));
 		JSONObject body=new JSONObject();
 		body.put("lon",lon);
 		body.put("lat",lat);

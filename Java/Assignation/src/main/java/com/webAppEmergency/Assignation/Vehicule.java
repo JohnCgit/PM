@@ -14,55 +14,41 @@ public class Vehicule {
 	@Id
 	@GeneratedValue
 	private int realid;
-//	private float lon;
-//	private float lat;
-	private Coord coord;
-	private VehicleType  type;
+	private VehiculeType type;
 	private float efficiency;
-	private LiquidType liquidType;
 	private float liquidQuantity;
-	private float liquidConsumption;
 	private float fuel;
-	private float fuelConsumption;
 	private int crewMember;
-	private int crewMemberCapacity;
 	private int facilityRefID;
-	private String Etat;
-	
-	
-	public Vehicule() {}
-	
-	public Vehicule(int id, float lon, float lat, VehicleType  type, float efficiency, LiquidType liquidType,
-			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption,
-			int crewMember, int crewMemberCapacity, int facilityRefID) {
-		
-		super();
-//		this.lon=lon;
-//		this.lat=lat;
-		this.coord=new Coord(lon, lat);
-		this.type=type;
-		this.efficiency=efficiency;
-		this.liquidType=liquidType;
-		this.liquidQuantity=liquidQuantity;
-		this.liquidConsumption=liquidConsumption;
-		this.fuel=fuel;
-		this.fuelConsumption=fuelConsumption;
-		this.crewMember=crewMember;
-		this.crewMemberCapacity=crewMemberCapacity;
-		this.facilityRefID=facilityRefID;
-		this.Etat="chill";
-		
+	private Etat Etat;
+	private Coord coord;
+
+	public Vehicule() {
 	}
-	
+
+	public Vehicule(int id, float lon, float lat, VehiculeType type, float efficiency, LiquidType liquidType,
+			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption, int crewMember,
+			int crewMemberCapacity, int facilityRefID) {
+
+		super();
+		this.coord = new Coord(lon, lat);
+		this.type = type;
+		this.efficiency = efficiency;
+		this.fuel = fuel;
+		this.crewMember = crewMember;
+		this.facilityRefID = facilityRefID;
+		this.Etat = Etat.DISPONIBLE;
+	}
+
 //////////////////////////////////////
 //Getter & Setter
 //////////////////////////////////////
-	
-	public VehicleType getType() {
+
+	public VehiculeType getType() {
 		return type;
 	}
 
-	public void setType(VehicleType type) {
+	public void setType(VehiculeType type) {
 		this.type = type;
 	}
 
@@ -74,28 +60,12 @@ public class Vehicule {
 		this.efficiency = efficiency;
 	}
 
-	public LiquidType getLiquidType() {
-		return liquidType;
-	}
-
-	public void setLiquidType(LiquidType liquidType) {
-		this.liquidType = liquidType;
-	}
-
 	public float getLiquidQuantity() {
 		return liquidQuantity;
 	}
 
 	public void setLiquidQuantity(float liquidQuantity) {
 		this.liquidQuantity = liquidQuantity;
-	}
-
-	public float getLiquidConsumption() {
-		return liquidConsumption;
-	}
-
-	public void setLiquidConsumption(float liquidConsumption) {
-		this.liquidConsumption = liquidConsumption;
 	}
 
 	public float getFuel() {
@@ -106,28 +76,12 @@ public class Vehicule {
 		this.fuel = fuel;
 	}
 
-	public float getFuelConsumption() {
-		return fuelConsumption;
-	}
-
-	public void setFuelConsumption(float fuelConsumption) {
-		this.fuelConsumption = fuelConsumption;
-	}
-
 	public int getCrewMember() {
 		return crewMember;
 	}
 
 	public void setCrewMember(int crewMember) {
 		this.crewMember = crewMember;
-	}
-
-	public int getCrewMemberCapacity() {
-		return crewMemberCapacity;
-	}
-
-	public void setCrewMemberCapacity(int crewMemberCapacity) {
-		this.crewMemberCapacity = crewMemberCapacity;
 	}
 
 	public int getFacilityRefID() {
@@ -146,6 +100,14 @@ public class Vehicule {
 		this.realid = realid;
 	}
 
+	public Etat getEtat() {
+		return Etat;
+	}
+
+	public void setEtat(Etat etat) {
+		Etat = etat;
+	}
+
 	public Coord getCoord() {
 		return coord;
 	}
@@ -154,13 +116,4 @@ public class Vehicule {
 		this.coord = coord;
 	}
 
-	public String getEtat() {
-		return Etat;
-	}
-
-	public void setEtat(String etat) {
-		Etat = etat;
-	}
-
-	
 }

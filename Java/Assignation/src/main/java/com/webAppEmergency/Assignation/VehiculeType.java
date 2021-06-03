@@ -1,4 +1,4 @@
-package com.webAppEmergency.Vehicule;
+package com.webAppEmergency.Assignation;
 
 import com.project.model.dto.LiquidType;
 

@@ -4,8 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import com.project.model.dto.Coord;
 import com.project.model.dto.LiquidType;
 import com.project.model.dto.VehicleType;
+import com.webAppEmergency.Vehicule.Etat;
 
 @Entity
 public class Vehicule {
@@ -13,30 +15,23 @@ public class Vehicule {
 	@Id
 	@GeneratedValue
 	private int realid;
-	private float lon;
-	private float lat;
-	private VehicleType  type;
+	private VehiculeType  type;
 	private float efficiency;
-	private LiquidType liquidType;
 	private float liquidQuantity;
-	private float liquidConsumption;
 	private float fuel;
-	private float fuelConsumption;
 	private int crewMember;
-	private int crewMemberCapacity;
 	private int facilityRefID;
 	private Etat Etat;
-	
+	private Coord coord;
 	
 	public Vehicule() {}
 	
-	public Vehicule(int id, float lon, float lat, VehicleType  type, float efficiency, LiquidType liquidType,
+	public Vehicule(int id, float lon, float lat, VehiculeType  type, float efficiency, LiquidType liquidType,
 			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption,
 			int crewMember, int crewMemberCapacity, int facilityRefID) {
 		
 		super();
-		this.lon=lon;
-		this.lat=lat;
+		this.coord=new Coord(lon, lat);
 		this.type=type;
 		this.efficiency=efficiency;
 		this.fuel=fuel;
@@ -49,11 +44,11 @@ public class Vehicule {
 //Getter & Setter
 //////////////////////////////////////
 	
-	public VehicleType getType() {
+	public VehiculeType getType() {
 		return type;
 	}
 
-	public void setType(VehicleType type) {
+	public void setType(VehiculeType type) {
 		this.type = type;
 	}
 
@@ -65,28 +60,12 @@ public class Vehicule {
 		this.efficiency = efficiency;
 	}
 
-	public LiquidType getLiquidType() {
-		return liquidType;
-	}
-
-	public void setLiquidType(LiquidType liquidType) {
-		this.liquidType = liquidType;
-	}
-
 	public float getLiquidQuantity() {
 		return liquidQuantity;
 	}
 
 	public void setLiquidQuantity(float liquidQuantity) {
 		this.liquidQuantity = liquidQuantity;
-	}
-
-	public float getLiquidConsumption() {
-		return liquidConsumption;
-	}
-
-	public void setLiquidConsumption(float liquidConsumption) {
-		this.liquidConsumption = liquidConsumption;
 	}
 
 	public float getFuel() {
@@ -97,28 +76,12 @@ public class Vehicule {
 		this.fuel = fuel;
 	}
 
-	public float getFuelConsumption() {
-		return fuelConsumption;
-	}
-
-	public void setFuelConsumption(float fuelConsumption) {
-		this.fuelConsumption = fuelConsumption;
-	}
-
 	public int getCrewMember() {
 		return crewMember;
 	}
 
 	public void setCrewMember(int crewMember) {
 		this.crewMember = crewMember;
-	}
-
-	public int getCrewMemberCapacity() {
-		return crewMemberCapacity;
-	}
-
-	public void setCrewMemberCapacity(int crewMemberCapacity) {
-		this.crewMemberCapacity = crewMemberCapacity;
 	}
 
 	public int getFacilityRefID() {
@@ -137,25 +100,19 @@ public class Vehicule {
 		this.realid = realid;
 	}
 
-	public float getLon() {
-		return lon;
+	public Etat getEtat() {
+		return Etat;
 	}
 
-	public void setLon(float lon) {
-		this.lon = lon;
+	public void setEtat(Etat etat) {
+		Etat = etat;
 	}
 
-	public float getLat() {
-		return lat;
+	public Coord getCoord() {
+		return coord;
 	}
 
-	public void setLat(float lat) {
-		this.lat = lat;
+	public void setCoord(Coord coord) {
+		this.coord = coord;
 	}
-
-	
-	
-	
-	
-	
 }

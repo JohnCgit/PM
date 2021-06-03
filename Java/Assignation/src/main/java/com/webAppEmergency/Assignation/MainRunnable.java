@@ -96,7 +96,7 @@ public class MainRunnable implements Runnable {
 	public Vehicule PickVehicule2(FireDto feu) {
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
 		Caserne c = ClosestCaserne(CoordFire);
-		Vehicule v = SelectVehiculeInCaserne(c, CoordFire, feu.getType());
+		Vehicule v = SelectVehiculeInCaserne(c, feu.getType());
 		//TODO GetPompiers
 		return v;
 	}
@@ -117,13 +117,25 @@ public class MainRunnable implements Runnable {
 	}
 	
 	
-	
-//	public Vehicule SelectVehiculeInCaserne(Caserne c, Coord CoordFire, String type)
-//	{
-//		float efficacite=-1;
-//		for (Integer idVehicule:c.getListVehicules()) {
-//			Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8010/vehicule/id/"+idVehicule, Vehicule.class);
-//			
-//		}
-//	}
+	// Parcours les vehicules d'une caserne
+	// S'ils sont disponibles alors
+	// S'ils sont plus efficace alors
+	// Ils sont choisis, le dernier restant est renvoye
+	public Vehicule SelectVehiculeInCaserne(Caserne c, String fireType)
+	{
+		Vehicule res = null;
+		float maxefficacite=-1;
+		for (Integer idVehicule:c.getListVehicules()) {
+			Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8010/vehicule/id/"+idVehicule, Vehicule.class);
+			float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
+			if (v.getEtat()==Etat.DISPONIBLE) {
+				if (efficacite>maxefficacite) {
+					res=v;
+					maxefficacite=efficacite;
+				}
+			}
+			
+		}
+		return null;
+	}
 }
