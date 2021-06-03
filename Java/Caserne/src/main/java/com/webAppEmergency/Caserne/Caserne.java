@@ -6,6 +6,7 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 import com.project.model.dto.Coord;
 
@@ -16,6 +17,8 @@ public class Caserne {
 	@GeneratedValue
 	private int id;
 	private String libelle;
+	
+	@Transient
 	private Coord coord;
 	
 	@ElementCollection
