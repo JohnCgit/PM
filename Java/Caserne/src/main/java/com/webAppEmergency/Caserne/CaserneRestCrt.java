@@ -27,8 +27,8 @@ public class CaserneRestCrt {
 // Get Caserne
 //////////////////////////////////////
 	
-	@RequestMapping(method=RequestMethod.GET, value="/id/{id}")
-	public Caserne getUserById(@PathVariable int id){
+	@RequestMapping(method=RequestMethod.GET, value="/{id}")
+	public Caserne getCaserne(@PathVariable int id){
 		Caserne c=cService.getCaserne(Integer.valueOf(id));
 	    return c;
 	}
@@ -36,6 +36,16 @@ public class CaserneRestCrt {
 	@RequestMapping(method=RequestMethod.GET, value="/getAll")
 	public List<Caserne> getAll(){
 		return cService.getAll();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/add")
+	public void addCaserne(@RequestBody Caserne c){
+		if(c.getLat() != 0 && c.getLon() !=0) {
+			if(c.getLibelle() == null) {
+				c.setLibelle("Nouvelle caserne");
+			}
+			cService.addCaserne(c);
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/getLyon")

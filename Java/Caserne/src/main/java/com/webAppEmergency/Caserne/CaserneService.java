@@ -49,6 +49,10 @@ public class CaserneService {
 		return res;
 	}
 	
+	public void addCaserne(Caserne c) {
+	  	cRepo.save(c);
+	}
+	
 	public void initCaserne() {
 		List<Caserne> ListC = new ArrayList<>();
 		ListC.add(new Caserne(4.855997011435769, 45.8295890450427, "Centre d'Intervention des 2 Fontaines", Arrays.asList(), Arrays.asList(1, 2, 3)));
