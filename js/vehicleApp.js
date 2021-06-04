@@ -1,7 +1,8 @@
 class VehicleApp{
 
-    constructor(markersVehicle,ListVehicleVisible,ListVehicle){
+    constructor(markersVehicle,markersVehiclePath,ListVehicleVisible,ListVehicle){
         this.markersVehicle = markersVehicle;
+        this.markersVehicle = markersVehiclePath;
         this.ListVehicle = ListVehicle;
         this.ListVehicleVisible = ListVehicleVisible;
     }
@@ -80,7 +81,7 @@ class VehicleApp{
     }
 
     ToString(vehicle){
-
+        //lancer tracer destination si etat occupé
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
                `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
@@ -97,19 +98,26 @@ class VehicleApp{
         this.ListVehicle = ListVehicle;
     }
 
-    getMarkers(){
+    getMarkersVehicle(){
         return this.markersVehicle;
      }
+
+    getMarkersVehiclePath(){
+    return this.markersVehiclePath;
+    }
+
+    addPath(ListCoord){
+        L.polyline(ListCoord).addTo(this.markersVehicle);
+    }
+
     createUpdate(cU,id){
 
         let data = {};
-        let lon = document.getElementById("lon").value;
-        let lat = document.getElementById("lat").value;
+
         let type = document.getElementById("type").value;
         let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
-        if (lon != "")    {data["lon"] = lon;}
-        if (lat != "")    {data["lat"] = lat;}
+
         if (type != "")    {data["type"] = type;}
         if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
@@ -118,6 +126,10 @@ class VehicleApp{
             let lq = document.getElementById("lq").value;
             let f = document.getElementById("f").value;
             let cm = document.getElementById("cm").value;
+            let lon = document.getElementById("lon").value;
+            let lat = document.getElementById("lat").value;
+            if (lon != "")    {data["lon"] = lon;}
+            if (lat != "")    {data["lat"] = lat;}
             if (lq != "")    {data["liquidQuantity"] = lq;}
             if (f != "")    {data["fuel"] = f;}
             if (cm != "")    {data["crewMember"] = cm;}

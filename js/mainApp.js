@@ -1,6 +1,6 @@
 const myFireApp = new FireApp(L.featureGroup(),Array(),getListFire());
 
-const myVehicleApp = new VehicleApp(L.featureGroup(),Array(),getListVehicle());
+const myVehicleApp = new VehicleApp(L.featureGroup(),L.featureGroup(),Array(),getListVehicle());
 
 const mydisplayApp = new displayApp();
 const myFireStationApp = new FireStationApp(L.featureGroup(),getListFireStation())
@@ -15,7 +15,7 @@ window.onclick = function(event){
 
 window.setInterval(function(){
   Display();
-}, 1000);
+}, 500);
 
 function Display(){
     myFireApp.setListFire(getListFire());
@@ -23,7 +23,8 @@ function Display(){
     myFireStationApp.setListFireStation(getListFireStation());
 
     mydisplayApp.resetMarker(myFireApp.getMarkers());
-    mydisplayApp.resetMarker(myVehicleApp.getMarkers());
+    mydisplayApp.resetMarker(myVehicleApp.getMarkersVehicle());
+    mydisplayApp.resetMarker(myVehicleApp.getMarkersVehiclePath());
     mydisplayApp.resetMarker(myFireStationApp.getMarkers());
 
     myFireApp.FireFilter();
@@ -31,7 +32,8 @@ function Display(){
     
     mydisplayApp.addTo(myFireApp.getMarkers());
     mydisplayApp.addTo(myFireStationApp.getMarkers());
-    mydisplayApp.addTo(myVehicleApp.getMarkers());
+    mydisplayApp.addTo(myVehicleApp.getMarkersVehicle());
+    mydisplayApp.addTo(myVehicleApp.getMarkersVehiclePath());
 }
 
 function funDefault() {
