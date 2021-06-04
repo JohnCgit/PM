@@ -27,18 +27,18 @@ class displayApp{
         let Fire = myFireApp.getFireAt(e.latlng.lat,e.latlng.lng);
         let Vehicle = myVehicleApp.getVehicleAt(e.latlng.lat,e.latlng.lng);
         let string ="";
+        let popup = L.popup();
         if(Fire != null){
             string += myFireApp.ToString(Fire);
+            popup.setContent(string)
+            .setLatLng(e.latlng)
+            .openOn(this);
         }
         if(Vehicle != null){
-            string += myVehicleApp.ToString(Vehicle);
-        }
-
-        if(string != ""){
-            L.popup()
+            popup
             .setLatLng(e.latlng)
-            .setContent(string)
             .openOn(this);
+            myVehicleApp.ToString(Vehicle,popup);
         }
 
     }
