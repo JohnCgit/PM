@@ -28,12 +28,12 @@ class displayApp{
         let FireStation = myFireStationApp.getFireStationAt(e.latlng.lat,e.latlng.lng);
         let Vehicle = myVehicleApp.getVehicleAt(e.latlng.lat,e.latlng.lng);
         let string ="";
-        
+
         if(Fire != null){
-            string += myFireApp.ToString(FireStation);
+            string += myFireApp.ToString(Fire);
         }
         if(FireStation != null){
-            string += myFireStationApp.ToString(Fire);
+            string += myFireStationApp.ToString(FireStation);
         }
         if(Vehicle != null){
             string += myVehicleApp.ToString(Vehicle);

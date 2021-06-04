@@ -22,6 +22,7 @@ function getListFire(){
 
 function getListFireStation(){
     //return JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
+    return Array();
 };
 function getListVehicle(){
     return JSON.parse(loadRessource('http://127.0.0.1:8081/vehicle',"GET"));
