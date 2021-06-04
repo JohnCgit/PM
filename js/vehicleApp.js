@@ -91,10 +91,10 @@ class VehicleApp{
 
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
                `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
-               `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.eff  + `</p>` +
-               `<p> Liquid : &nbsp Type: ` + vehicle.lt + `&nbsp --- Quantity: ` + vehicle.lq + `&nbsp --- Consumption: ` + vehicle.lc + `</p>`+
-               `<p> Fuel: &nbsp Quantity:` + vehicle.f + `&nbsp --- Consumption: ` + vehicle.fc + `</p>`+
-               `<p> Crew Member: &nbsp Quantity: ` + vehicle.cm + `&nbsp --- Capacity: ` + vehicle.cmc + `</p>` +
+               `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
+               `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
+               `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
                `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},${vehicle.efficiency},
                ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity},${vehicle.facilityRefID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
