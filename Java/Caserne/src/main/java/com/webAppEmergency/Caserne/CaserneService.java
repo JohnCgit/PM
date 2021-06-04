@@ -1,6 +1,7 @@
 package com.webAppEmergency.Caserne;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.project.model.dto.Coord;
 
 import com.project.model.dto.VehicleType;
 import com.webAppEmergency.Caserne.CaserneDto.CaserneDto;
@@ -46,11 +49,21 @@ public class CaserneService {
 		return res;
 	}
 	
+	public void initCaserne() {
+		List<Caserne> ListC = new ArrayList<>();
+		ListC.add(new Caserne(4.855997011435769, 45.8295890450427, "Centre d'Intervention des 2 Fontaines", Arrays.asList(), Arrays.asList(1, 2, 3)));
+		ListC.add(new Caserne(4.819356307585479, 45.89601102593775, "Centre d'Intervention de Genay-Neuville", Arrays.asList(), Arrays.asList(4, 5)));
+		ListC.add(new Caserne(4.715254999410806, 45.824827365743985, "Centre d'Intervention de La Tour-de-Salvagny", Arrays.asList(), Arrays.asList(6, 7, 8, 9)));
+		for (Caserne c: ListC) {cRepo.save(c);}
+
+	}
 	
 	//Récupérer informations Casernes de Lyon
 	public void getCaserneLyon() {
 		CaserneDto json = this.restTemplate.getForObject(this.url,CaserneDto.class);
 		System.out.println(json);
 	}
+
+
 
 }
