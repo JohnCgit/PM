@@ -86,37 +86,23 @@ class VehicleApp{
         return vehicle;    
     }
 
-    ToString(vehicle,popup){
-         this.infoshort(popup,vehicle.id, vehicle.type, vehicle.facilityRefID, vehicle.liquidType, vehicle.lon, vehicle.lat, vehicle.efficiency,
-            vehicle.liquidQuantity, vehicle.liquidConsumption,vehicle.fuel,vehicle.fuelConsumption,vehicle.crewMember,vehicle.crewMemberCapacity);
-    }
-
-    infoshort(popup, id,type,facilityRefID,liquidType,lon,lat,efficiency,liquidQuantity,liquidConsumption,fuel,fuelConsumption,crewMember,crewMemberCapacity){
-        popup.setContent('<p>Véhicule n°'+id+'</p>' +
-        `<p> Type: ` + type + `</p>` +
-        `<p> Caserne: ` + facilityRefID + `</p>` +
-        `<p> Liquid Type: ` + liquidType + `</p>` +
-        `<button onclick="myVehicleApp.info(this.parentNode.parentNode.parentNode,${id},${type},${facilityRefID},${lon},${lat},${efficiency},
-            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity});">More Details</button>` +
-        `<button onclick="myVehicleApp.Update(${id},${lon},${lat},${type},${efficiency},
-            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity},${facilityRefID});
-        this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
-        `<button onclick="myVehicleApp.Delete(${id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`);
-    }
-
-//,${vehicle.liquidType}
+    ToString(vehicle){
 
 
-    info(popup, id, type, caserne, lt,  lon, lat, eff, lq, lc, f, fc, cm, cmc){
-        popup.firstChild.setContent(`<h3> Véhicule n°` + id + `</h3>` +
-                                `<p> Type: ` + type + `&nbsp --- &nbsp Caserne associée: ` + caserne + `</p>` +
-                                `<p> Latitude/Longitude: (` + lat + `,`  + lon + `) &nbsp --- Efficiency: ` + eff  + `</p>` +
-                                `<p> Liquid : &nbsp Type: ` + lt + `&nbsp --- Quantity: ` + lq + `&nbsp --- Consumption: ` + lc + `</p>`+
-                                `<p> Fuel: &nbsp Quantity:` + f + `&nbsp --- Consumption: ` + fc + `</p>`+
-                                `<p> Crew Member: &nbsp Quantity: ` + cm + `&nbsp --- Capacity: ` + cmc + `</p>` +
-                                `<button onclick="myVehicleApp.infoshort(${id},${type},${caserne},${lt},${lon},${lat},${eff},
-                                ${lq},${lc},${f},${fc},${cm},${cmc});">Less Details</button>`);
-    }
+        /* this.infoshort(popup,vehicle.id, vehicle.type, vehicle.facilityRefID, vehicle.liquidType, vehicle.lon, vehicle.lat, vehicle.efficiency,
+           vehicle.liquidQuantity, vehicle.liquidConsumption,vehicle.fuel,vehicle.fuelConsumption,vehicle.crewMember,vehicle.crewMemberCapacity); */
+
+       return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
+               `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
+               `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.eff  + `</p>` +
+               `<p> Liquid : &nbsp Type: ` + vehicle.lt + `&nbsp --- Quantity: ` + vehicle.lq + `&nbsp --- Consumption: ` + vehicle.lc + `</p>`+
+               `<p> Fuel: &nbsp Quantity:` + vehicle.f + `&nbsp --- Consumption: ` + vehicle.fc + `</p>`+
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.cm + `&nbsp --- Capacity: ` + vehicle.cmc + `</p>` +
+               `<button onclick="myVehicleApp.Update(${vehicle.id},${lon},${lat},${type},${efficiency},
+               ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity},${facilityRefID});
+               this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
+               `<button onclick="myVehicleApp.Delete(${id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
+       }
 
     setListVehicle(ListVehicle){
         this.ListVehicle = ListVehicle;
