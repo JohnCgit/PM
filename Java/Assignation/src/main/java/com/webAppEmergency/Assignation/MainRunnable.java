@@ -13,6 +13,7 @@ import com.project.model.dto.Coord;
 import com.webAppEmergency.Assignation.MoveRunnable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainRunnable implements Runnable {
@@ -21,12 +22,15 @@ public class MainRunnable implements Runnable {
 	RestTemplate restTemplate;
 	public List<FireDto> List_Feu;
 	RestTemplateBuilder restTemplateBuilder;
+	ObjectMapper mapper;
+	JsonNode jNode;
 //////////////////////////////////////
 //Rest template
 //////////////////////////////////////
 
 	public MainRunnable() { // Gestion du rest template
 		this.restTemplate = restTemplateBuilder.build();
+		this.mapper = new ObjectMapper();
 	}
 
 //////////////////////////////////////
@@ -152,11 +156,17 @@ public class MainRunnable implements Runnable {
 	}
 	
 	public void createPath(Vehicule v, FireDto feu) throws IOException {
-		String Path = v.getCoord().getLon()+","+v.getCoord().getLat()+";"+feu.getLon()+","+feu.getLat();
+		Coord cFeu = v.getCoord();
+		String Path = cFeu.getLon()+","+cFeu.getLat()+";"+feu.getLon()+","+feu.getLat();
 		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
 		String res = this.restTemplate.getForObject(url, String.class);
-		JsonNode jsonNode;
-		ObjectMapper objectMapper = new ObjectMapper();
-		jsonNode = objectMapper.readTree(res);
+		this.jNode = mapper.readTree(res);
+		JsonNode jPath = jNode.get("routes").get(0).get("geometry").get("coordinates");
+		List<Coord> path = new ArrayList<>();
+		for (JsonNode coord: jPath) {
+			double lon = coord.get(0).asDouble();
+			double lat = coord.get(1).asDouble();
+			path.add(new Coord(lon, lat));
+		}
 	}
 }
