@@ -1,13 +1,19 @@
 package com.webAppEmergency.Caserne;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -35,7 +41,7 @@ public class CaserneService {
 	public CaserneService(RestTemplateBuilder restTemplateBuilder) throws UnsupportedEncodingException { // Gestion du rest template
         this.restTemplate = restTemplateBuilder.build();
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
-        this.path = "/home/tp/git/PM/Java/Caserne/src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
+        this.path ="/home/tp/git/PM/Java/Caserne/src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
     	mapper = new ObjectMapper();
 	}
 
@@ -63,16 +69,48 @@ public class CaserneService {
 			for (Caserne c: ListC) {cRepo.save(c);}
 		}
 	}
+
+	public void getCaserneLyon() throws FileNotFoundException, IOException, ParseException {
+	     JSONParser jsonP = new JSONParser();
+	     
+         JSONObject jsonO = (JSONObject)jsonP.parse(new FileReader(this.path));
+         System.out.println(jsonO);
+         String name = (String) jsonO.get("name");
+         System.out.println("Name :"+ name);
+         JSONArray features = (JSONArray) jsonO.get("features");
+         System.out.println("Features :"+ features);
+//         ObjectReader jNode = this.mapper.reader();
+//         System.out.println(jNode);
+	     
+//         String jsonO = (String)jsonP.parse(new FileReader(this.path));
+//         System.out.println(jsonO);
+//         JsonNode jNode = this.mapper.readTree(jsonO);
+//         System.out.println(jNode);
+//         JsonNode name = jNode.get("features").get(0).get("properties").get("nom");
+//         System.out.println(name);
+//         JsonNode lon = jNode.get("features").get(0).get("geometry").get("coordinates").get(0);
+//         System.out.println(lon);
+//         JsonNode lat = jNode.get("features").get(0).get("geometry").get("coordinates").get(1);
+//         System.out.println(lat);
+
+
+	}
 	
 //	//Récupérer informations Casernes de Lyon
-//	public void getCaserneLyon() {
+//	public void getCaserneLyonv1() {
 //		CaserneDto json = this.restTemplate.getForObject(this.url,CaserneDto.class);
 //		System.out.println(json);
 //	}
 	
-	public void getCaserneLyon() throws JsonMappingException, JsonProcessingException {
-		restTemplate = new RestTemplate();	
+	public void getCaserneLyonv2() throws JsonMappingException, JsonProcessingException {
+		restTemplate = new RestTemplate();
 		String json = restTemplate.getForObject(this.path, String.class);
+		System.out.println(json);
+//		JsonNode jNode = this.mapper.readTree(json);
+//		System.out.println(jNode);
+//		JsonNode truc = jNode.get("routes").get(0).get("geometry");
+//		System.out.println(truc);
+		
 		JsonNode jNode;
 		try {
 			jNode = this.mapper.readTree(json);
