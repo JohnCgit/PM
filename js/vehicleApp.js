@@ -1,3 +1,10 @@
+const vehicleIcon = L.icon({
+    iconUrl: `https://api.geoapify.com/v1/icon/?type=circle&color=%23000000&size=small&icon=taxi&iconType=awesome&iconSize=large&shadowColor=%230d0d0d&apiKey=${myAPIKey}`,
+    iconSize: [20, 20], // size of the icon
+    iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -10]// point from which the popup should open relative to the iconAnchor
+  });
+
 class VehicleApp{
 
     constructor(markersVehicle,ListVehicleVisible,ListVehicle){
@@ -62,12 +69,9 @@ class VehicleApp{
     }
 
     AddVehicle(Vehicle){
-        L.circle([Vehicle.lat,Vehicle.lon], {
-            color: 'blue',
-            fillColor: '#00f',
-            fillOpacity: 0.5,
-            radius: 50
-        }).addTo(this.markersVehicle);
+          L.marker([Vehicle.lat,Vehicle.lon], {
+            icon: vehicleIcon
+          }).addTo(this.markersVehicle);
     }
 
     getVehicleAt(lat,lng){
@@ -82,16 +86,38 @@ class VehicleApp{
         return vehicle;    
     }
 
-    ToString(vehicle){
-        console.log(vehicle);
-        return '<p>Véhicule n°'+vehicle.id+'</p>' +
-        `<input type=text value=${vehicle.type}>`+
-        `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},${vehicle.efficiency},
-            ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity},${vehicle.facilityRefID});
-        this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
-        `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
+    ToString(vehicle,popup){
+         this.infoshort(popup,vehicle.id, vehicle.type, vehicle.facilityRefID, vehicle.liquidType, vehicle.lon, vehicle.lat, vehicle.efficiency,
+            vehicle.liquidQuantity, vehicle.liquidConsumption,vehicle.fuel,vehicle.fuelConsumption,vehicle.crewMember,vehicle.crewMemberCapacity);
     }
+
+    infoshort(popup, id,type,facilityRefID,liquidType,lon,lat,efficiency,liquidQuantity,liquidConsumption,fuel,fuelConsumption,crewMember,crewMemberCapacity){
+        popup.setContent('<p>Véhicule n°'+id+'</p>' +
+        `<p> Type: ` + type + `</p>` +
+        `<p> Caserne: ` + facilityRefID + `</p>` +
+        `<p> Liquid Type: ` + liquidType + `</p>` +
+        `<button onclick="myVehicleApp.info(this.parentNode.parentNode.parentNode,${id},${type},${facilityRefID},${lon},${lat},${efficiency},
+            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity});">More Details</button>` +
+        `<button onclick="myVehicleApp.Update(${id},${lon},${lat},${type},${efficiency},
+            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity},${facilityRefID});
+        this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
+        `<button onclick="myVehicleApp.Delete(${id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`);
+    }
+
 //,${vehicle.liquidType}
+
+
+    info(popup, id, type, caserne, lt,  lon, lat, eff, lq, lc, f, fc, cm, cmc){
+        popup.firstChild.setContent(`<h3> Véhicule n°` + id + `</h3>` +
+                                `<p> Type: ` + type + `&nbsp --- &nbsp Caserne associée: ` + caserne + `</p>` +
+                                `<p> Latitude/Longitude: (` + lat + `,`  + lon + `) &nbsp --- Efficiency: ` + eff  + `</p>` +
+                                `<p> Liquid : &nbsp Type: ` + lt + `&nbsp --- Quantity: ` + lq + `&nbsp --- Consumption: ` + lc + `</p>`+
+                                `<p> Fuel: &nbsp Quantity:` + f + `&nbsp --- Consumption: ` + fc + `</p>`+
+                                `<p> Crew Member: &nbsp Quantity: ` + cm + `&nbsp --- Capacity: ` + cmc + `</p>` +
+                                `<button onclick="myVehicleApp.infoshort(${id},${type},${caserne},${lt},${lon},${lat},${eff},
+                                ${lq},${lc},${f},${fc},${cm},${cmc});">Less Details</button>`);
+    }
+
     setListVehicle(ListVehicle){
         this.ListVehicle = ListVehicle;
     }
@@ -99,7 +125,6 @@ class VehicleApp{
     getMarkers(){
         return this.markersVehicle;
      }
-
     createUpdate(cU,id){
 
         let data = {};
@@ -139,11 +164,8 @@ class VehicleApp{
         document.getElementById("createForm").innerHTML=
         `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(true)">
       <div class="container">
-        <label for="lon"><b>Longitude</b></label>
-        <input type="double" name="lon" id="lon" >
-        <label for="lat"><b>Latitude</b></label>
-        <input type="double" name="lat" id="lat" >
-        <br/>
+        <label for="facilityRefID"><b>facilityRefID</b></label>
+        <input type="int" name="facilityRefID" id="fRID" >
         <label for="type"><b>Type</b></label>
         <br/>
         <select id="type" name="type">
@@ -157,11 +179,6 @@ class VehicleApp{
         <br/>
         <label for="LiquidType"><b>LiquidType</b></label>
         <input type="double" name="LiquidType" id="lt" >
-        <br/>
-        <label for="facilityRefID"><b>facilityRefID</b></label>
-        <input type="int" name="facilityRefID" id="fRID" >
-
-
         <button type="submit">Create</button>
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
@@ -207,6 +224,7 @@ class VehicleApp{
             `</form>`; 
             document.getElementById('id02').style.display='block';
     }
+
     Delete(id){
         DeleteVehicle(id);
     }

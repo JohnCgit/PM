@@ -1,28 +1,36 @@
 const myFireApp = new FireApp(L.featureGroup(),Array(),getListFire());
 const myVehicleApp = new VehicleApp(L.featureGroup(),Array(),getListVehicle());
 const mydisplayApp = new displayApp();
-
+const myFireStationApp = new FireStationApp(L.featureGroup(),getListFireStation())
+const myAPIKey = "ebb18e08352b474687513c0a6bb82f30";
 
 window.onload = function(){
     Display();
     funDefault();
 }
 window.onclick = function(event){
-    myFireApp.setListFire(getListFire());
-    myVehicleApp.setListVehicle(getListVehicle());
     Display();
-    if (event.target == document.getElementById('id01')) {
-        document.getElementById('id01').style.display = "none";
-      }
 }
 
+window.setInterval(function(){
+  Display();
+}, 1000);
+
 function Display(){
-    mydisplayApp.resetMarker(myFireApp.getMarkers())
-    mydisplayApp.resetMarker(myVehicleApp.getMarkers())
+    myFireApp.setListFire(getListFire());
+    myVehicleApp.setListVehicle(getListVehicle());
+    myFireApp.setListFireStation(getListFireStation());
+
+    mydisplayApp.resetMarker(myFireApp.getMarkers());
+    mydisplayApp.resetMarker(myVehicleApp.getMarkers());
+    mydisplayApp.resetMarker(myFireStationApp.getMarkers());
+
     myFireApp.FireFilter();
     myVehicleApp.VehicleFilter();
-    mydisplayApp.addTo(myFireApp.getMarkers())
-    mydisplayApp.addTo(myVehicleApp.getMarkers())
+    
+    mydisplayApp.addTo(myFireApp.getMarkers());
+    mydisplayApp.addTo(myFireStationApp.getMarkers());
+    mydisplayApp.addTo(myVehicleApp.getMarkers());
 }
 
 function funDefault() {
