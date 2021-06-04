@@ -1,45 +1,43 @@
 package com.webAppEmergency.Caserne;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.model.dto.Coord;
-
-import com.project.model.dto.VehicleType;
-import com.webAppEmergency.Caserne.CaserneDto.CaserneDto;
 
 @Service
 public class CaserneService {
 
 	@Autowired
 	CaserneRepository cRepo;
+	ObjectMapper mapper;
+
 	
 	private RestTemplate restTemplate;
 	public String url;
-//////////////////////////////////////
-// Rest template
-//////////////////////////////////////
+	public String path;
+
 		
-	public CaserneService(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
+	public CaserneService(RestTemplateBuilder restTemplateBuilder) throws UnsupportedEncodingException { // Gestion du rest template
         this.restTemplate = restTemplateBuilder.build();
-        this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;%20subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
-    }
-		
-//////////////////////////////////////
-// get Vehicule
-//////////////////////////////////////
+        this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
+        this.path = "/home/tp/git/PM/Java/Caserne/src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
+    	mapper = new ObjectMapper();
+	}
 
 	public List<Caserne> getAll() {
 		return cRepo.findAll();
@@ -64,21 +62,27 @@ public class CaserneService {
 			ListC.add(new Caserne(4.715254999410806, 45.824827365743985, "Centre d'Intervention de La Tour-de-Salvagny", Arrays.asList(), Arrays.asList(6, 7, 8, 9), 12));
 			for (Caserne c: ListC) {cRepo.save(c);}
 		}
-
-
 	}
 	
-	//Récupérer informations Casernes de Lyon
-	public void getCaserneLyon() {
-		CaserneDto json = this.restTemplate.getForObject(this.url,CaserneDto.class);
-		System.out.println(json);
+//	//Récupérer informations Casernes de Lyon
+//	public void getCaserneLyon() {
+//		CaserneDto json = this.restTemplate.getForObject(this.url,CaserneDto.class);
+//		System.out.println(json);
+//	}
+	
+	public void getCaserneLyon() throws JsonMappingException, JsonProcessingException {
+		restTemplate = new RestTemplate();	
+		String json = restTemplate.getForObject(this.path, String.class);
+		JsonNode jNode;
+		try {
+			jNode = this.mapper.readTree(json);
+			System.out.println(jNode);
+			JsonNode nom = jNode.get("features").get(0).get("properties").get("nom");
+			System.out.println(nom);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-	public void getCaserneLyon2() throws IOException {
-		String json = "{ \"f1\" : \"v1\" } ";
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(json);
-		System.out.println(jsonNode.get("f1").asText());
-	}
-
+	
 }

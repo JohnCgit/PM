@@ -3,7 +3,6 @@ package com.webAppEmergency.Caserne;
 import java.io.IOException;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.project.model.dto.Coord;
 
 import com.webAppEmergency.Caserne.CaserneService;
@@ -49,14 +50,9 @@ public class CaserneRestCrt {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/getLyon")
-	public void getCaserneLyon(){
+	@RequestMapping(method=RequestMethod.GET, value="/getLyon", produces="application/json")
+	public void getCaserneLyon() throws JsonMappingException, JsonProcessingException{
 		cService.getCaserneLyon();
-	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/getLyon2")
-	public void getCaserneLyon2() throws IOException{
-		cService.getCaserneLyon2();
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/init")
