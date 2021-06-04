@@ -83,14 +83,22 @@ class VehicleApp{
     }
 
     ToString(vehicle){
-        console.log(vehicle);
+        return this.infoshort(vehicle);
+    }
+
+    infoshort(vehicle){
         return '<p>Véhicule n°'+vehicle.id+'</p>' +
-        `<input type=text value=${vehicle.type}>`+
+        `<p> Type: ` + vehicle.type + `</p>` +
+        `<p> Caserne: ` + vehicle.facilityRefID + `</p>` +
+        `<p> Liquid Type: ` + vehicle.liquidType + `</p>` +
+        `<button onclick="myVehicleApp.info(this.parentNode,${vehicle.lon},${vehicle.lat},${vehicle.efficiency},
+            ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity});">More Details</button>` +
         `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},${vehicle.efficiency},
             ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity},${vehicle.facilityRefID});
         this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
         `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
     }
+
 //,${vehicle.liquidType}
     setListVehicle(ListVehicle){
         this.ListVehicle = ListVehicle;
@@ -99,6 +107,13 @@ class VehicleApp{
     getMarkers(){
         return this.markersVehicle;
      }
+
+    info(parentNode, lon, lat, eff, lq, lc, f, fc, cm, cmc){
+        parentNode.innerHTML += `<p> Latitude/Longitude: (` + lat + `,`  + lon + `) &nbsp Efficiency: ` + eff  + `</p>` +
+                                `<p> Liquid : &nbsp Quantity: ` + lq + `&nbsp Consumption: ` + lc + `</p>`+
+                                `<p> Fuel: &nbsp Quantity:` + f + `&nbsp Consumption: ` + fc + `</p>`+
+                                `<p> Crew Member: &nbsp Quantity` + cm + `&nbsp Capacity: ` + cmc + `</p>`;
+    }
 
     createUpdate(cU,id){
 
@@ -139,11 +154,8 @@ class VehicleApp{
         document.getElementById("createForm").innerHTML=
         `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(true)">
       <div class="container">
-        <label for="lon"><b>Longitude</b></label>
-        <input type="double" name="lon" id="lon" >
-        <label for="lat"><b>Latitude</b></label>
-        <input type="double" name="lat" id="lat" >
-        <br/>
+        <label for="facilityRefID"><b>facilityRefID</b></label>
+        <input type="int" name="facilityRefID" id="fRID" >
         <label for="type"><b>Type</b></label>
         <br/>
         <select id="type" name="type">
@@ -157,11 +169,6 @@ class VehicleApp{
         <br/>
         <label for="LiquidType"><b>LiquidType</b></label>
         <input type="double" name="LiquidType" id="lt" >
-        <br/>
-        <label for="facilityRefID"><b>facilityRefID</b></label>
-        <input type="int" name="facilityRefID" id="fRID" >
-
-
         <button type="submit">Create</button>
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
