@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.model.dto.Coord;
+
 import com.webAppEmergency.Caserne.CaserneService;
 
 //TODO Create method removeCard from collection 
@@ -39,6 +41,11 @@ public class CaserneRestCrt {
 	@RequestMapping(method=RequestMethod.GET, value="/getLyon")
 	public void getCaserneLyon(){
 		cService.getCaserneLyon();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/init")
+	public void initCaserne(){
+		cService.initCaserne();
 	}
 	
 }

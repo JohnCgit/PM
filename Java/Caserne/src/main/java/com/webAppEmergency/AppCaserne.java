@@ -19,9 +19,6 @@ public class AppCaserne {
 	
 	public static void main(String [] args) {
 		SpringApplication.run(AppCaserne.class, args);
-		List<Caserne> ListC = new ArrayList<>();
-		ListC.add(new Caserne(1, 50, 50, "oiui", Arrays.asList(), Arrays.asList(1, 2, 3)));
-		cService.initCaserne(ListC);
 	}
 }
 
