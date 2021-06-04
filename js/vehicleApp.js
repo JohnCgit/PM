@@ -87,8 +87,8 @@ class VehicleApp{
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
                `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
-               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},${vehicle.efficiency},
-               ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity},${vehicle.facilityRefID});
+               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},
+               ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.facilityRefID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
                `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
        }
@@ -106,12 +106,12 @@ class VehicleApp{
         let lon = document.getElementById("lon").value;
         let lat = document.getElementById("lat").value;
         let type = document.getElementById("type").value;
-        //let lt = document.getElementById("lt").value;
+        let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
         if (lon != "")    {data["lon"] = lon;}
         if (lat != "")    {data["lat"] = lat;}
         if (type != "")    {data["type"] = type;}
-        //if (lt != "")    {data["liquidType"] = lt;}
+        if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
         if(!cU){
             data["id"]=id;
@@ -160,8 +160,8 @@ class VehicleApp{
   </form>`;
   document.getElementById('id01').style.display='block';
     }
-//,liquidType
-    Update(id,lon,lat,type,liquidQuantity,fuel,crewMember,facilityRefID){
+
+    Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
@@ -174,8 +174,8 @@ class VehicleApp{
               `<label for="type"><b>Type</b></label>
               <input type="text" name="type" id="type" placeholder=${type}>`+
               `<br/>`+
-              //`<label for="LiquidType"><b>LiquidType</b></label>`+
-            //`<input type="double" name="LiquidType" id="lt" placeholder=${liquidType}>`+
+              `<label for="LiquidType"><b>LiquidType</b></label>`+
+            `<input type="double" name="LiquidType" id="lt" placeholder=`+liquidType+`>`+
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
               `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
               `<br/>`+
