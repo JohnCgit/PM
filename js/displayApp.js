@@ -11,16 +11,6 @@ class displayApp{
         }).addTo(this.map);
         
         this.map.on('click', this.onMapClick);
-
-        let myAPIKey = "ebb18e08352b474687513c0a6bb82f30";
-        const markerIcon = L.icon({
-            iconUrl: `https://api.geoapify.com/v1/icon/?type=circle&color=%23000000&size=small&icon=taxi&iconType=awesome&iconSize=large&shadowColor=%230d0d0d&apiKey=${myAPIKey}`,
-            iconSize: [20, 20], // size of the icon
-            iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
-          });
-          L.marker([45.8,4.87], {
-            icon: markerIcon
-          }).addTo(this.map);
     }
 
     addTo(arg){

@@ -1,3 +1,11 @@
+const myAPIKey = "ebb18e08352b474687513c0a6bb82f30";
+const vehicleIcon = L.icon({
+    iconUrl: `https://api.geoapify.com/v1/icon/?type=circle&color=%23000000&size=small&icon=taxi&iconType=awesome&iconSize=large&shadowColor=%230d0d0d&apiKey=${myAPIKey}`,
+    iconSize: [20, 20], // size of the icon
+    iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
+    popupAnchor: [0, -10]// point from which the popup should open relative to the iconAnchor
+  });
+
 class VehicleApp{
 
     constructor(markersVehicle,ListVehicleVisible,ListVehicle){
@@ -62,12 +70,9 @@ class VehicleApp{
     }
 
     AddVehicle(Vehicle){
-        L.circle([Vehicle.lat,Vehicle.lon], {
-            color: 'blue',
-            fillColor: '#00f',
-            fillOpacity: 0.5,
-            radius: 50
-        }).addTo(this.markersVehicle);
+          L.marker([Vehicle.lat,Vehicle.lon], {
+            icon: vehicleIcon
+          }).addTo(this.markersVehicle);
     }
 
     getVehicleAt(lat,lng){
