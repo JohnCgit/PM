@@ -95,7 +95,7 @@ class FireApp{
         return `<h3> Feu n°` + fire.id + `</h3>` +
         `<p> Type: ` + fire.type + `</p>` +
         `<p> Latitude/Longitude: (` + fire.lat + `,`  + fire.lon + `)` +`</p>` +
-        `<p> Rayon : ` + fire.range + `$nbsp --- Intensité :` + fire.intensity +  `</p>`;
+        `<p> Rayon : ` + fire.range + `&nbsp --- Intensité :` + fire.intensity +  `</p>`;
     }
 
     setListFire(ListFire){
