@@ -1,5 +1,6 @@
 package com.webAppEmergency.Caserne;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -51,6 +52,11 @@ public class CaserneRestCrt {
 	@RequestMapping(method=RequestMethod.GET, value="/getLyon")
 	public void getCaserneLyon(){
 		cService.getCaserneLyon();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/getLyon2")
+	public void getCaserneLyon2() throws IOException{
+		cService.getCaserneLyon2();
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/init")

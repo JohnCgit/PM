@@ -1,5 +1,6 @@
 package com.webAppEmergency.Caserne;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.dto.Coord;
 
 import com.project.model.dto.VehicleType;
@@ -71,6 +74,11 @@ public class CaserneService {
 		System.out.println(json);
 	}
 
-
+	public void getCaserneLyon2() throws IOException {
+		String json = "{ \"f1\" : \"v1\" } ";
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = objectMapper.readTree(json);
+		System.out.println(jsonNode.get("f1").asText());
+	}
 
 }
