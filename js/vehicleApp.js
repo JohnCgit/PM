@@ -2,7 +2,7 @@ class VehicleApp{
 
     constructor(markersVehicle,markersVehiclePath,ListVehicleVisible,ListVehicle){
         this.markersVehicle = markersVehicle;
-        this.markersVehicle = markersVehiclePath;
+        this.markersVehiclePath = markersVehiclePath;
         this.ListVehicle = ListVehicle;
         this.ListVehicleVisible = ListVehicleVisible;
     }
