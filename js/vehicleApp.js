@@ -201,14 +201,10 @@ class VehicleApp{
               `<input type="int" name="facilityRefID" id="fRID" placeholder=${facilityRefID}>`+
       
       
-              `<button type="submit">Update</button>`+
-
-              +
-              `<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>` + 
-              
-            `</div>`+
-          
-            `</form>`; 
+              `<button type="submit">Update</button>
+              <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+            </form>`; 
             document.getElementById('id02').style.display='block';
     }
 
