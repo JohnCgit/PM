@@ -2,7 +2,6 @@ const myFireApp = new FireApp(L.featureGroup(),Array(),getListFire());
 const myVehicleApp = new VehicleApp(L.featureGroup(),Array(),getListVehicle());
 const mydisplayApp = new displayApp();
 const myFireStationApp = new FireStationApp(L.featureGroup(),getListFireStation())
-const myAPIKey = "ebb18e08352b474687513c0a6bb82f30";
 
 window.onload = function(){
     Display();
@@ -19,7 +18,7 @@ window.setInterval(function(){
 function Display(){
     myFireApp.setListFire(getListFire());
     myVehicleApp.setListVehicle(getListVehicle());
-    myFireApp.setListFireStation(getListFireStation());
+    myFireStationApp.setListFireStation(getListFireStation());
 
     mydisplayApp.resetMarker(myFireApp.getMarkers());
     mydisplayApp.resetMarker(myVehicleApp.getMarkers());

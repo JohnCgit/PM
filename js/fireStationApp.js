@@ -30,7 +30,7 @@ class FireStationApp{
 
     }
 
-    setListFire(ListFireStation){
+    setListFireStation(ListFireStation){
         this.ListFireStation = ListFireStation;
     }
 

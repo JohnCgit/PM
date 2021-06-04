@@ -1,3 +1,4 @@
+const myAPIKey = "ebb18e08352b474687513c0a6bb82f30";
 const vehicleIcon = L.icon({
     iconUrl: `https://api.geoapify.com/v1/icon/?type=circle&color=%23000000&size=small&icon=taxi&iconType=awesome&iconSize=large&shadowColor=%230d0d0d&apiKey=${myAPIKey}`,
     iconSize: [20, 20], // size of the icon
@@ -87,10 +88,6 @@ class VehicleApp{
     }
 
     ToString(vehicle){
-
-
-        /* this.infoshort(popup,vehicle.id, vehicle.type, vehicle.facilityRefID, vehicle.liquidType, vehicle.lon, vehicle.lat, vehicle.efficiency,
-           vehicle.liquidQuantity, vehicle.liquidConsumption,vehicle.fuel,vehicle.fuelConsumption,vehicle.crewMember,vehicle.crewMemberCapacity); */
 
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
                `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
