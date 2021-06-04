@@ -15,8 +15,9 @@ class FireStationApp{
 
     getFireStationAt(lat,lng){
         let fireStation = null;
+        let radius = 50;
         this.ListFireStation.forEach(FireStation => {
-            if(getDistanceFromLatLonInKm(FireStation.lat,FireStation.lon,lat,lng)*1000 <= Fire.range)
+            if(getDistanceFromLatLonInKm(FireStation.lat,FireStation.lon,lat,lng)*1000 <= radius)
             {
                 fireStation = FireStation;
             }
