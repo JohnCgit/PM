@@ -1,69 +1,51 @@
 package com.webAppEmergency.Assignation;
 
+import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.FireDto;
 
+import java.util.List;
+
 public class MoveRunnable implements Runnable{
 
-	private String Step;
-	private Vehicule Vehicule;
-	private FireDto Fire;
-	RestTemplate restTemplate;
-	RestTemplateBuilder restTemplateBuilder;
-	Coord c1;
-	Coord c2;
+	private RestTemplate restTemplate;
+	
+//////////////////////////////////////
+//Rest template
+//////////////////////////////////////
 
-	public MoveRunnable(Vehicule v, FireDto f) {
-		this.Step="Debut";
-		this.Vehicule=v;
-		this.Fire=f;
-		this.restTemplate = restTemplateBuilder.build();
-
-		this.c1 = v.getCoord();
-		this.c2 = new Coord(f.getLon(), f.getLat());
+	public MoveRunnable(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
+	this.restTemplate = restTemplateBuilder.build();
 	}
 
 	@Override
 	public void run() {
-		while (!this.Step.equals("End")) {
-			try {
-				Thread.sleep(10000); // wait 10sec
-				v1();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+		try{
+			Thread.sleep(1000);
+			Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/vehicule/getAll", Vehicule[].class);
+			for (Vehicule v: tabVehicule) {
+				switch (v.getEtat()) {
+				case ALLER:
+					this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
+					if (v.getPath()==null) {
+						JSONObject body = new JSONObject();
+						body.put("Etat", Etat.EXTINCTION);
+						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+					}
+					break;
+				case EXCTINCTION:
+					FireDto fire = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), responseType)
+					if ()
+					
+				}
 			}
-
+		}
+		catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	private void v1() {
-		switch(this.Step) {
-		case "Debut":
-			SimpleMove(this.c2);
-			this.Step="Extinction";
-			break;
-		case "Extinction":
-			updateFire();
-			if (this.Fire.getIntensity()<=0) {
-				this.Step="Retour";
-			}
-			break;
-//		case "Retour":
-//			SimpleMove(this.Vehicule.getFacilityRefID())
-		}
-
-	}
-	
-	private void SimpleMove(Coord coord) {
-		String url="http://127.0.0.1:8070/move/"+this.Vehicule.getRealid() + "?lon=" + coord.getLon() + "&lat=" + coord.getLat();
-		this.restTemplate.put(url, null);
-	}
-	
-	private void updateFire() {
-		this.Fire=this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+this.Fire.getId(), FireDto.class);
-	}
-
 }

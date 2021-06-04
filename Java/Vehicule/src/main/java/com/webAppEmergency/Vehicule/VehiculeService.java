@@ -100,4 +100,16 @@ public class VehiculeService {
 		vRepo.delete(v);
 		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+id);
 	}
+	
+	public void followPath(int id) {
+		Vehicule v = getVehicule(id);
+		Coord c1 = v.getPath().remove(0);
+		v.setCoord(c1);
+		JSONObject body=new JSONObject();
+		body.put("lon",c1.getLon());
+		body.put("lat",c1.getLat());
+		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, body);
+
+		
+	}
 }

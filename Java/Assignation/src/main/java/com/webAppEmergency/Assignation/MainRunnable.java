@@ -55,19 +55,19 @@ public class MainRunnable implements Runnable {
 		
 	}
 	
-	public void deplacement(Vehicule v, FireDto f) {
-		MoveRunnable moveRunnable;
-		Thread displayThread;
-		
-		//Create a Runnable is charge of executing cyclic actions 
-		moveRunnable=new MoveRunnable(v, f);
-		
-		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread=new Thread(moveRunnable);
-		
-		// The Thread is started and the method run() of the associated DisplayRunnable is launch
-		displayThread.start();
-	}
+//	public void deplacement(Vehicule v, FireDto f) {
+//		MoveRunnable moveRunnable;
+//		Thread displayThread;
+//		
+//		//Create a Runnable is charge of executing cyclic actions 
+//		moveRunnable=new MoveRunnable();
+//		
+//		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+//		displayThread=new Thread(moveRunnable);
+//		
+//		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+//		displayThread.start();
+//	}
 	
 	public void stop() {
 		this.isEnd=true;

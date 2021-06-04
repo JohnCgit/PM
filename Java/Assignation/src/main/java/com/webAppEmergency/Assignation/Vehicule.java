@@ -1,5 +1,7 @@
 package com.webAppEmergency.Assignation;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,7 +24,8 @@ public class Vehicule {
 	private int facilityRefID;
 	private Etat Etat;
 	private Coord coord;
-
+	private List<Coord> Path;
+	private Integer idFire;
 	public Vehicule() {
 	}
 
@@ -38,6 +41,8 @@ public class Vehicule {
 		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
 		this.Etat = Etat.DISPONIBLE;
+		this.Path=null;
+		this.idFire=-1;
 	}
 
 //////////////////////////////////////
@@ -114,6 +119,22 @@ public class Vehicule {
 
 	public void setCoord(Coord coord) {
 		this.coord = coord;
+	}
+
+	public List<Coord> getPath() {
+		return Path;
+	}
+
+	public void setPath(List<Coord> path) {
+		Path = path;
+	}
+
+	public Integer getIdFire() {
+		return idFire;
+	}
+
+	public void setIdFire(Integer idFire) {
+		this.idFire = idFire;
 	}
 
 }
