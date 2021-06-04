@@ -2,7 +2,8 @@ package com.webAppEmergency.Vehicule;
 
 public enum Etat {
 	DISPONIBLE,
-	OCCUPE,
-	RETOUR, 
+	ALLER,
+	EXTINCTION,
+	RETOUR,
 	NON_OPERATIONNAL
 }

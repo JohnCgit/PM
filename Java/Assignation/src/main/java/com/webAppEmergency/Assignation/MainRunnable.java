@@ -1,16 +1,18 @@
 package com.webAppEmergency.Assignation;
 
+import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.model.dto.FireDto;
 import com.webAppEmergency.Assignation.Assignation;
 import com.project.tools.GisTools;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.dto.Coord;
 import com.webAppEmergency.Assignation.MoveRunnable;
 
-
-
+import java.io.IOException;
 import java.util.List;
 
 public class MainRunnable implements Runnable {
@@ -40,9 +42,19 @@ public class MainRunnable implements Runnable {
 //				List<FireDto> fList=new ArrayList<FireDto>();
 				for (FireDto feu:Tab_Fire) {
 					if (!List_Feu.contains(feu)) {
-						Vehicule v = PickVehicule1(feu);
-						List_Feu.add(feu);
-						deplacement(v, feu);
+						Vehicule v=new Vehicule();
+						try {
+							v = PickVehicule1(feu);
+							List_Feu.add(feu);
+							createPath(v, feu);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						JSONObject body = new JSONObject();
+						body.put("Etat", Etat.ALLER);
+						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+				
 					}
 				}
 
@@ -55,19 +67,19 @@ public class MainRunnable implements Runnable {
 		
 	}
 	
-	public void deplacement(Vehicule v, FireDto f) {
-		MoveRunnable moveRunnable;
-		Thread displayThread;
-		
-		//Create a Runnable is charge of executing cyclic actions 
-		moveRunnable=new MoveRunnable(v, f);
-		
-		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-		displayThread=new Thread(moveRunnable);
-		
-		// The Thread is started and the method run() of the associated DisplayRunnable is launch
-		displayThread.start();
-	}
+//	public void deplacement(Vehicule v, FireDto f) {
+//		MoveRunnable moveRunnable;
+//		Thread displayThread;
+//		
+//		//Create a Runnable is charge of executing cyclic actions 
+//		moveRunnable=new MoveRunnable();
+//		
+//		// A Runnable is held by a Thread which manage lifecycle of the Runnable
+//		displayThread=new Thread(moveRunnable);
+//		
+//		// The Thread is started and the method run() of the associated DisplayRunnable is launch
+//		displayThread.start();
+//	}
 	
 	public void stop() {
 		this.isEnd=true;
@@ -137,5 +149,14 @@ public class MainRunnable implements Runnable {
 			
 		}
 		return null;
+	}
+	
+	public void createPath(Vehicule v, FireDto feu) throws IOException {
+		String Path = v.getCoord().getLon()+","+v.getCoord().getLat()+";"+feu.getLon()+","+feu.getLat();
+		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
+		String res = this.restTemplate.getForObject(url, String.class);
+		JsonNode jsonNode;
+		ObjectMapper objectMapper = new ObjectMapper();
+		jsonNode = objectMapper.readTree(res);
 	}
 }

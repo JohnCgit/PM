@@ -57,5 +57,10 @@ public class VehiculeRestCrt {
 	public void move(@PathVariable int id, @RequestParam float lon, @RequestParam float lat) {
 		vService.moveVehicule(id, lon, lat);
 	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/followPath/{id}")
+	public void followPath(@PathVariable int id) {
+		vService.followPath(id);
+	}
 
 }
