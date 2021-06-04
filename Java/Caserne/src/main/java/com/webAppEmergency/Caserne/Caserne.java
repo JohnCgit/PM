@@ -19,6 +19,7 @@ public class Caserne {
 	private String libelle;
 	private double lon;
 	private double lat;
+	private int capaciteMax;
 	
 	//@Transient
 	//private Coord coord;
@@ -31,7 +32,7 @@ public class Caserne {
 	
 	public Caserne() {}
 	
-	public Caserne(double lon, double lat, String libelle, List<Integer> ListVehicules, List<Integer> ListPompiers) {
+	public Caserne(double lon, double lat, String libelle, List<Integer> ListVehicules, List<Integer> ListPompiers, int capaciteMax) {
 		
 		super();
 		//this.coord=new Coord(lon, lat);
@@ -40,6 +41,7 @@ public class Caserne {
 		this.libelle = libelle;
 		this.ListVehicules = ListVehicules;
 		this.ListPompiers = ListPompiers;
+		this.capaciteMax = capaciteMax;
 
 	}
 /*
@@ -98,6 +100,14 @@ public class Caserne {
 
 	public void setListPompiers(List<Integer> listPompiers) {
 		ListPompiers = listPompiers;
+	}
+
+	public int getCapaciteMax() {
+		return capaciteMax;
+	}
+
+	public void setCapaciteMax(int capaciteMax) {
+		this.capaciteMax = capaciteMax;
 	}
 	
 	
