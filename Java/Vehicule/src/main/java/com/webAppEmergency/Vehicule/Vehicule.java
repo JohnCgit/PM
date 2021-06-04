@@ -18,7 +18,6 @@ import com.project.model.dto.VehicleType;
 public class Vehicule {
 
 	@Id
-	@GeneratedValue
 	private int realid;
 	private VehiculeType type;
 	private float efficiency;
@@ -26,17 +25,10 @@ public class Vehicule {
 	private float fuel;
 	private int crewMember;
 	private int facilityRefID;
-	private Etat Etat;
+	private Etat etat=Etat.DISPONIBLE;
 	private double lon;
 	private double lat;
-	
-//	@OneToOne(targetEntity=Coord.class)
-//	private Coord coord;
-	
 	private Integer idFire; 
-	
-//	@ElementCollection
-//	private List<Coord> Path;
 	
 	@ElementCollection
 	private List<ArrayList<Float>> Path;
@@ -49,7 +41,6 @@ public class Vehicule {
 			float liquidQuantity, float fuel, int crewMember, int facilityRefID) {
 
 		super();
-//		this.coord = new Coord(lon, lat);
 		this.lon=lon;
 		this.lat=lat;
 		this.type = type;
@@ -57,7 +48,6 @@ public class Vehicule {
 		this.fuel = fuel;
 		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
-		this.Etat = Etat.DISPONIBLE;
 		this.Path=new ArrayList<ArrayList<Float>>();
 		this.idFire=-1;
 	}
@@ -70,7 +60,8 @@ public class Vehicule {
 	public String toString() {
 		return "Vehicule [realid=" + realid + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
 				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
-				+ ", Etat=" + Etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + "]";
+				+ ", Etat=" + etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
+				", LiquidType= "+ type.getLiquidType()+"]";
 	}
 	
 	
@@ -156,11 +147,11 @@ public class Vehicule {
 	}
 
 	public Etat getEtat() {
-		return Etat;
+		return etat;
 	}
 
 	public void setEtat(Etat etat) {
-		Etat = etat;
+		this.etat = etat;
 	}
 
 	public List<ArrayList<Float>> getPath() {

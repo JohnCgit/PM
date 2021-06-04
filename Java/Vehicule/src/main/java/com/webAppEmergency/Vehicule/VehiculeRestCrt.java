@@ -23,7 +23,7 @@ public class VehiculeRestCrt {
 // Get Vehicule
 //////////////////////////////////////
 	
-	@RequestMapping(method=RequestMethod.GET, value="/id/{id}")
+	@RequestMapping(method=RequestMethod.GET, value="/get/{id}")
 	public Vehicule getUserById(@PathVariable int id){
 		Vehicule v=vService.getVehicule(Integer.valueOf(id));
 	    return v;
@@ -55,7 +55,7 @@ public class VehiculeRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/move/{id}")
-	public void move(@PathVariable int id, @RequestParam float lon, @RequestParam float lat) {
+	public void move(@PathVariable int id, @RequestParam double lon, @RequestParam double lat) {
 		vService.moveVehicule(id, lon, lat);
 	}
 	

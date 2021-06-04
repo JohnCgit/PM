@@ -1,5 +1,6 @@
 package com.webAppEmergency.Vehicule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,9 +9,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleType;
 
@@ -21,6 +27,8 @@ public class VehiculeService {
 	@Autowired
 	VehiculeRepository vRepo;
 	private RestTemplate restTemplate;
+	JsonNode jNode;
+	ObjectMapper mapper;
 		
 //////////////////////////////////////
 // Rest template
@@ -28,6 +36,7 @@ public class VehiculeService {
 		
 	public VehiculeService(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
         this.restTemplate = restTemplateBuilder.build();
+        this.mapper=new ObjectMapper();
     }
 		
 //////////////////////////////////////
@@ -71,8 +80,23 @@ public class VehiculeService {
 		body.put("fuelConsumption", v.getType().getFuelConsumption());
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
-		System.out.println("Body is"+body);
-		this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle/"+1, body, boolean.class);
+		System.out.println("Body is "+body);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+
+		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
+		
+		try {
+			this.jNode = this.mapper.readTree(res);
+			JsonNode jId = this.jNode.get("id");
+			v.setRealid(jId.asInt());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean createVehiculeRepo(Vehicule v) {
@@ -87,14 +111,19 @@ public class VehiculeService {
 		System.out.println(json);
 	}
 	
-	public void moveVehicule(int id, float lon, float lat) {
+	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
 		v.setLon(lon);
 		v.setLat(lat);
 		JSONObject body=new JSONObject();
 		body.put("lon",lon);
 		body.put("lat",lat);
-		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, body);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, request);
 	}
 	
 	public void deleteVehicule(int id) {
