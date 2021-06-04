@@ -40,6 +40,7 @@ public class VehiculeRestCrt {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
 	public boolean createVehicule(@RequestBody Vehicule v) {
+		System.out.println(v);
 		return vService.createVehicule(v);
 	}
 	
@@ -58,9 +59,9 @@ public class VehiculeRestCrt {
 		vService.moveVehicule(id, lon, lat);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/followPath/{id}")
-	public void followPath(@PathVariable int id) {
-		vService.followPath(id);
-	}
+//	@RequestMapping(method=RequestMethod.PUT, value="/followPath/{id}")
+//	public void followPath(@PathVariable int id) {
+//		vService.followPath(id);
+//	}
 
 }

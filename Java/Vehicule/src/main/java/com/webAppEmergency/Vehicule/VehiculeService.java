@@ -58,20 +58,21 @@ public class VehiculeService {
 	
 	
 	public void createVehiculeFireSim(Vehicule v) {
-		JSONObject obj = new JSONObject();
-		obj.put("id", v.getRealid());
-		obj.put("lon", v.getCoord().getLon());
-		obj.put("lat", v.getCoord().getLon());
-		obj.put("type", v.getType());
-		obj.put("efficiency", v.getEfficiency());
-		obj.put("liquideType", v.getType().getLiquidType());
-		obj.put("liquideQuantity", v.getLiquidQuantity());
-		obj.put("liquidConsumption", v.getType().getLiquidConsumption());
-		obj.put("fuel", v.getFuel());
-		obj.put("fuelConsumption", v.getType().getFuelConsumption());
-		obj.put("crewMember", v.getCrewMember());
-		obj.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
-		obj.put("facilityRefID", v.getFacilityRefID());
+		JSONObject body = new JSONObject();
+		body.put("id", v.getRealid());
+		body.put("lon", v.getLon());
+		body.put("lat", v.getLat());
+		body.put("type", v.getType());
+		body.put("efficiency", v.getEfficiency());
+		body.put("liquideType", v.getType().getLiquidType());
+		body.put("liquideQuantity", v.getLiquidQuantity());
+		body.put("liquidConsumption", v.getType().getLiquidConsumption());
+		body.put("fuel", v.getFuel());
+		body.put("fuelConsumption", v.getType().getFuelConsumption());
+		body.put("crewMember", v.getCrewMember());
+		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
+		System.out.println("Body is"+body);
+		this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle/"+1, body, boolean.class);
 	}
 	
 	public boolean createVehiculeRepo(Vehicule v) {
@@ -88,7 +89,8 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, float lon, float lat) {
 		Vehicule v = getVehicule(id);
-		v.setCoord(new Coord(lon, lat));
+		v.setLon(lon);
+		v.setLat(lat);
 		JSONObject body=new JSONObject();
 		body.put("lon",lon);
 		body.put("lat",lat);
@@ -101,15 +103,14 @@ public class VehiculeService {
 		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+id);
 	}
 	
-	public void followPath(int id) {
-		Vehicule v = getVehicule(id);
-		Coord c1 = v.getPath().remove(0);
-		v.setCoord(c1);
-		JSONObject body=new JSONObject();
-		body.put("lon",c1.getLon());
-		body.put("lat",c1.getLat());
-		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, body);
-
-		
-	}
+//	public void followPath(int id) {
+//		Vehicule v = getVehicule(id);
+//		Coord c1 = v.getPath().remove(0);
+//		v.setLon(c1.getLon());
+//		v.setLat(c1.getLat());
+//		JSONObject body=new JSONObject();
+//		body.put("lon",c1.getLon());
+//		body.put("lat",c1.getLat());
+//		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, body);
+//	}
 }

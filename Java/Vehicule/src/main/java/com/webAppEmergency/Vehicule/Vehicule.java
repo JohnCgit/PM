@@ -1,10 +1,14 @@
 package com.webAppEmergency.Vehicule;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.LiquidType;
@@ -23,34 +27,80 @@ public class Vehicule {
 	private int crewMember;
 	private int facilityRefID;
 	private Etat Etat;
-	private Coord coord;
-	private List<Coord> Path;
-	private Integer idFire;
+	private double lon;
+	private double lat;
+	
+//	@OneToOne(targetEntity=Coord.class)
+//	private Coord coord;
+	
+	private Integer idFire; 
+	
+//	@ElementCollection
+//	private List<Coord> Path;
+	
+	@ElementCollection
+	private List<ArrayList<Float>> Path;
+
+	
 	public Vehicule() {
 	}
 
-	public Vehicule(int id, float lon, float lat, VehiculeType type, float efficiency, LiquidType liquidType,
-			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption, int crewMember,
-			int crewMemberCapacity, int facilityRefID) {
+	public Vehicule(float lon, float lat, VehiculeType type, float efficiency,
+			float liquidQuantity, float fuel, int crewMember, int facilityRefID) {
 
 		super();
-		this.coord = new Coord(lon, lat);
+//		this.coord = new Coord(lon, lat);
+		this.lon=lon;
+		this.lat=lat;
 		this.type = type;
 		this.efficiency = efficiency;
 		this.fuel = fuel;
 		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
 		this.Etat = Etat.DISPONIBLE;
-		this.Path=null;
+		this.Path=new ArrayList<ArrayList<Float>>();
 		this.idFire=-1;
 	}
 
 //////////////////////////////////////
 //Getter & Setter
 //////////////////////////////////////
+	
+	@Override
+	public String toString() {
+		return "Vehicule [realid=" + realid + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
+				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
+				+ ", Etat=" + Etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + "]";
+	}
+	
+	
+//	public Coord getCoord() {
+//		return coord;
+//	}
+//
+//	public void setCoord(Coord coord) {
+//		this.coord = coord;
+//	}
+	
 
+	public double getLon() {
+		return lon;
+	}
+
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+	
 	public VehiculeType getType() {
 		return type;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
 	}
 
 	public void setType(VehiculeType type) {
@@ -113,19 +163,11 @@ public class Vehicule {
 		Etat = etat;
 	}
 
-	public Coord getCoord() {
-		return coord;
-	}
-
-	public void setCoord(Coord coord) {
-		this.coord = coord;
-	}
-
-	public List<Coord> getPath() {
+	public List<ArrayList<Float>> getPath() {
 		return Path;
 	}
 
-	public void setPath(List<Coord> path) {
+	public void setPath(List<ArrayList<Float>> path) {
 		Path = path;
 	}
 
