@@ -1,5 +1,7 @@
 const myFireApp = new FireApp(L.featureGroup(),Array(),getListFire());
+
 const myVehicleApp = new VehicleApp(L.featureGroup(),Array(),getListVehicle());
+
 const mydisplayApp = new displayApp();
 const myFireStationApp = new FireStationApp(L.featureGroup(),getListFireStation())
 

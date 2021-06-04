@@ -25,10 +25,15 @@ class displayApp{
 
     onMapClick(e){
         let Fire = myFireApp.getFireAt(e.latlng.lat,e.latlng.lng);
+        let FireStation = myFireStationApp.getFireStationAt(e.latlng.lat,e.latlng.lng);
         let Vehicle = myVehicleApp.getVehicleAt(e.latlng.lat,e.latlng.lng);
         let string ="";
+        
         if(Fire != null){
-            string += myFireApp.ToString(Fire);
+            string += myFireApp.ToString(FireStation);
+        }
+        if(FireStation != null){
+            string += myFireStationApp.ToString(Fire);
         }
         if(Vehicle != null){
             string += myVehicleApp.ToString(Vehicle);
