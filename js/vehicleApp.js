@@ -98,8 +98,8 @@ class VehicleApp{
                `<p> Liquid : &nbsp Type: ` + vehicle.lt + `&nbsp --- Quantity: ` + vehicle.lq + `&nbsp --- Consumption: ` + vehicle.lc + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.f + `&nbsp --- Consumption: ` + vehicle.fc + `</p>`+
                `<p> Crew Member: &nbsp Quantity: ` + vehicle.cm + `&nbsp --- Capacity: ` + vehicle.cmc + `</p>` +
-               `<button onclick="myVehicleApp.Update(${vehicle.id},${lon},${lat},${type},${efficiency},
-               ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity},${facilityRefID});
+               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},${vehicle.efficiency},
+               ${vehicle.liquidQuantity},${vehicle.liquidConsumption},${vehicle.fuel},${vehicle.fuelConsumption},${vehicle.crewMember},${vehicle.crewMemberCapacity},${vehicle.facilityRefID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
                `<button onclick="myVehicleApp.Delete(${id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
        }
