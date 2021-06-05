@@ -1,10 +1,14 @@
 package com.webAppEmergency.Assignation;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.project.model.dto.Coord;
 import com.project.model.dto.LiquidType;
@@ -16,56 +20,102 @@ public class Vehicule {
 	@Id
 	@GeneratedValue
 	private int realid;
+	private int idVehicle;
 	private VehiculeType type;
-	private float efficiency;
-	private float liquidQuantity;
-	private float fuel;
+	private double efficiency;
+	private double liquidQuantity;
+	private double fuel;
 	private int crewMember;
 	private int facilityRefID;
-	private Etat Etat;
-	private Coord coord;
-	private List<Coord> Path;
-	private Integer idFire;
+	private Etat etat=Etat.DISPONIBLE;
+	private double lon;
+	private double lat;
+	private Integer idFire; 
+	
+	@ElementCollection
+	private List<ArrayList<Double>> Path =new ArrayList<ArrayList<Double>>();
+
 	public Vehicule() {
 	}
 
-	public Vehicule(int id, float lon, float lat, VehiculeType type, float efficiency, LiquidType liquidType,
-			float liquidQuantity, float liquidConsumption, float fuel, float fuelConsumption, int crewMember,
-			int crewMemberCapacity, int facilityRefID) {
+	public Vehicule(float lon, float lat, VehiculeType type, double efficiency,
+			double liquidQuantity, double fuel, int crewMember, int facilityRefID) {
 
 		super();
-		this.coord = new Coord(lon, lat);
+		this.lon=lon;
+		this.lat=lat;
 		this.type = type;
 		this.efficiency = efficiency;
 		this.fuel = fuel;
 		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
-		this.Etat = Etat.DISPONIBLE;
-		this.Path=null;
 		this.idFire=-1;
+		this.idVehicle=-1;
 	}
 
 //////////////////////////////////////
 //Getter & Setter
 //////////////////////////////////////
+	
+	@Override
+	public String toString() {
+		return "Vehicule [realid=" + realid + ", idVehicle=" + idVehicle + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
+				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
+				+ ", Etat=" + etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
+				", LiquidType= "+ type.getLiquidType()+"]";
+	}
+	
+	
+//	public Coord getCoord() {
+//		return coord;
+//	}
+//
+//	public void setCoord(Coord coord) {
+//		this.coord = coord;
+//	}
+	
 
+	public double getLon() {
+		return lon;
+	}
+
+	public void setLon(double lon) {
+		this.lon = lon;
+	}
+
+	public int getIdVehicle() {
+		return idVehicle;
+	}
+
+	public void setIdVehicle(int idVehicle) {
+		this.idVehicle = idVehicle;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+	
 	public VehiculeType getType() {
 		return type;
+	}
+
+	public void setLat(double lat) {
+		this.lat = lat;
 	}
 
 	public void setType(VehiculeType type) {
 		this.type = type;
 	}
 
-	public float getEfficiency() {
+	public double getEfficiency() {
 		return efficiency;
 	}
 
-	public void setEfficiency(float efficiency) {
+	public void setEfficiency(double efficiency) {
 		this.efficiency = efficiency;
 	}
 
-	public float getLiquidQuantity() {
+	public double getLiquidQuantity() {
 		return liquidQuantity;
 	}
 
@@ -73,7 +123,7 @@ public class Vehicule {
 		this.liquidQuantity = liquidQuantity;
 	}
 
-	public float getFuel() {
+	public double getFuel() {
 		return fuel;
 	}
 
@@ -106,26 +156,18 @@ public class Vehicule {
 	}
 
 	public Etat getEtat() {
-		return Etat;
+		return etat;
 	}
 
 	public void setEtat(Etat etat) {
-		Etat = etat;
+		this.etat = etat;
 	}
 
-	public Coord getCoord() {
-		return coord;
-	}
-
-	public void setCoord(Coord coord) {
-		this.coord = coord;
-	}
-
-	public List<Coord> getPath() {
+	public List<ArrayList<Double>> getPath() {
 		return Path;
 	}
 
-	public void setPath(List<Coord> path) {
+	public void setPath(List<ArrayList<Double>> path) {
 		Path = path;
 	}
 

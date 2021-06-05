@@ -95,7 +95,4 @@ public enum VehiculeType {
 	public void setVehicleCrewCapacity(int vehicleCrewCapacity) {
 		this.vehicleCrewCapacity = vehicleCrewCapacity;
 	}
-
-
-
 }

@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.dto.Coord;
 import com.project.model.dto.VehicleType;
+import com.webAppEmergency.Vehicule.Vehicule;
 
 @Service
 public class VehiculeService {
