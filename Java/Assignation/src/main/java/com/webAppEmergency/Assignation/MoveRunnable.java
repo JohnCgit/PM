@@ -21,10 +21,14 @@ public class MoveRunnable implements Runnable{
 	this.restTemplate = restTemplateBuilder.build();
 	}
 
+//////////////////////////////////////
+// Main
+//////////////////////////////////////
+	
 	@Override
 	public void run() {
 		try{
-			Thread.sleep(1000);
+			Thread.sleep(10000);
 			Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/vehicule/getAll", Vehicule[].class);
 			for (Vehicule v: tabVehicule) {
 				switch (v.getEtat()) {

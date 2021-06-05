@@ -158,4 +158,10 @@ public class VehiculeService {
 		v.setPath(newPath);
 		vRepo.save(v);		
 	}
+	
+	public void etatVehicule(int id, Etat etat) {
+		Vehicule v = getVehicule(id);
+		v.setEtat(etat);;
+		vRepo.save(v);
+	}
 }

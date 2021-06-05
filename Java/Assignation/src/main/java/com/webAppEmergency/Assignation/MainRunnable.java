@@ -71,20 +71,6 @@ public class MainRunnable implements Runnable {
 		
 	}
 	
-//	public void deplacement(Vehicule v, FireDto f) {
-//		MoveRunnable moveRunnable;
-//		Thread displayThread;
-//		
-//		//Create a Runnable is charge of executing cyclic actions 
-//		moveRunnable=new MoveRunnable();
-//		
-//		// A Runnable is held by a Thread which manage lifecycle of the Runnable
-//		displayThread=new Thread(moveRunnable);
-//		
-//		// The Thread is started and the method run() of the associated DisplayRunnable is launch
-//		displayThread.start();
-//	}
-	
 	public void stop() {
 		this.isEnd=true;
 	}
@@ -100,7 +86,7 @@ public class MainRunnable implements Runnable {
 		Integer minDistance = -1;
 		//TODO hashmap vehicule, distance, regarder le type
 		for (Vehicule v:Tab_Vehicule) {
-			Integer Distance=GisTools.computeDistance2(v.getCoord(), CoordFire);
+			Integer Distance=GisTools.computeDistance2(new Coord(v.getLon(), v.getLat()), CoordFire);
 			if (minDistance<=0 || minDistance>=Distance) {
 				res=v;
 				minDistance=Distance;
@@ -156,8 +142,7 @@ public class MainRunnable implements Runnable {
 	}
 	
 	public void createPath(Vehicule v, FireDto feu) throws IOException {
-		Coord cFeu = v.getCoord();
-		String Path = cFeu.getLon()+","+cFeu.getLat()+";"+feu.getLon()+","+feu.getLat();
+		String Path = v.getLon()+","+v.getLat()+";"+feu.getLon()+","+feu.getLat();
 		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
 		String res = this.restTemplate.getForObject(url, String.class);
 		this.jNode = mapper.readTree(res);

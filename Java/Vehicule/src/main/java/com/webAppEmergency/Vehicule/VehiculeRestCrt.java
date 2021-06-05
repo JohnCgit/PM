@@ -67,4 +67,9 @@ public class VehiculeRestCrt {
 	public void setPath(@PathVariable int id, @RequestBody ArrayList<ArrayList<Double>> newPath) {
 		vService.setPath(id, newPath);
 	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/state/{id}")
+	public void etatVehicule(@PathVariable int id, @RequestParam Etat state) {
+		vService.etatVehicule(id, state);
+	}
 }
