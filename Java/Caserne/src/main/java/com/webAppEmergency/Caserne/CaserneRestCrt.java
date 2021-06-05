@@ -45,14 +45,8 @@ public class CaserneRestCrt {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.GET, value="/getLyon")
-	public void getCaserneLyon() throws FileNotFoundException, IOException, ParseException{
-		cService.getCaserneLyon();
+	@RequestMapping(method=RequestMethod.GET, value="/initLyon")
+	public void initCaserneLyon() throws IOException, ParseException{
+		cService.initCaserneLyon();
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/init")
-	public void initCaserne(){
-		cService.initCaserne();
-	}
-	
 }
