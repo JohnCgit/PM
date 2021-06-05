@@ -18,11 +18,13 @@ import com.project.model.dto.VehicleType;
 public class Vehicule {
 
 	@Id
+	@GeneratedValue
 	private int realid;
+	private int idVehicle;
 	private VehiculeType type;
-	private float efficiency;
-	private float liquidQuantity;
-	private float fuel;
+	private double efficiency;
+	private double liquidQuantity;
+	private double fuel;
 	private int crewMember;
 	private int facilityRefID;
 	private Etat etat=Etat.DISPONIBLE;
@@ -37,8 +39,8 @@ public class Vehicule {
 	public Vehicule() {
 	}
 
-	public Vehicule(float lon, float lat, VehiculeType type, float efficiency,
-			float liquidQuantity, float fuel, int crewMember, int facilityRefID) {
+	public Vehicule(float lon, float lat, VehiculeType type, double efficiency,
+			double liquidQuantity, double fuel, int crewMember, int facilityRefID) {
 
 		super();
 		this.lon=lon;
@@ -50,6 +52,7 @@ public class Vehicule {
 		this.facilityRefID = facilityRefID;
 		this.Path=new ArrayList<ArrayList<Float>>();
 		this.idFire=-1;
+		this.idVehicle=-1;
 	}
 
 //////////////////////////////////////
@@ -58,7 +61,7 @@ public class Vehicule {
 	
 	@Override
 	public String toString() {
-		return "Vehicule [realid=" + realid + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
+		return "Vehicule [realid=" + realid + ", idVehicle=" + idVehicle + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
 				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
 				+ ", Etat=" + etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ type.getLiquidType()+"]";
@@ -82,6 +85,14 @@ public class Vehicule {
 		this.lon = lon;
 	}
 
+	public int getIdVehicle() {
+		return idVehicle;
+	}
+
+	public void setIdVehicle(int idVehicle) {
+		this.idVehicle = idVehicle;
+	}
+
 	public double getLat() {
 		return lat;
 	}
@@ -98,15 +109,15 @@ public class Vehicule {
 		this.type = type;
 	}
 
-	public float getEfficiency() {
+	public double getEfficiency() {
 		return efficiency;
 	}
 
-	public void setEfficiency(float efficiency) {
+	public void setEfficiency(double efficiency) {
 		this.efficiency = efficiency;
 	}
 
-	public float getLiquidQuantity() {
+	public double getLiquidQuantity() {
 		return liquidQuantity;
 	}
 
@@ -114,7 +125,7 @@ public class Vehicule {
 		this.liquidQuantity = liquidQuantity;
 	}
 
-	public float getFuel() {
+	public double getFuel() {
 		return fuel;
 	}
 

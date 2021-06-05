@@ -2,7 +2,10 @@ package com.webAppEmergency.Vehicule;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.json.JSONArray;
@@ -92,7 +95,9 @@ public class VehiculeService {
 		try {
 			this.jNode = this.mapper.readTree(res);
 			JsonNode jId = this.jNode.get("id");
-			v.setRealid(jId.asInt());
+			System.out.println(jId);
+			v.setIdVehicle(jId.asInt());
+			vRepo.save(v);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,16 +111,13 @@ public class VehiculeService {
 		return res;
 	}
 	
-	public void updateVehicule(int id, JSONObject json) {
-		Vehicule Vehi = getVehicule(id);
-		System.out.println(json);
-	}
-	
 	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
 		v.setLon(lon);
 		v.setLat(lat);
+		vRepo.save(v);
 		JSONObject body=new JSONObject();
+		body.put("id",v.getIdVehicle());
 		body.put("lon",lon);
 		body.put("lat",lat);
 		HttpHeaders headers = new HttpHeaders();
@@ -123,13 +125,13 @@ public class VehiculeService {
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, request);
+		this.restTemplate.put("http://127.0.0.1:8081/vehicle/"+id, request);
 	}
 	
 	public void deleteVehicule(int id) {
 		Vehicule v = getVehicule(id);
 		vRepo.delete(v);
-		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+id);
+		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdVehicle());
 	}
 	
 //	public void followPath(int id) {

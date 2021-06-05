@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 //TODO Create method removeCard from collection 
 
 @RestController
@@ -42,11 +44,6 @@ public class VehiculeRestCrt {
 	public boolean createVehicule(@RequestBody Vehicule v) {
 		System.out.println(v);
 		return vService.createVehicule(v);
-	}
-	
-	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
-	public void update(@PathVariable int id, @RequestBody JSONObject json) {
-		vService.updateVehicule(id, json);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/delete/{id}")
