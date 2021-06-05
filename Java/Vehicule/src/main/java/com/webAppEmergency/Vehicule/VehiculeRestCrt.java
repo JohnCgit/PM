@@ -1,5 +1,6 @@
 package com.webAppEmergency.Vehicule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -60,5 +61,9 @@ public class VehiculeRestCrt {
 	public boolean followPath(@PathVariable int id) {
 		return vService.followPath(id);
 	}
-
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/setPath/{id}")
+	public void setPath(@PathVariable int id, @RequestBody ArrayList<ArrayList<Double>> newPath) {
+		vService.setPath(id, newPath);
+	}
 }

@@ -151,4 +151,10 @@ public class VehiculeService {
 			}
 		return res;
 	}
+	
+	public void setPath(int id, ArrayList<ArrayList<Double>> newPath) {
+		Vehicule v = getVehicule(id);
+		v.setPath(newPath);
+		vRepo.save(v);		
+	}
 }
