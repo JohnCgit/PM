@@ -20,9 +20,9 @@ public class MoveRunnable implements Runnable{
 	public MoveRunnable(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
 	this.restTemplate = restTemplateBuilder.build();
 	}
-
+	
 //////////////////////////////////////
-// Main
+//Threading
 //////////////////////////////////////
 	
 	@Override
@@ -35,25 +35,21 @@ public class MoveRunnable implements Runnable{
 				case ALLER:
 					this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 					if (v.getPath()==null) {
-						JSONObject body = new JSONObject();
-						body.put("Etat", Etat.EXTINCTION);
-						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+						this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=EXTINCTION", null);
 					}
 					break;
 				case EXTINCTION:
 					FireDto fire = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 					if (fire.getIntensity()<0) {
-						JSONObject body = new JSONObject();
-						body.put("Etat", Etat.RETOUR);
-						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+						this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=RETOUR", null);
+
 					}
 					break;
 				case RETOUR:
 					this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 					if (v.getPath()==null) {
-						JSONObject body = new JSONObject();
-						body.put("Etat", Etat.DISPONIBLE);
-						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+						this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=DISPONIBLE", null);
+
 					}
 					break;
 				}
