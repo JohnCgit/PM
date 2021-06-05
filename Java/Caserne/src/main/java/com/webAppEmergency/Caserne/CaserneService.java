@@ -1,9 +1,7 @@
 package com.webAppEmergency.Caserne;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,11 +32,10 @@ public class CaserneService {
 	public String path;
 
 		
-	public CaserneService(RestTemplateBuilder restTemplateBuilder){ // Gestion du rest template
+	public CaserneService(RestTemplateBuilder restTemplateBuilder){
         this.restTemplate = restTemplateBuilder.build();
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
-        //this.path ="/home/tp/git/PM/Java/Caserne/src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
-    	this.path="C:\\Users\\tperr\\git\\PM\\Java\\Caserne\\src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
+    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         mapper = new ObjectMapper();
 	}
 
