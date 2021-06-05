@@ -107,7 +107,14 @@ public class VehiculeService {
 	public boolean createVehiculeRepo(Vehicule v) {
 		boolean res=false;
 		Optional<Vehicule> oVehicule = vRepo.findById(v.getRealid());
-		if (oVehicule.isEmpty()) {vRepo.save(v); res=true;}
+		if (oVehicule.isEmpty()) {
+			List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
+			Path.add(new ArrayList<Double>(List.of(1.0,2.0)));
+			Path.add(new ArrayList<Double>(List.of(5.0,6.0)));
+			Path.add(new ArrayList<Double>(List.of(1.0,2.0)));
+			v.setPath(Path);
+			vRepo.save(v); res=true;
+			}
 		return res;
 	}
 	
@@ -134,14 +141,14 @@ public class VehiculeService {
 		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdVehicle());
 	}
 	
-//	public void followPath(int id) {
-//		Vehicule v = getVehicule(id);
-//		Coord c1 = v.getPath().remove(0);
-//		v.setLon(c1.getLon());
-//		v.setLat(c1.getLat());
-//		JSONObject body=new JSONObject();
-//		body.put("lon",c1.getLon());
-//		body.put("lat",c1.getLat());
-//		this.restTemplate.put("http://127.0.0.1:8081/vehicule/"+id, body);
-//	}
+	public boolean followPath(int id) {
+		Vehicule v = getVehicule(id);
+		boolean res=false;
+		if (v.getPath().size()>0) {			
+			ArrayList<Double> Coord = v.getPath().remove(0);
+			moveVehicule(id, Coord.get(0), Coord.get(1));
+			res=true;
+			}
+		return res;
+	}
 }

@@ -33,9 +33,8 @@ public class Vehicule {
 	private Integer idFire; 
 	
 	@ElementCollection
-	private List<ArrayList<Float>> Path;
+	private List<ArrayList<Double>> Path =new ArrayList<ArrayList<Double>>();
 
-	
 	public Vehicule() {
 	}
 
@@ -50,7 +49,6 @@ public class Vehicule {
 		this.fuel = fuel;
 		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
-		this.Path=new ArrayList<ArrayList<Float>>();
 		this.idFire=-1;
 		this.idVehicle=-1;
 	}
@@ -165,11 +163,11 @@ public class Vehicule {
 		this.etat = etat;
 	}
 
-	public List<ArrayList<Float>> getPath() {
+	public List<ArrayList<Double>> getPath() {
 		return Path;
 	}
 
-	public void setPath(List<ArrayList<Float>> path) {
+	public void setPath(List<ArrayList<Double>> path) {
 		Path = path;
 	}
 
