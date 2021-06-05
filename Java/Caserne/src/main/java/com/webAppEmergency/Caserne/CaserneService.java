@@ -110,5 +110,4 @@ public class CaserneService {
 		c.setListVehicules(ListVehicule);
 		cRepo.save(c);
 	}
-	}
 }
