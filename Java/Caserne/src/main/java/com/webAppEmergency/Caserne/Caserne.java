@@ -1,5 +1,6 @@
 package com.webAppEmergency.Caserne;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -28,7 +29,7 @@ public class Caserne {
 	private List<Integer> ListVehicules;
 	
 	@ElementCollection
-	private List<Integer> ListPompiers;
+	private List<Integer> ListPompiers = new ArrayList<Integer>(List.of(-1));
 	
 	public Caserne() {}
 	
@@ -110,5 +111,9 @@ public class Caserne {
 		this.capaciteMax = capaciteMax;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Caserne [id=" + id + ", libelle=" + libelle + ", lon=" + lon + ", lat=" + lat + ", capaciteMax="
+				+ capaciteMax + ", ListVehicules=" + ListVehicules + ", ListPompiers=" + ListPompiers + "]";
+	}
 }

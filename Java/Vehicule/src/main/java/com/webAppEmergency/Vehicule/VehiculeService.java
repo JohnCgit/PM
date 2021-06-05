@@ -63,8 +63,9 @@ public class VehiculeService {
 //////////////////////////////////////
 	
 	public Vehicule createVehicule(Vehicule v) {
-		if (createVehiculeRepo(v)) {createVehiculeFireSim(v);}
-		return v;
+		Vehicule res = createVehiculeRepo(v);
+		createVehiculeFireSim(v);
+		return res;
 	}
 	
 	
@@ -103,8 +104,7 @@ public class VehiculeService {
 		}
 	}
 	
-	public boolean createVehiculeRepo(Vehicule v) {
-		boolean res=false;
+	public Vehicule createVehiculeRepo(Vehicule v) {
 		Optional<Vehicule> oVehicule = vRepo.findById(v.getRealid());
 		if (oVehicule.isEmpty()) {
 			List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -112,9 +112,9 @@ public class VehiculeService {
 			Path.add(new ArrayList<Double>(List.of(5.0,6.0)));
 			Path.add(new ArrayList<Double>(List.of(1.0,2.0)));
 			v.setPath(Path);
-			vRepo.save(v); res=true;
+			vRepo.save(v);
 			}
-		return res;
+		return v;
 	}
 	
 	public void moveVehicule(int id, double lon, double lat) {

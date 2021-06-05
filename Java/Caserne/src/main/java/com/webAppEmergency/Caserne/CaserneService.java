@@ -80,8 +80,8 @@ public class CaserneService {
 	        System.out.println(name);
 	        System.out.println("Coordonnées : (" + lon + ","+ lat +")");
 	        ListC.add(new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15));
-			for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
 		}
+		for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
 	}
 	
 	public void initVehicule(Caserne c) {
@@ -102,12 +102,20 @@ public class CaserneService {
 
 		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/create", request, Vehicule.class);
 
+		addVehicule(c, v);
 	}
 		
 	public void addVehicule(Caserne c, Vehicule v) {
 		List<Integer> ListVehicule = c.getListVehicules();
-		ListVehicule.add(v.getRealid());
+		if (ListVehicule.isEmpty()) {
+			ListVehicule = new ArrayList<Integer>(List.of(v.getRealid()));
+			System.out.println(ListVehicule);
+		}
+		else {
+			ListVehicule.add(v.getRealid());		
+		}
 		c.setListVehicules(ListVehicule);
+		System.out.println(c);
 		cRepo.save(c);
 	}
 }
