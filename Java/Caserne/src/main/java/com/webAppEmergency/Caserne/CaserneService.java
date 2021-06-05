@@ -2,6 +2,8 @@ package com.webAppEmergency.Caserne;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +16,9 @@ import org.json.simple.parser.ParseException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -34,8 +39,13 @@ public class CaserneService {
 		
 	public CaserneService(RestTemplateBuilder restTemplateBuilder){
         this.restTemplate = restTemplateBuilder.build();
+        Path currentRelativePath = Paths.get("");
+        String s = currentRelativePath.toAbsolutePath().toString();
+        System.out.println("Current relative path is: " + s);
+        this.path = "src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
+        
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
-    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
+//    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         mapper = new ObjectMapper();
 	}
 
@@ -70,7 +80,35 @@ public class CaserneService {
 	        System.out.println(name);
 	        System.out.println("Coordonnées : (" + lon + ","+ lat +")");
 	        ListC.add(new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15));
-			for (Caserne c: ListC) {cRepo.save(c);}
+			for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
 		}
+	}
+	
+	public void initVehicule(Caserne c) {
+		JSONObject body = new JSONObject();
+		body.put("lon", c.getLon());
+		body.put("lat", c.getLat());
+		body.put("type", "CAR");
+		body.put("efficiency", 2.0);
+		body.put("liquideQuantity", 12.0);
+		body.put("fuel", 42.0);
+		body.put("crewMember", 1);
+		body.put("facilityRefID", c.getId());
+		
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
+
+		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/create", request, Vehicule.class);
+
+	}
+		
+	public void addVehicule(Caserne c, Vehicule v) {
+		List<Integer> ListVehicule = c.getListVehicules();
+		ListVehicule.add(v.getRealid());
+		c.setListVehicules(ListVehicule);
+		cRepo.save(c);
+	}
 	}
 }

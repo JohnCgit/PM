@@ -62,11 +62,9 @@ public class VehiculeService {
 //update/create Vehicule
 //////////////////////////////////////
 	
-	public boolean createVehicule(Vehicule v) {
-		boolean res=false;
-		res=createVehiculeRepo(v);
-		if (res) {createVehiculeFireSim(v);}
-		return res;
+	public Vehicule createVehicule(Vehicule v) {
+		if (createVehiculeRepo(v)) {createVehiculeFireSim(v);}
+		return v;
 	}
 	
 	

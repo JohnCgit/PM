@@ -43,7 +43,7 @@ public class VehiculeRestCrt {
 //////////////////////////////////////
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
-	public boolean createVehicule(@RequestBody Vehicule v) {
+	public Vehicule createVehicule(@RequestBody Vehicule v) {
 		System.out.println(v);
 		return vService.createVehicule(v);
 	}
