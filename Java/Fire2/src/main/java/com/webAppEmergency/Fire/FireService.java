@@ -28,14 +28,20 @@ public class FireService{
 	FireConfBehavior behavior;
 	FireConfCreation creation;
 	
+//////////////////////////////////////
+//Init
+//////////////////////////////////////
+	
 	public FireService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
         this.mapper = new ObjectMapper();
         this.behavior = new FireConfBehavior();
         this.creation = new FireConfCreation();
-        System.out.println(this.behavior);
-        System.out.println(this.creation);
-    }
+	}
+	
+//////////////////////////////////////
+//Get fire
+//////////////////////////////////////
 	
 	//Recupere tous les feux
 	public List<FireDto> getAllFire() {
@@ -45,38 +51,6 @@ public class FireService{
 			fList.add(f);
 		}
 		return fList;
-	}
-	
-	// Lance un seul feu
-	public void startOneFire() throws InterruptedException, IOException {
-		freqFire(100);
-		startFire();
-		Thread.sleep(105);
-		stopFire();
-		freqFire(this.creation.getFireCreationSleep());
-		probFire(this.creation.getFireCreationProbability());
-	}
-	
-	public void startFire() {
-		JSONObject body = new JSONObject();
-	    body.put("fireCreationProbability", 1.0);
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-
-		HttpEntity<String> request = 
-			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
-	}
-	
-	public void stopFire() {
-		JSONObject body = new JSONObject();
-	    body.put("fireCreationProbability", 0.0);
-	    HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-
-		HttpEntity<String> request = 
-			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
 	}
 
 		public FireDto getFire(int id) {
@@ -90,7 +64,43 @@ public class FireService{
 		return res;
 	}
 		
+//////////////////////////////////////
+//Creation fire
+//////////////////////////////////////
+		
+		// Lance un seul feu
+		public void startOneFire() throws InterruptedException, IOException {
+			freqFire(100);
+			startFire();
+			Thread.sleep(105);
+			stopFire();
+			freqFire(this.creation.getFireCreationSleep());
+			probFire(this.creation.getFireCreationProbability());
+		}
+		
+		public void startFire() {
+			JSONObject body = new JSONObject();
+		    body.put("fireCreationProbability", 1.0);
+		    HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON);
+
+			HttpEntity<String> request = 
+				      new HttpEntity<String>(body.toString(), headers);
+			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+		}
+		
+		public void stopFire() {
+			JSONObject body = new JSONObject();
+		    body.put("fireCreationProbability", 0.0);
+		    HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON);
+
+			HttpEntity<String> request = 
+				      new HttpEntity<String>(body.toString(), headers);
+			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+		}		
 		public void freqFire(int freq) {
+			this.freqFire(freq);
 			JSONObject body = new JSONObject();
 		    body.put("fireCreationSleep", freq);
 		    HttpHeaders headers = new HttpHeaders();
@@ -101,14 +111,8 @@ public class FireService{
 			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
 		}
 		
-		public int getFreqFire() throws IOException {
-			String response = this.restTemplate.getForObject("http://127.0.0.1:8081/config/creation", String.class)	;				
-			this.jNode=mapper.readTree(response);
-			int res = jNode.get("fireCreationSleep").asInt();
-			return res;
-		}
-		
 		public void probFire(double prob) {
+			this.creation.setFireCreationProbability(prob);
 			JSONObject body = new JSONObject();
 		    body.put("fireCreationProbability", prob);
 		    HttpHeaders headers = new HttpHeaders();
@@ -119,10 +123,7 @@ public class FireService{
 			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
 		}
 		
-		public double getProbFire() throws IOException {
-			String response = this.restTemplate.getForObject("http://127.0.0.1:8081/config/creation", String.class)	;				
-			this.jNode=mapper.readTree(response);
-			double res = jNode.get("fireCreationProbability").asDouble();
-			return res;
-		}
+//////////////////////////////////////
+//Behavior fire?
+//////////////////////////////////////
 }
