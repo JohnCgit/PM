@@ -95,7 +95,7 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
-		System.out.println("vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
+		System.out.println("[VEHICULE-MOVE] vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
@@ -138,7 +138,7 @@ public class VehiculeService {
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
 		body.put("facilityRefID", v.getFacilityRefID());
-		System.out.println("Body is "+body);
+//		System.out.println("Body is "+body);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 

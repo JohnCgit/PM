@@ -55,7 +55,7 @@ public class MoveRunnable implements Runnable{
 							System.out.println("[MOVE-RUN-A] Le vehicule "+v.getRealid()+" est a l aller");
 							Coord c1 = new Coord(v.getLon(), v.getLat());
 							Coord c2 = new Coord(fire.getLon(), fire.getLat());
-							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+" du feu"+fire.getId());
+							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu"+fire.getId());
 							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 						}
 						break;
