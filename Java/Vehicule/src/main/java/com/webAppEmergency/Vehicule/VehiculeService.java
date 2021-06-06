@@ -125,6 +125,7 @@ public class VehiculeService {
 	
 	public String vehiculeToFireSim(Vehicule v) {
 		JSONObject body = new JSONObject();
+		if (v.getIdVehicle()!=0) {body.put("id", v.getIdVehicle());}
 		body.put("lon", v.getLon());
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
@@ -145,7 +146,7 @@ public class VehiculeService {
 			      new HttpEntity<String>(body.toString(), headers);
 
 		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
-		System.out.println("[VEHICULE-TOFIRESIM] Vehicule created : "+res);
+		System.out.println("[VEHICULE-TOFIRESIM] FireSim response : "+res);
 		return res;
 	} 
 	
