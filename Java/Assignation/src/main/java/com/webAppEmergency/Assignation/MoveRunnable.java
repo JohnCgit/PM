@@ -35,12 +35,16 @@ public class MoveRunnable implements Runnable{
 				for (Vehicule v: tabVehicule) {
 					switch (v.getEtat()) {
 					case ALLER:
-						this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
-						if (v.getPath()==null) {
+						System.out.println(v.getRealid()+"est a l aller");
+						if (v.getPath().isEmpty()) {
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=EXTINCTION", null);
+						}
+						else {
+							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 						}
 						break;
 					case EXTINCTION:
+						System.out.println("qq un est a l extinction");
 						FireDto fire = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 						if (fire.getIntensity()<0) {
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=RETOUR", null);
@@ -48,6 +52,7 @@ public class MoveRunnable implements Runnable{
 						}
 						break;
 					case RETOUR:
+						System.out.println("qq un est au retour");
 						this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 						if (v.getPath()==null) {
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=DISPONIBLE", null);

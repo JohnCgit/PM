@@ -26,7 +26,7 @@ public class Caserne {
 	//private Coord coord;
 	
 	@ElementCollection
-	private List<Integer> ListVehicules;
+	private List<Integer> ListVehicules = new ArrayList<Integer>(List.of(-1));
 	
 	@ElementCollection
 	private List<Integer> ListPompiers = new ArrayList<Integer>(List.of(-1));

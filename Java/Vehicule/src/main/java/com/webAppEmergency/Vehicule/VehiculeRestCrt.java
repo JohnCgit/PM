@@ -43,6 +43,12 @@ public class VehiculeRestCrt {
 // Create/Update Vehicule
 //////////////////////////////////////
 	
+	@RequestMapping(method=RequestMethod.POST, value="/fcreate")
+	public Vehicule createVehiculeViaFacility(@RequestBody Vehicule v) {
+		System.out.println(v);
+		return vService.createVehiculeViaFacility(v);
+	}
+	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
 	public Vehicule createVehicule(@RequestBody Vehicule v) {
 		System.out.println(v);

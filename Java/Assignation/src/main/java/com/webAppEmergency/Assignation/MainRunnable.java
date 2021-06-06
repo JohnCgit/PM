@@ -110,14 +110,16 @@ public class MainRunnable implements Runnable {
 		Caserne res = new Caserne();
 		Integer minDistance = -1;
 		for (Caserne c:ListCaserne) { 
-			if (lCaserne.contains(c.getId())) {
+			if (!lCaserne.contains(c.getId())) {
 				Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
 				if (minDistance<=0 || minDistance>=Distance) {
+					System.out.println("current casern : "+c);
 					res=c;
 					minDistance=Distance;
 				}
 			}
 		}
+		System.out.println("select one : "+res);
 		return res;
 	}
 	

@@ -79,7 +79,9 @@ public class CaserneService {
 	        double lat = (double) coordinates.get(1);
 	        System.out.println(name);
 	        System.out.println("Coordonnées : (" + lon + ","+ lat +")");
-	        ListC.add(new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15));
+	        Caserne c = new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15);
+			cRepo.save(c);	        
+	        ListC.add(c);
 		}
 		for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
 	}
@@ -99,14 +101,13 @@ public class CaserneService {
 
 		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
 
-		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/create", request, Vehicule.class);
+		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicule.class);
 
-		addVehicule(c.getId(), v.getRealid());
+		addVehiculeWCaserne(c, v.getRealid());
 	}
 		
-	public void addVehicule(int facilityID, int VehiculeID) {
-		Caserne c = getCaserne(facilityID);
-		
+	public void addVehiculeWCaserne(Caserne c, int VehiculeID) {
+		System.out.println("adding to"+c);
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
@@ -114,6 +115,27 @@ public class CaserneService {
 		}
 		else {
 			ListVehicule.add(VehiculeID);		
+		}
+		c.setListVehicules(ListVehicule);
+		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		cRepo.save(c);
+	}
+	
+	public void addVehiculeWCaserneID(int CaserneID, int VehiculeID) {
+		System.out.println("je suis ");
+		Caserne c = getCaserne(CaserneID);
+		System.out.println("adding to"+c);
+		List<Integer> ListVehicule = c.getListVehicules();
+		if (ListVehicule.isEmpty()) {
+			System.out.println("depression");
+			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
+			System.out.println(ListVehicule);
+		}
+		else {
+			System.out.println(!ListVehicule.contains(VehiculeID));
+			if (!ListVehicule.contains(VehiculeID)) {
+				ListVehicule.add(VehiculeID);					
+			}	
 		}
 		c.setListVehicules(ListVehicule);
 		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);

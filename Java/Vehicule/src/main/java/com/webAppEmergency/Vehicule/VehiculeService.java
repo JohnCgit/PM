@@ -61,6 +61,12 @@ public class VehiculeService {
 		return res;
 	}
 	
+	public Vehicule createVehiculeViaFacility(Vehicule v) {
+		Vehicule res = createVehiculeRepo(v);
+		createVehiculeFireSim(v);
+		return res;
+	}
+	
 	public void linkVehiculeFacility(Vehicule v) {
 		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getFacilityRefID()+"/"+v.getRealid(), null);
 	}
@@ -110,6 +116,7 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
+		System.out.println("vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);

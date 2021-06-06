@@ -47,7 +47,7 @@ public class CaserneRestCrt {
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/addVehicule/{facilityID}/{VehiculeID}")
 	public void addVehicule(@PathVariable int facilityID, @PathVariable int VehiculeID) {
-		cService.addVehicule(facilityID, VehiculeID);
+		cService.addVehiculeWCaserneID(facilityID, VehiculeID);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/initLyon")
