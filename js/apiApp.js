@@ -20,6 +20,21 @@ function getListFire(){
     return JSON.parse(loadRessource('http://127.0.0.1:8081/fire',"GET"));
 };
 
+
+function getFireStationById(id){
+    //return JSON.parse(loadRessource('http://127.0.0.1:8081/fireStation/${id}',"GET"));
+    return Array();
+};
+
+function getListFireStation(){
+    //return JSON.parse(loadRessource('http://127.0.0.1:8081/fireStation',"GET"));
+    return Array();
+};
+
+function getVehicleById(id){
+    return JSON.parse(loadRessource(`http://127.0.0.1:8081/vehicle/${id}`,"GET"));
+};
+
 function getListVehicle(){
     return JSON.parse(loadRessource('http://127.0.0.1:8081/vehicle',"GET"));
 };

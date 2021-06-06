@@ -91,10 +91,11 @@ class FireApp{
         return fire;    
     }
 
-    ToString(fire){
-        return "Le feu a la position ("+fire.lon+";"+fire.lat+") est d'intensité:"
-        +fire.intensity+", s'étend sur un rayon de:"+fire.range+"m et il est de type:"+fire.type;
-
+    ToString(fire){     //lon et lat, intensity, range, type
+        return `<h3> Feu n°` + fire.id + `</h3>` +
+        `<p> Type: ` + fire.type + `</p>` +
+        `<p> Latitude/Longitude: (` + fire.lat + `,`  + fire.lon + `)` +`</p>` +
+        `<p> Rayon : ` + fire.range + `&nbsp --- Intensité :` + fire.intensity +  `</p>`;
     }
 
     setListFire(ListFire){

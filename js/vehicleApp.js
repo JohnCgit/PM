@@ -1,14 +1,8 @@
-const vehicleIcon = L.icon({
-    iconUrl: `https://api.geoapify.com/v1/icon/?type=circle&color=%23000000&size=small&icon=taxi&iconType=awesome&iconSize=large&shadowColor=%230d0d0d&apiKey=${myAPIKey}`,
-    iconSize: [20, 20], // size of the icon
-    iconAnchor: [10, 10], // point of the icon which will correspond to marker's location
-    popupAnchor: [0, -10]// point from which the popup should open relative to the iconAnchor
-  });
-
 class VehicleApp{
 
-    constructor(markersVehicle,ListVehicleVisible,ListVehicle){
+    constructor(markersVehicle,markersVehiclePath,ListVehicleVisible,ListVehicle){
         this.markersVehicle = markersVehicle;
+        this.markersVehiclePath = markersVehiclePath;
         this.ListVehicle = ListVehicle;
         this.ListVehicleVisible = ListVehicleVisible;
     }
@@ -86,63 +80,56 @@ class VehicleApp{
         return vehicle;    
     }
 
-    ToString(vehicle,popup){
-         this.infoshort(popup,vehicle.id, vehicle.type, vehicle.facilityRefID, vehicle.liquidType, vehicle.lon, vehicle.lat, vehicle.efficiency,
-            vehicle.liquidQuantity, vehicle.liquidConsumption,vehicle.fuel,vehicle.fuelConsumption,vehicle.crewMember,vehicle.crewMemberCapacity);
-    }
-
-    infoshort(popup, id,type,facilityRefID,liquidType,lon,lat,efficiency,liquidQuantity,liquidConsumption,fuel,fuelConsumption,crewMember,crewMemberCapacity){
-        popup.setContent('<p>Véhicule n°'+id+'</p>' +
-        `<p> Type: ` + type + `</p>` +
-        `<p> Caserne: ` + facilityRefID + `</p>` +
-        `<p> Liquid Type: ` + liquidType + `</p>` +
-        `<button onclick="myVehicleApp.info(this.parentNode.parentNode.parentNode,${id},${type},${facilityRefID},${lon},${lat},${efficiency},
-            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity});">More Details</button>` +
-        `<button onclick="myVehicleApp.Update(${id},${lon},${lat},${type},${efficiency},
-            ${liquidQuantity},${liquidConsumption},${fuel},${fuelConsumption},${crewMember},${crewMemberCapacity},${facilityRefID});
-        this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
-        `<button onclick="myVehicleApp.Delete(${id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`);
-    }
-
-//,${vehicle.liquidType}
-
-
-    info(popup, id, type, caserne, lt,  lon, lat, eff, lq, lc, f, fc, cm, cmc){
-        popup.firstChild.setContent(`<h3> Véhicule n°` + id + `</h3>` +
-                                `<p> Type: ` + type + `&nbsp --- &nbsp Caserne associée: ` + caserne + `</p>` +
-                                `<p> Latitude/Longitude: (` + lat + `,`  + lon + `) &nbsp --- Efficiency: ` + eff  + `</p>` +
-                                `<p> Liquid : &nbsp Type: ` + lt + `&nbsp --- Quantity: ` + lq + `&nbsp --- Consumption: ` + lc + `</p>`+
-                                `<p> Fuel: &nbsp Quantity:` + f + `&nbsp --- Consumption: ` + fc + `</p>`+
-                                `<p> Crew Member: &nbsp Quantity: ` + cm + `&nbsp --- Capacity: ` + cmc + `</p>` +
-                                `<button onclick="myVehicleApp.infoshort(${id},${type},${caserne},${lt},${lon},${lat},${eff},
-                                ${lq},${lc},${f},${fc},${cm},${cmc});">Less Details</button>`);
-    }
+    ToString(vehicle){
+        //lancer tracer destination si etat occupé
+       return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
+               `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
+               `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
+               `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
+               `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
+               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},
+               ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.facilityRefID});
+               this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
+               `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
+       }
 
     setListVehicle(ListVehicle){
         this.ListVehicle = ListVehicle;
     }
 
-    getMarkers(){
+    getMarkersVehicle(){
         return this.markersVehicle;
      }
+
+    getMarkersVehiclePath(){
+    return this.markersVehiclePath;
+    }
+
+    addPath(ListCoord){
+        L.polyline(ListCoord).addTo(this.markersVehicle);
+    }
+
     createUpdate(cU,id){
 
         let data = {};
-        let lon = document.getElementById("lon").value;
-        let lat = document.getElementById("lat").value;
+
         let type = document.getElementById("type").value;
-        //let lt = document.getElementById("lt").value;
+        let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
-        if (lon != "")    {data["lon"] = lon;}
-        if (lat != "")    {data["lat"] = lat;}
+
         if (type != "")    {data["type"] = type;}
-        //if (lt != "")    {data["liquidType"] = lt;}
+        if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
         if(!cU){
             data["id"]=id;
             let lq = document.getElementById("lq").value;
             let f = document.getElementById("f").value;
             let cm = document.getElementById("cm").value;
+            let lon = document.getElementById("lon").value;
+            let lat = document.getElementById("lat").value;
+            if (lon != "")    {data["lon"] = lon;}
+            if (lat != "")    {data["lat"] = lat;}
             if (lq != "")    {data["liquidQuantity"] = lq;}
             if (f != "")    {data["fuel"] = f;}
             if (cm != "")    {data["crewMember"] = cm;}
@@ -185,8 +172,8 @@ class VehicleApp{
   </form>`;
   document.getElementById('id01').style.display='block';
     }
-//,liquidType
-    Update(id,lon,lat,type,liquidQuantity,fuel,crewMember,facilityRefID){
+
+    Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
@@ -199,8 +186,8 @@ class VehicleApp{
               `<label for="type"><b>Type</b></label>
               <input type="text" name="type" id="type" placeholder=${type}>`+
               `<br/>`+
-              //`<label for="LiquidType"><b>LiquidType</b></label>`+
-            //`<input type="double" name="LiquidType" id="lt" placeholder=${liquidType}>`+
+              `<label for="LiquidType"><b>LiquidType</b></label>`+
+            `<input type="double" name="LiquidType" id="lt" placeholder=`+liquidType+`>`+
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
               `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
               `<br/>`+
@@ -214,14 +201,10 @@ class VehicleApp{
               `<input type="int" name="facilityRefID" id="fRID" placeholder=${facilityRefID}>`+
       
       
-              `<button type="submit">Update</button>`+
-
-              +
-              `<button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>` + 
-              
-            `</div>`+
-          
-            `</form>`; 
+              `<button type="submit">Update</button>
+              <button type="button" onclick="document.getElementById('id02').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+            </form>`; 
             document.getElementById('id02').style.display='block';
     }
 
