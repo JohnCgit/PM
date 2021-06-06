@@ -2,9 +2,12 @@ package com.webAppEmergency.Fire;
 
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -74,9 +77,21 @@ public class FireService{
 			double prob = this.creation.getFireCreationProbability();
 			probFire(1.0);
 			freqFire(100);
-			Thread.sleep(105);
-			freqFire(freq);
+			
+//	        Date d1 = new Date();
+
+			TimeUnit.MILLISECONDS.sleep(150);
+			
+			/*Date d2 = new Date();
+
+			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+	        String Strd1 = sdf.format(d1);
+	        System.out.println(Strd1);
+	        String Strd2 = sdf.format(d2);
+	        System.out.println(Strd2); */
+
 			probFire(prob);
+			freqFire(freq);
 		}
 		
 		public void freqFire(int freq) {
