@@ -43,11 +43,13 @@ public class FireService{
 	
 	public void startOneFire() throws InterruptedException, IOException {
 		int currentFreq=getFreqFire();
+		double currentProb=getProbFire();
 		freqFire(100);
 		startFire();
 		Thread.sleep(105);
 		stopFire();
 		freqFire(currentFreq);
+		probFire(currentProb);
 	}
 	
 	public void startFire() {
@@ -110,5 +112,12 @@ public class FireService{
 			HttpEntity<String> request = 
 				      new HttpEntity<String>(body.toString(), headers);
 			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+		}
+		
+		public double getProbFire() throws IOException {
+			String response = this.restTemplate.getForObject("http://127.0.0.1:8081/config/creation", String.class)	;				
+			this.jNode=mapper.readTree(response);
+			double res = jNode.get("fireCreationProbability").asDouble();
+			return res;
 		}
 }
