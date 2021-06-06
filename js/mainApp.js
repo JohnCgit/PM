@@ -38,15 +38,18 @@ function Display(){
 
 function funDefault() {
     var create = document.createElement("button");
+    create.style.backgroundColor="#04AA6D";
     create.appendChild(document.createTextNode('Create Vehicle'));
     document.getElementById('content_vehicle').appendChild(create);
 
     var delAll = document.createElement("button");
+    delAll.style.backgroundColor="red";
     delAll.appendChild(document.createTextNode('Delete All Vehicles'));
     document.getElementById('content_vehicle').appendChild(delAll);
 
     create.onclick = function(){
-        CreateVehicle(JSON.stringify({}))
+        myVehicleApp.Create();
+        //CreateVehicle(JSON.stringify({}))
     };
     delAll.onclick = DeleteAllVehicles;
 

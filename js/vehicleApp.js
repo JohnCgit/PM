@@ -151,6 +151,7 @@ class VehicleApp{
         document.getElementById("createForm").innerHTML=
         `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(true)">
       <div class="container">
+        <h2> Création de véhicule </h2>
         <label for="facilityRefID"><b>facilityRefID</b></label>
         <input type="int" name="facilityRefID" id="fRID" >
         <label for="type"><b>Type</b></label>
