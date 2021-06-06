@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class FireConfCreation {
 	
 	private double fireCreationProbability = 0.0;
-	private int fireCreationSleep = 10000;
+	private int fireCreationSleep = 20000;
 	private double max_INTENSITY = 50.0;
 	private double max_RANGE = 50.0;
 	private List<Integer> TopLeft = new ArrayList<Integer>(List.of(520820, 5719535));

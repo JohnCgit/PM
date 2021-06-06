@@ -25,13 +25,19 @@ public class FireService{
 	private final RestTemplate restTemplate;
 	ObjectMapper mapper ;
 	JsonNode jNode;
+	FireConfBehavior behavior;
+	FireConfCreation creation;
 	
 	public FireService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
         this.mapper = new ObjectMapper();
+        this.behavior = new FireConfBehavior();
+        this.creation = new FireConfCreation();
+        System.out.println(this.behavior);
+        System.out.println(this.creation);
     }
 	
-	//Récupère tous les feux
+	//Recupere tous les feux
 	public List<FireDto> getAllFire() {
 		FireDto[] Tab_fire = this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 		List<FireDto> fList=new ArrayList<FireDto>();
@@ -41,15 +47,14 @@ public class FireService{
 		return fList;
 	}
 	
+	// Lance un seul feu
 	public void startOneFire() throws InterruptedException, IOException {
-		int currentFreq=getFreqFire();
-		double currentProb=getProbFire();
 		freqFire(100);
 		startFire();
 		Thread.sleep(105);
 		stopFire();
-		freqFire(currentFreq);
-		probFire(currentProb);
+		freqFire(this.creation.getFireCreationSleep());
+		probFire(this.creation.getFireCreationProbability());
 	}
 	
 	public void startFire() {
