@@ -22,7 +22,7 @@ public class MainRunnable implements Runnable {
 
 	boolean isEnd = false;
 	RestTemplate restTemplate;
-	public List<FireDto> List_Feu = new ArrayList<FireDto>();
+	public List<Integer> List_Feu = new ArrayList<Integer>();
 	RestTemplateBuilder restTemplateBuilder;
 	ObjectMapper mapper;
 	JsonNode jNode;
@@ -44,18 +44,19 @@ public class MainRunnable implements Runnable {
 		while(!this.isEnd) {
 			try {
 				System.out.println("Begin loop");
+				System.out.println("current list is : "+this.List_Feu);
 				Thread.sleep(10000); //wait 10sec
 				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 //				List<FireDto> fList=new ArrayList<FireDto>();
 				System.out.println("There are these fires : ");
 				for (FireDto feu:Tab_Fire) {
 					System.out.println(feu.getId());
-					if (!this.List_Feu.contains(feu)) {
+					if (!this.List_Feu.contains(feu.getId())) {
 						System.out.println("qui est nouveau et associe avec : ");
 						Vehicule v=new Vehicule();
 						try {
 							v = PickVehicule2(feu);
-							this.List_Feu.add(feu);
+							this.List_Feu.add(feu.getId());
 							createPath(v, feu);
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -89,26 +90,32 @@ public class MainRunnable implements Runnable {
 	public Vehicule PickVehicule2(FireDto feu) { // version actuelle
 		System.out.println("PickVehicule2");
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
-		System.out.println("Coord du feu : "+feu.getLon()+", "+feu.getLat());
-		Caserne c = ClosestCaserne(CoordFire);
-		System.out.println("caserne la plus proche : "+c);
-		Vehicule v = SelectVehiculeInCaserne(c, feu.getType());
-		System.out.println("vehicule choisi : "+v);
+		Vehicule v = null;
+		List<Integer> LCaserne = new ArrayList<Integer>();
+		while (v==null) {
+			System.out.println("Coord du feu : "+feu.getLon()+", "+feu.getLat());
+			Caserne c = ClosestCaserne(CoordFire, LCaserne);
+			System.out.println("caserne la plus proche : "+c);
+			v = SelectVehiculeInCaserne(c, feu.getType());
+			System.out.println("vehicule choisi : "+v);
+		}
 		//TODO GetPompiers
 		return v;
 	}
 	
 	//regarde la plus proche des casernes
 	
-	public Caserne ClosestCaserne(Coord CoordFire) {
+	public Caserne ClosestCaserne(Coord CoordFire, List<Integer> lCaserne) {
 		Caserne[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", Caserne[].class);
 		Caserne res = new Caserne();
 		Integer minDistance = -1;
 		for (Caserne c:ListCaserne) { 
-			Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
-			if (minDistance<=0 || minDistance>=Distance) {
-				res=c;
-				minDistance=Distance;
+			if (lCaserne.contains(c.getId())) {
+				Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
+				if (minDistance<=0 || minDistance>=Distance) {
+					res=c;
+					minDistance=Distance;
+				}
 			}
 		}
 		return res;

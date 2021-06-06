@@ -54,6 +54,8 @@ public class MoveRunnable implements Runnable{
 
 						}
 						break;
+					default:
+						break;
 					}
 				}
 			}

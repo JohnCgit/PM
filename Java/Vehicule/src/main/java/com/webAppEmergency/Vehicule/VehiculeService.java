@@ -2,13 +2,9 @@ package com.webAppEmergency.Vehicule;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -20,14 +16,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.model.dto.Coord;
-import com.project.model.dto.VehicleType;
-import com.webAppEmergency.Vehicule.Vehicule;
 
 @Service
 public class VehiculeService {
 
-		
 	@Autowired
 	VehiculeRepository vRepo;
 	private RestTemplate restTemplate;
@@ -65,9 +57,13 @@ public class VehiculeService {
 	public Vehicule createVehicule(Vehicule v) {
 		Vehicule res = createVehiculeRepo(v);
 		createVehiculeFireSim(v);
+		linkVehiculeFacility(v);
 		return res;
 	}
 	
+	public void linkVehiculeFacility(Vehicule v) {
+		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getFacilityRefID()+"/"+v.getRealid(), null);
+	}
 	
 	public void createVehiculeFireSim(Vehicule v) {
 		JSONObject body = new JSONObject();
@@ -107,11 +103,6 @@ public class VehiculeService {
 	public Vehicule createVehiculeRepo(Vehicule v) {
 		Optional<Vehicule> oVehicule = vRepo.findById(v.getRealid());
 		if (oVehicule.isEmpty()) {
-			List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
-			Path.add(new ArrayList<Double>(List.of(1.0,2.0)));
-			Path.add(new ArrayList<Double>(List.of(5.0,6.0)));
-			Path.add(new ArrayList<Double>(List.of(1.0,2.0)));
-			v.setPath(Path);
 			vRepo.save(v);
 			}
 		return v;
@@ -169,6 +160,10 @@ public class VehiculeService {
 		vRepo.save(v);
 	}
 
+	
+//	public void update(int vehicleId, String content) throws IOException {
+//		JsonNode jNode = this.mapper.readTree(content);
+//	}
 	// TODO Update, utiliser mapper.findTree pour trouver attributs a update  
 	// puis parcourir ces noms dans le jNode en .get(String)
 

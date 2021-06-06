@@ -22,7 +22,7 @@ public class Vehicule {
 	private int realid;
 	private int idVehicle;
 	private VehiculeType type;
-	private double efficiency;
+	private double efficiency = 0.0;
 	private double liquidQuantity;
 	private double fuel;
 	private int crewMember;
@@ -33,21 +33,15 @@ public class Vehicule {
 	private Integer idFire; 
 	
 	@ElementCollection
-	private List<ArrayList<Double>> Path =new ArrayList<ArrayList<Double>>();
+	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
 
 	public Vehicule() {
 	}
 
-	public Vehicule(VehiculeType type, double efficiency,
-			double liquidQuantity, double fuel, int crewMember, int facilityRefID) {
+	public Vehicule(VehiculeType type, int facilityRefID) {
 
 		super();
-		this.lon=lon;
-		this.lat=lat;
 		this.type = type;
-		this.efficiency = efficiency;
-		this.fuel = fuel;
-		this.crewMember = crewMember;
 		this.facilityRefID = facilityRefID;
 		this.idFire=-1;
 		this.idVehicle=-1;

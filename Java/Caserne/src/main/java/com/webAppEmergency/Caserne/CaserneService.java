@@ -43,9 +43,9 @@ public class CaserneService {
         String s = currentRelativePath.toAbsolutePath().toString();
         System.out.println("Current relative path is: " + s);
         this.path = "src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
+//    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
-//    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         mapper = new ObjectMapper();
 	}
 
@@ -101,20 +101,22 @@ public class CaserneService {
 
 		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/create", request, Vehicule.class);
 
-		addVehicule(c, v);
+		addVehicule(c.getId(), v.getRealid());
 	}
 		
-	public void addVehicule(Caserne c, Vehicule v) {
+	public void addVehicule(int facilityID, int VehiculeID) {
+		Caserne c = getCaserne(facilityID);
+		
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
-			ListVehicule = new ArrayList<Integer>(List.of(v.getRealid()));
+			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
 			System.out.println(ListVehicule);
 		}
 		else {
-			ListVehicule.add(v.getRealid());		
+			ListVehicule.add(VehiculeID);		
 		}
 		c.setListVehicules(ListVehicule);
-		this.restTemplate.put("http://127.0.0.1:8070/move/"+v.getRealid()+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 }

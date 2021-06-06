@@ -1,5 +1,6 @@
 package com.webAppEmergency.Vehicule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,4 +78,9 @@ public class VehiculeRestCrt {
 	public void etatVehicule(@PathVariable int vid, @PathVariable int cid) {
 		vService.facilityVehicule(vid, cid);
 	}
+	
+//	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
+//	public void update(@PathVariable int id, @RequestBody String content) throws IOException {
+//		vService.update(id, content);
+//	}
 }
