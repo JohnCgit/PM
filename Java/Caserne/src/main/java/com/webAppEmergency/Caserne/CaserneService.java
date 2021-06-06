@@ -41,7 +41,7 @@ public class CaserneService {
         this.restTemplate = restTemplateBuilder.build();
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
-        System.out.println("Current relative path is: " + s);
+        System.out.println("[CASERNE-INIT] Current relative path is: " + s);
         this.path = "src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
 //    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         
@@ -77,8 +77,8 @@ public class CaserneService {
 	        JSONArray coordinates = (JSONArray) geometry.get("coordinates");
 	        double lon = (double) coordinates.get(0);
 	        double lat = (double) coordinates.get(1);
-	        System.out.println(name);
-	        System.out.println("Coordonnées : (" + lon + ","+ lat +")");
+	        System.out.println("[CASERNE-INITLYON] libelle"+name);
+	        System.out.println("[CASERNE-INITLYON] Coordonnées : (" + lon + ","+ lat +")");
 	        Caserne c = new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15);
 			cRepo.save(c);	        
 	        ListC.add(c);
@@ -107,7 +107,7 @@ public class CaserneService {
 	}
 		
 	public void addVehiculeWCaserne(Caserne c, int VehiculeID) {
-		System.out.println("adding to"+c);
+		System.out.println("[CASERNE-AddV2C] adding to"+c);
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
@@ -122,12 +122,9 @@ public class CaserneService {
 	}
 	
 	public void addVehiculeWCaserneID(int CaserneID, int VehiculeID) {
-		System.out.println("je suis ");
 		Caserne c = getCaserne(CaserneID);
-		System.out.println("adding to"+c);
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
-			System.out.println("depression");
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
 			System.out.println(ListVehicule);
 		}
