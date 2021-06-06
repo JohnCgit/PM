@@ -70,63 +70,44 @@ public class FireService{
 		
 		// Lance un seul feu
 		public void startOneFire() throws InterruptedException, IOException {
+			int freq = this.creation.getFireCreationSleep();
+			double prob = this.creation.getFireCreationProbability();
+			probFire(1.0);
 			freqFire(100);
-			startFire();
 			Thread.sleep(105);
-			stopFire();
-			freqFire(this.creation.getFireCreationSleep());
-			probFire(this.creation.getFireCreationProbability());
+			freqFire(freq);
+			probFire(prob);
 		}
 		
-		public void startFire() {
-			JSONObject body = new JSONObject();
-		    body.put("fireCreationProbability", 1.0);
-		    HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-
-			HttpEntity<String> request = 
-				      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
-		}
-		
-		public void stopFire() {
-			JSONObject body = new JSONObject();
-		    body.put("fireCreationProbability", 0.0);
-		    HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-
-			HttpEntity<String> request = 
-				      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
-		}		
 		public void freqFire(int freq) {
 			this.creation.setFireCreationSleep(freq);
-			JSONObject body = new JSONObject();
-		    body.put("fireCreationSleep", freq);
-		    HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-
-			HttpEntity<String> request = 
-				      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+			updateCreaSim();
 		}
 		
 		public void probFire(double prob) {
-			this.creation.setFireCreationProbability(prob);
-			JSONObject body = new JSONObject();
-		    body.put("fireCreationProbability", prob);
-		    HttpHeaders headers = new HttpHeaders();
-		    headers.setContentType(MediaType.APPLICATION_JSON);
-
-			HttpEntity<String> request = 
-				      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+			this.creation.setFireCreationProbability(prob);;
+			updateCreaSim();
 		}
 		
 		public void updateCreaSim() {
 			JSONObject body = new JSONObject();
 		    body.put("fireCreationProbability", this.creation.getFireCreationProbability());
-		    body.put(key, value))
+		    body.put("fireCreationSleep", this.creation.getFireCreationSleep());
+		    body.put("max_INTENSITY", this.creation.getMax_INTENSITY());
+		    body.put("max_RANGE", this.creation.getMax_RANGE());
+		    
+		    List<Integer> c1 = this.creation.getTopLeft();
+		    List<Integer> c2 = this.creation.getBottomRight();
+		    
+		    JSONObject jObj1 = new JSONObject();
+		    jObj1.put("type", "Point");
+		    jObj1.put("coordinates",c1);
+		    JSONObject jObj2 = new JSONObject();
+		    jObj2.put("type", "Point");
+		    jObj2.put("coordinates",c2);
+		    List<JSONObject> ListJObj=new ArrayList<JSONObject>(List.of(jObj1, jObj2));
+		    
+		    body.put("fireCreationZone", ListJObj);
 		    HttpHeaders headers = new HttpHeaders();
 		    headers.setContentType(MediaType.APPLICATION_JSON);
 

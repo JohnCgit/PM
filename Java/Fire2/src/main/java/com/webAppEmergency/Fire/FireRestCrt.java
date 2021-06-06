@@ -33,11 +33,6 @@ public class FireRestCrt {
 		fServ.startOneFire();
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/startFire")
-	public void startFire() {
-		fServ.startFire();
-	}
-	
 	@RequestMapping(method=RequestMethod.PUT, value="/freqFire/{freq}")
 	public void freqFire(@PathVariable int freq) {
 		fServ.freqFire(freq);
