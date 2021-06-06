@@ -43,16 +43,16 @@ public class MainRunnable implements Runnable {
 	public void run() {
 		while(!this.isEnd) {
 			try {
-				System.out.println("Begin loop");
-				System.out.println("current list is : "+this.List_Feu);
+				System.out.println("[MAIN-RUN] Begin loop");
+				System.out.println("[MAIN-RUN] current list is : "+this.List_Feu);
 				Thread.sleep(10000); //wait 10sec
 				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 //				List<FireDto> fList=new ArrayList<FireDto>();
-				System.out.println("There are these fires : ");
+				System.out.println("[MAIN-RUN] There are these fires : ");
 				for (FireDto feu:Tab_Fire) {
 					System.out.println(feu.getId());
 					if (!this.List_Feu.contains(feu.getId())) {
-						System.out.println("qui est nouveau et associe avec : ");
+						System.out.println("[MAIN-RUN-55] qui est nouveau et associe avec : ");
 						Vehicule v=new Vehicule();
 						try {
 							v = PickVehicule2(feu);
@@ -61,7 +61,7 @@ public class MainRunnable implements Runnable {
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						System.out.println(v);
+						System.out.println("[MAIN-RUN-64] "+v);
 
 						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=ALLER", null);
 						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getRealid()+"/"+feu.getId(), null);
@@ -88,16 +88,16 @@ public class MainRunnable implements Runnable {
 	// recupere la caserne la plus proche
 	//choisis le vehicule le lus adapte de cette caserne
 	public Vehicule PickVehicule2(FireDto feu) { // version actuelle
-		System.out.println("PickVehicule2");
+		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
 		Vehicule v = null;
 		List<Integer> LCaserne = new ArrayList<Integer>();
 		while (v==null) {
-			System.out.println("Coord du feu : "+feu.getLon()+", "+feu.getLat());
+			System.out.println("[MAIN-RUN-PickV2] Coord du feu : "+feu.getLon()+", "+feu.getLat());
 			Caserne c = ClosestCaserne(CoordFire, LCaserne);
-			System.out.println("caserne la plus proche : "+c);
+			System.out.println("[MAIN-RUN-PickV2] caserne la plus proche : "+c);
 			v = SelectVehiculeInCaserne(c, feu.getType());
-			System.out.println("vehicule choisi : "+v);
+			System.out.println("[MAIN-RUN-PickV2] vehicule choisi : "+v);
 		}
 		//TODO GetPompiers
 		return v;
@@ -113,13 +113,13 @@ public class MainRunnable implements Runnable {
 			if (!lCaserne.contains(c.getId())) {
 				Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
 				if (minDistance<=0 || minDistance>=Distance) {
-					System.out.println("current casern : "+c);
+					System.out.println("[MAIN-RUN-Caserne] current casern : "+c);
 					res=c;
 					minDistance=Distance;
 				}
 			}
 		}
-		System.out.println("select one : "+res);
+		System.out.println("[MAIN-RUN-Caserne] select one : "+res);
 		return res;
 	}
 	
@@ -161,7 +161,7 @@ public class MainRunnable implements Runnable {
 			double lat = coord.get(1).asDouble();
 			path.add(new ArrayList<>(List.of(lon, lat)));
 		}
-		System.out.println("the path is" + path);
+		System.out.println("[MAIN-RUN-P] the path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

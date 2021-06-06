@@ -72,30 +72,9 @@ public class VehiculeService {
 	}
 	
 	public void createVehiculeFireSim(Vehicule v) {
-		JSONObject body = new JSONObject();
-		body.put("id", v.getRealid());
-		body.put("lon", v.getLon());
-		body.put("lat", v.getLat());
-		body.put("type", v.getType());
-		body.put("efficiency", v.getEfficiency());
-		body.put("liquideType", v.getType().getLiquidType());
-		body.put("liquideQuantity", v.getLiquidQuantity());
-		body.put("liquidConsumption", v.getType().getLiquidConsumption());
-		body.put("fuel", v.getFuel());
-		body.put("fuelConsumption", v.getType().getFuelConsumption());
-		body.put("crewMember", v.getCrewMember());
-		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
-		System.out.println("Body is "+body);
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-
-		HttpEntity<String> request = 
-			      new HttpEntity<String>(body.toString(), headers);
-
-		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
-		
+		String content = vehiculeToFireSim(v);
 		try {
-			this.jNode = this.mapper.readTree(res);
+			this.jNode = this.mapper.readTree(content);
 			JsonNode jId = this.jNode.get("id");
 			System.out.println(jId);
 			v.setIdVehicle(jId.asInt());
@@ -120,16 +99,7 @@ public class VehiculeService {
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
-		JSONObject body=new JSONObject();
-		body.put("id",v.getIdVehicle());
-		body.put("lon",lon);
-		body.put("lat",lat);
-		HttpHeaders headers = new HttpHeaders();
-	    headers.setContentType(MediaType.APPLICATION_JSON);
-
-		HttpEntity<String> request = 
-			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8081/vehicle/"+id, request);
+		vehiculeToFireSim(v);
 	}
 	
 	public void deleteVehicule(int id) {
@@ -149,29 +119,64 @@ public class VehiculeService {
 		return res;
 	}
 	
-	public void setPath(int id, ArrayList<ArrayList<Double>> newPath) {
+//////////////////////////////////////
+//gestion fire simulator
+//////////////////////////////////////
+	
+	public String vehiculeToFireSim(Vehicule v) {
+		JSONObject body = new JSONObject();
+		body.put("id", v.getRealid());
+		body.put("lon", v.getLon());
+		body.put("lat", v.getLat());
+		body.put("type", v.getType());
+		body.put("efficiency", v.getEfficiency());
+		body.put("liquideType", v.getType().getLiquidType());
+		body.put("liquideQuantity", v.getLiquidQuantity());
+		body.put("liquidConsumption", v.getType().getLiquidConsumption());
+		body.put("fuel", v.getFuel());
+		body.put("fuelConsumption", v.getType().getFuelConsumption());
+		body.put("crewMember", v.getCrewMember());
+		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
+		body.put("facilityRefID", v.getFacilityRefID());
+		System.out.println("Body is "+body);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+
+		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
+		return res;
+	} 
+	
+//////////////////////////////////////
+//setters Vehicule
+//////////////////////////////////////
+	
+	public void setPath(int id, ArrayList<ArrayList<Double>> newPath) { // change path
 		Vehicule v = getVehicule(id);
 		v.setPath(newPath);
 		vRepo.save(v);		
 	}
 	
-	public void etatVehicule(int id, Etat etat) {
+	public void etatVehicule(int id, Etat etat) { //change etat
 		Vehicule v = getVehicule(id);
 		v.setEtat(etat);;
 		vRepo.save(v);
 	}
 	
-	public void facilityVehicule(int vid, int cid) {
+	public void facilityVehicule(int vid, int cid) { //change facility
 		Vehicule v = getVehicule(vid);
 		v.setFacilityRefID(cid);
 		vRepo.save(v);
 	}
 
-	public void giveFire(int vehiculeID, int idFire) {
+	public void giveFire(int vehiculeID, int idFire) { //change feu associe
 		Vehicule v = getVehicule(vehiculeID);
 		v.setIdFire(idFire);
 		vRepo.save(v);
 	}
+
 
 	
 //	public void update(int vehicleId, String content) throws IOException {
