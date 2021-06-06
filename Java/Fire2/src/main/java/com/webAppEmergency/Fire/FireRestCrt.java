@@ -39,12 +39,12 @@ public class FireRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/freqFire/{freq}")
-	public void freqFire(@RequestParam int freq) {
+	public void freqFire(@PathVariable int freq) {
 		fServ.freqFire(freq);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/probFire/{prob}")
-	public void probFire(@RequestParam int prob) {
+	public void probFire(@PathVariable double prob) {
 		fServ.probFire(prob);
 	}
 }

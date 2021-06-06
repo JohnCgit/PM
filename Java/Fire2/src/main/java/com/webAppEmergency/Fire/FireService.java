@@ -100,7 +100,7 @@ public class FireService{
 			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
 		}		
 		public void freqFire(int freq) {
-			this.freqFire(freq);
+			this.creation.setFireCreationSleep(freq);
 			JSONObject body = new JSONObject();
 		    body.put("fireCreationSleep", freq);
 		    HttpHeaders headers = new HttpHeaders();
@@ -115,6 +115,18 @@ public class FireService{
 			this.creation.setFireCreationProbability(prob);
 			JSONObject body = new JSONObject();
 		    body.put("fireCreationProbability", prob);
+		    HttpHeaders headers = new HttpHeaders();
+		    headers.setContentType(MediaType.APPLICATION_JSON);
+
+			HttpEntity<String> request = 
+				      new HttpEntity<String>(body.toString(), headers);
+			this.restTemplate.put("http://127.0.0.1:8081/config/creation", request);
+		}
+		
+		public void updateCreaSim() {
+			JSONObject body = new JSONObject();
+		    body.put("fireCreationProbability", this.creation.getFireCreationProbability());
+		    body.put(key, value))
 		    HttpHeaders headers = new HttpHeaders();
 		    headers.setContentType(MediaType.APPLICATION_JSON);
 
