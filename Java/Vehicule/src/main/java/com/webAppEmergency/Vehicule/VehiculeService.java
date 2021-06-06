@@ -162,6 +162,12 @@ public class VehiculeService {
 		v.setEtat(etat);;
 		vRepo.save(v);
 	}
+	
+	public void facilityVehicule(int vid, int cid) {
+		Vehicule v = getVehicule(vid);
+		v.setFacilityRefID(cid);
+		vRepo.save(v);
+	}
 
 	// TODO Update, utiliser mapper.findTree pour trouver attributs a update  
 	// puis parcourir ces noms dans le jNode en .get(String)

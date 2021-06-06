@@ -38,7 +38,7 @@ public class Vehicule {
 	public Vehicule() {
 	}
 
-	public Vehicule(float lon, float lat, VehiculeType type, double efficiency,
+	public Vehicule(VehiculeType type, double efficiency,
 			double liquidQuantity, double fuel, int crewMember, int facilityRefID) {
 
 		super();

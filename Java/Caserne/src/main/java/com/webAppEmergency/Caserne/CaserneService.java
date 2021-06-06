@@ -84,10 +84,9 @@ public class CaserneService {
 		for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void initVehicule(Caserne c) {
 		JSONObject body = new JSONObject();
-		body.put("lon", c.getLon());
-		body.put("lat", c.getLat());
 		body.put("type", "CAR");
 		body.put("efficiency", 2.0);
 		body.put("liquideQuantity", 12.0);
@@ -115,7 +114,7 @@ public class CaserneService {
 			ListVehicule.add(v.getRealid());		
 		}
 		c.setListVehicules(ListVehicule);
-		System.out.println(c);
+		this.restTemplate.put("http://127.0.0.1:8070/move/"+v.getRealid()+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 }

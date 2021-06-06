@@ -31,26 +31,26 @@ public class MoveRunnable implements Runnable{
 		while (!this.isEnd) {
 			try{
 				Thread.sleep(10000);
-				Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/vehicule/getAll", Vehicule[].class);
+				Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicule[].class);
 				for (Vehicule v: tabVehicule) {
 					switch (v.getEtat()) {
 					case ALLER:
 						this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 						if (v.getPath()==null) {
-							this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=EXTINCTION", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=EXTINCTION", null);
 						}
 						break;
 					case EXTINCTION:
 						FireDto fire = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 						if (fire.getIntensity()<0) {
-							this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=RETOUR", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=RETOUR", null);
 
 						}
 						break;
 					case RETOUR:
 						this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
 						if (v.getPath()==null) {
-							this.restTemplate.put("http://127.0.0.1/state/"+v.getRealid()+",state=DISPONIBLE", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+",state=DISPONIBLE", null);
 
 						}
 						break;

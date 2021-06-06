@@ -22,7 +22,7 @@ public class MainRunnable implements Runnable {
 
 	boolean isEnd = false;
 	RestTemplate restTemplate;
-	public List<FireDto> List_Feu;
+	public List<FireDto> List_Feu = new ArrayList<FireDto>();
 	RestTemplateBuilder restTemplateBuilder;
 	ObjectMapper mapper;
 	JsonNode jNode;
@@ -31,7 +31,7 @@ public class MainRunnable implements Runnable {
 //////////////////////////////////////
 
 	public MainRunnable() { // Gestion du rest template
-		this.restTemplate = restTemplateBuilder.build();
+		this.restTemplate = new RestTemplate();
 		this.mapper = new ObjectMapper();
 	}
 
@@ -43,23 +43,26 @@ public class MainRunnable implements Runnable {
 	public void run() {
 		while(!this.isEnd) {
 			try {
+				System.out.println("Begin loop");
 				Thread.sleep(10000); //wait 10sec
-				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire/", null);
+				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 //				List<FireDto> fList=new ArrayList<FireDto>();
+				System.out.println("There are these fires : ");
 				for (FireDto feu:Tab_Fire) {
-					if (!List_Feu.contains(feu)) {
+					System.out.println(feu.getId());
+					if (!this.List_Feu.contains(feu)) {
+						System.out.println("qui est nouveau et associe avec : ");
 						Vehicule v=new Vehicule();
 						try {
 							v = PickVehicule2(feu);
-							List_Feu.add(feu);
+							this.List_Feu.add(feu);
 							createPath(v, feu);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						
-						JSONObject body = new JSONObject();
-						body.put("Etat", Etat.ALLER);
-						this.restTemplate.put("http://127.0.0.1/update/"+v.getRealid(), body);
+						System.out.println(v);
+
+						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=ALLER", null);
 				
 					}
 				}
@@ -80,34 +83,17 @@ public class MainRunnable implements Runnable {
 	public void stop() { 
 		this.isEnd=true;
 	}
-	
-	/* version obsolete
-	public Vehicule PickVehicule1(FireDto feu) { 
-		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
-		return ClosestVehicule(CoordFire);
-	}
-	
-	public Vehicule ClosestVehicule(Coord CoordFire) { 
-		Vehicule Tab_Vehicule[]=this.restTemplate.getForObject("http://127.0.0.1:8090/getAll", null);
-		Vehicule res = new Vehicule();
-		Integer minDistance = -1;
-		//TODO hashmap vehicule, distance, regarder le type
-		for (Vehicule v:Tab_Vehicule) {
-			Integer Distance=GisTools.computeDistance2(new Coord(v.getLon(), v.getLat()), CoordFire);
-			if (minDistance<=0 || minDistance>=Distance) {
-				res=v;
-				minDistance=Distance;
-			}
-		}
-		return res;
-	} */
 
 	// recupere la caserne la plus proche
 	//choisis le vehicule le lus adapte de cette caserne
 	public Vehicule PickVehicule2(FireDto feu) { // version actuelle
+		System.out.println("PickVehicule2");
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
+		System.out.println("Coord du feu : "+feu.getLon()+", "+feu.getLat());
 		Caserne c = ClosestCaserne(CoordFire);
+		System.out.println("caserne la plus proche : "+c);
 		Vehicule v = SelectVehiculeInCaserne(c, feu.getType());
+		System.out.println("vehicule choisi : "+v);
 		//TODO GetPompiers
 		return v;
 	}
@@ -115,7 +101,7 @@ public class MainRunnable implements Runnable {
 	//regarde la plus proche des casernes
 	
 	public Caserne ClosestCaserne(Coord CoordFire) {
-		List<Caserne> ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8010/caserne/getAll", null);
+		Caserne[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", Caserne[].class);
 		Caserne res = new Caserne();
 		Integer minDistance = -1;
 		for (Caserne c:ListCaserne) { 
@@ -136,17 +122,18 @@ public class MainRunnable implements Runnable {
 	public Vehicule SelectVehiculeInCaserne(Caserne c, String fireType)
 	{
 		Vehicule res = null;
-		float maxefficacite=-1;
-		for (Integer idVehicule:c.getListVehicules()) { 
-			Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8010/get/"+idVehicule, Vehicule.class);
-			float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
-			if (v.getEtat()==Etat.DISPONIBLE) { 
-				if (efficacite>maxefficacite) { 
-					res=v; 						
-					maxefficacite=efficacite;
+		if (!c.getListVehicules().isEmpty()) {		
+			float maxefficacite=-1;
+			for (Integer idVehicule:c.getListVehicules()) { 
+				Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicule, Vehicule.class);
+				float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
+				if (v.getEtat()==Etat.DISPONIBLE) { 
+					if (efficacite>maxefficacite) { 
+						res=v; 						
+						maxefficacite=efficacite;
+					}
 				}
 			}
-			
 		}
 		return res;
 	}
@@ -165,6 +152,7 @@ public class MainRunnable implements Runnable {
 			double lat = coord.get(1).asDouble();
 			path.add(new ArrayList<>(List.of(lon, lat)));
 		}
+		System.out.println("the path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

@@ -72,4 +72,9 @@ public class VehiculeRestCrt {
 	public void etatVehicule(@PathVariable int id, @RequestParam Etat state) {
 		vService.etatVehicule(id, state);
 	}
+	
+	@RequestMapping(method=RequestMethod.PUT, value="/setFacilityRefID/{vid}/{cid}")
+	public void etatVehicule(@PathVariable int vid, @PathVariable int cid) {
+		vService.facilityVehicule(vid, cid);
+	}
 }
