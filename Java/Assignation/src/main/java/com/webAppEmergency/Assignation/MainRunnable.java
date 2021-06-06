@@ -77,7 +77,7 @@ public class MainRunnable implements Runnable {
 //Functions
 //////////////////////////////////////
 	
-	public void stop() { //creer restcrt pour stop/start
+	public void stop() { 
 		this.isEnd=true;
 	}
 	
