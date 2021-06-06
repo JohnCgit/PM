@@ -22,10 +22,10 @@ public class Vehicule {
 	private int realid;
 	private int idVehicle;
 	private VehiculeType type;
-	private double efficiency = 0.0;
-	private double liquidQuantity;
-	private double fuel;
-	private int crewMember;
+	private double efficiency = 5.0;
+	private double liquidQuantity=100.0;
+	private double fuel=100.0;
+	private int crewMember=6;
 	private int facilityRefID;
 	private Etat etat=Etat.DISPONIBLE;
 	private double lon;

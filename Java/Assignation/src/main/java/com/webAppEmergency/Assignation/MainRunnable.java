@@ -64,7 +64,7 @@ public class MainRunnable implements Runnable {
 						System.out.println(v);
 
 						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=ALLER", null);
-				
+						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getRealid()+"/"+feu.getId(), null);
 					}
 				}
 

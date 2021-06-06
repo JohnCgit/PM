@@ -89,7 +89,7 @@ public class CaserneService {
 	@SuppressWarnings("unchecked")
 	public void initVehicule(Caserne c) {
 		JSONObject body = new JSONObject();
-		body.put("type", "CAR");
+		body.put("type", "TRUCK");
 		body.put("efficiency", 2.0);
 		body.put("liquideQuantity", 12.0);
 		body.put("fuel", 42.0);

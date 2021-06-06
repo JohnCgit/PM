@@ -167,6 +167,12 @@ public class VehiculeService {
 		vRepo.save(v);
 	}
 
+	public void giveFire(int vehiculeID, int idFire) {
+		Vehicule v = getVehicule(vehiculeID);
+		v.setIdFire(idFire);
+		vRepo.save(v);
+	}
+
 	
 //	public void update(int vehicleId, String content) throws IOException {
 //		JsonNode jNode = this.mapper.readTree(content);
