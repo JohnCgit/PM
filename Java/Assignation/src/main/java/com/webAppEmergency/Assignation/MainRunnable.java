@@ -1,6 +1,6 @@
 package com.webAppEmergency.Assignation;
 
-import org.json.JSONObject;
+
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,6 @@ import com.project.tools.GisTools;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.dto.Coord;
-import com.webAppEmergency.Assignation.MoveRunnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class MainRunnable implements Runnable {
 
 	boolean isEnd = false;
 	RestTemplate restTemplate;
-	public List<Integer> List_Feu = new ArrayList<Integer>();
+	public List<Integer> List_Fire = new ArrayList<Integer>();
 	RestTemplateBuilder restTemplateBuilder;
 	ObjectMapper mapper;
 	JsonNode jNode;
@@ -44,27 +43,25 @@ public class MainRunnable implements Runnable {
 		while(!this.isEnd) {
 			try {
 				System.out.println("[MAIN-RUN] Begin loop");
-				System.out.println("[MAIN-RUN] current list is : "+this.List_Feu);
+				System.out.println("[MAIN-RUN] current list of fire is : "+this.List_Fire);
 				Thread.sleep(10000); //wait 10sec
 				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
-//				List<FireDto> fList=new ArrayList<FireDto>();
-				System.out.println("[MAIN-RUN] There are these fires : ");
-				for (FireDto feu:Tab_Fire) {
-					System.out.println(feu.getId());
-					if (!this.List_Feu.contains(feu.getId())) {
-						System.out.println("[MAIN-RUN-55] qui est nouveau et associe avec : ");
+				for (FireDto fire:Tab_Fire) {
+					System.out.println(fire.getId());
+					if (!this.List_Fire.contains(fire.getId())) {
+						System.out.println("[MAIN-RUN] New fire : "+fire.getId());
 						Vehicle v=new Vehicle();
 						try {
-							v = PickVehicule2(feu);
-							this.List_Feu.add(feu.getId());
-							createPath(v, feu);
+							v = PickVehicle2(fire);
+							this.List_Fire.add(fire.getId());
+							createPath(v, fire);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						System.out.println("[MAIN-RUN-64] "+v);
+						System.out.println("[MAIN-RUN] Choosed vehicle : "+v);
 
 						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getId()+"?state=ALLER", null);
-						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+feu.getId(), null);
+						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+fire.getId(), null);
 					}
 				}
 
@@ -87,39 +84,34 @@ public class MainRunnable implements Runnable {
 
 	// recupere la caserne la plus proche
 	//choisis le vehicule le lus adapte de cette caserne
-	public Vehicle PickVehicule2(FireDto feu) { // version actuelle
+	public Vehicle PickVehicle2(FireDto fire) { // version actuelle
 		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
-		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
+		Coord CoordFire= new Coord(fire.getLon(), fire.getLat());
 		Vehicle v = null;
-		List<Integer> LCaserne = new ArrayList<Integer>();
+		List<Integer> LFireStation = new ArrayList<Integer>();
 		while (v==null) {
-			System.out.println("[MAIN-RUN-PickV2] Coord du feu : "+feu.getLon()+", "+feu.getLat());
-			FireStation f = ClosestCaserne(CoordFire, LCaserne);
-			System.out.println("[MAIN-RUN-PickV2] caserne la plus proche : "+c);
-			v = SelectVehiculeInCaserne(f, feu.getType());
-			System.out.println("[MAIN-RUN-PickV2] vehicule choisi : "+v);
+			System.out.println("[MAIN-RUN-PickV2] fire coordinates : "+fire.getLon()+", "+fire.getLat());
+			FireStation f = ClosestCaserne(CoordFire, LFireStation);
+			System.out.println("[MAIN-RUN-PickV2] closest firestation : "+f);
+			v = SelectVehicleInFireStation(f, fire.getType());
 		}
 		//TODO GetPompiers
 		return v;
 	}
 	
-	//regarde la plus proche des casernes
-	
-	public FireStation ClosestCaserne(Coord CoordFire, List<Integer> lCaserne) {
+	public FireStation ClosestCaserne(Coord CoordFire, List<Integer> LFireStation) {
 		FireStation[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", FireStation[].class);
 		FireStation res = new FireStation();
 		Integer minDistance = -1;
-		for (FireStation c:ListCaserne) { 
-			if (!lCaserne.contains(c.getId())) {
-				Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
+		for (FireStation f:ListCaserne) { 
+			if (!LFireStation.contains(f.getId())) {
+				Integer Distance=GisTools.computeDistance2(new Coord(f.getLon(), f.getLat()), CoordFire);
 				if (minDistance<=0 || minDistance>=Distance) {
-					System.out.println("[MAIN-RUN-Caserne] current casern : "+c);
-					res=c;
+					res=f;
 					minDistance=Distance;
 				}
 			}
 		}
-		System.out.println("[MAIN-RUN-Caserne] select one : "+res);
 		return res;
 	}
 	
@@ -128,12 +120,12 @@ public class MainRunnable implements Runnable {
 	// S'ils sont disponibles alors
 	// S'ils sont plus efficace alors
 	// Ils sont choisis, le dernier restant est renvoye
-	public Vehicle SelectVehiculeInCaserne(FireStation c, String fireType)
+	public Vehicle SelectVehicleInFireStation(FireStation f, String fireType)
 	{
 		Vehicle res = null;
-		if (!c.getListVehicules().isEmpty()) {		
+		if (!f.getListVehicules().isEmpty()) {		
 			float maxefficacite=-1;
-			for (Integer idVehicle:c.getListVehicules()) { 
+			for (Integer idVehicle:f.getListVehicules()) { 
 				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
 				float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
 				if (v.getEtat()==State.DISPONIBLE) { 
@@ -147,7 +139,7 @@ public class MainRunnable implements Runnable {
 		return res;
 	}
 	
-	public void createPath(Vehicule v, FireDto feu) throws IOException {
+	public void createPath(Vehicle v, FireDto feu) throws IOException {
 		// Recupere le trajet sur mapbox api
 		String Path = v.getLon()+","+v.getLat()+";"+feu.getLon()+","+feu.getLat();
 		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
