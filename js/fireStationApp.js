@@ -29,7 +29,7 @@ class FireStationApp{
         return `<h3> Caserne n°` + fireStation.id + `</h3>` +
         `<p> Nom: ` + fireStation.libelle + `</p>` +
         `<p> Lat/Lon: (` + fireStation.lat + `,`  + fireStation.lon + `)` +`</p>` +
-        `<p> Capacité Max: ` + fire.capaciteMax +  `</p>`;
+        `<p> Capacité Max: ` + fireStation.capaciteMax +  `</p>`;
     }
 
     setListFireStation(ListFireStation){
