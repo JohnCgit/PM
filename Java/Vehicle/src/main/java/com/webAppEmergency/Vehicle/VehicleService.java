@@ -43,10 +43,10 @@ public class VehicleService {
 		return vRepo.findAll();
 	}
 	
-	public Vehicle getVehicule(int id) {
+	public Vehicle getVehicle(int id) {
 		Vehicle res=null;
-		Optional<Vehicle> oVehicule = vRepo.findById(id);
-		if (oVehicule.isPresent()){res=oVehicule.get();}
+		Optional<Vehicle> oVehicle = vRepo.findById(id);
+		if (oVehicle.isPresent()){res=oVehicle.get();}
 		return res;
 	}
 	
@@ -54,28 +54,32 @@ public class VehicleService {
 //update/create Vehicule
 //////////////////////////////////////
 	
-	public Vehicle createVehicule(Vehicle v) {
+	public Vehicle createVehicle(Vehicle v) {
 		Vehicle res = new Vehicle();
 		if (v.getfireStationID()!=0) {
-			createVehiculeRepo(v);
-			createVehiculeFireSim(v);
-			linkVehiculeFacility(v);
+			createVehicleRepo(v);
+			createVehicleFireSim(v);
+			linkVehiculeFireStation(v);
 		}
 		return res;
 	}
 	
-	public Vehicle createVehiculeViaFacility(Vehicle v) {
-		Vehicle res = createVehiculeRepo(v);
-		createVehiculeFireSim(v);
+	public Vehicle createVehicleViaFireStation(Vehicle v) {
+		Vehicle res = createVehicleRepo(v);
+		createVehicleFireSim(v);
 		return res;
 	}
 	
-	public void linkVehiculeFacility(Vehicle v) {
+	public void linkVehiculeFireStation(Vehicle v) {
 		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getfireStationID()+"/"+v.getId(), null);
 	}
+
+	public void removeVehiculeFireStation(Vehicle v) {
+		this.restTemplate.put("http://127.0.0.1:8050/removeVehicule/"+v.getfireStationID()+"/"+v.getId(), null);
+	}
 	
-	public void createVehiculeFireSim(Vehicle v) {
-		String content = vehiculeToFireSim(v);
+	public void createVehicleFireSim(Vehicle v) {
+		String content = vehicleToFireSim(v);
 		try {
 			this.jNode = this.mapper.readTree(content);
 			JsonNode jId = this.jNode.get("id");
@@ -88,36 +92,36 @@ public class VehicleService {
 		}
 	}
 	
-	public Vehicle createVehiculeRepo(Vehicle v) {
-		Optional<Vehicle> oVehicule = vRepo.findById(v.getId());
-		if (oVehicule.isEmpty()) {
+	public Vehicle createVehicleRepo(Vehicle v) {
+		Optional<Vehicle> oVehicle = vRepo.findById(v.getId());
+		if (oVehicle.isEmpty()) {
 			v.setCrewMember(v.getType().getVehicleCrewCapacity());
 			vRepo.save(v);
 			}
 		return v;
 	}
 	
-	public void moveVehicule(int id, double lon, double lat) {
-		Vehicle v = getVehicule(id);
+	public void moveVehicle(int id, double lon, double lat) {
+		Vehicle v = getVehicle(id);
 		System.out.println("[VEHICULE-MOVE] vehicule"+v.getId()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
-		vehiculeToFireSim(v);
+		vehicleToFireSim(v);
 	}
 	
-	public void deleteVehicule(int id) {
-		Vehicle v = getVehicule(id);
+	public void deleteVehicle(int id) {
+		Vehicle v = getVehicle(id);
 		vRepo.delete(v);
 		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdFs());
 	}
 	
 	public boolean followPath(int id) {
-		Vehicle v = getVehicule(id);
+		Vehicle v = getVehicle(id);
 		boolean res=false;
 		if (v.getPath().size()>0) {			
 			ArrayList<Double> Coord = v.getPath().remove(0);
-			moveVehicule(id, Coord.get(0), Coord.get(1));
+			moveVehicle(id, Coord.get(0), Coord.get(1));
 			res=true;
 			}
 		return res;
@@ -127,7 +131,7 @@ public class VehicleService {
 //gestion fire simulator
 //////////////////////////////////////
 	
-	public String vehiculeToFireSim(Vehicle v) {
+	public String vehicleToFireSim(Vehicle v) {
 		JSONObject body = new JSONObject();
 		if (v.getId()!=0) {body.put("id", v.getId());}
 		body.put("lon", v.getLon());
@@ -155,29 +159,29 @@ public class VehicleService {
 	} 
 	
 //////////////////////////////////////
-//setters Vehicule
+//setters Vehicle
 //////////////////////////////////////
 	
 	public void setPath(int id, ArrayList<ArrayList<Double>> newPath) { // change path
-		Vehicle v = getVehicule(id);
+		Vehicle v = getVehicle(id);
 		v.setPath(newPath);
 		vRepo.save(v);		
 	}
 	
-	public void etatVehicule(int id, State state) { //change etat
-		Vehicle v = getVehicule(id);
+	public void etatVehicle(int id, State state) { //change etat
+		Vehicle v = getVehicle(id);
 		v.setEtat(state);;
 		vRepo.save(v);
 	}
 	
-	public void facilityVehicule(int vid, int cid) { //change facility
-		Vehicle v = getVehicule(vid);
+	public void facilityVehicle(int vid, int cid) { //change facility
+		Vehicle v = getVehicle(vid);
 		v.getfireStationID();
 		vRepo.save(v);
 	}
 
-	public void giveFire(int vehiculeID, int idFire) { //change feu associe
-		Vehicle v = getVehicule(vehiculeID);
+	public void giveFire(int vehicleID, int idFire) { //change feu associe
+		Vehicle v = getVehicle(vehicleID);
 		v.setIdFire(idFire);
 		vRepo.save(v);
 	}
@@ -185,7 +189,7 @@ public class VehicleService {
 
 	
 	public void update(int vehicleId, String content) throws IOException {
-		Vehicle v = getVehicule(vehicleId);
+		Vehicle v = getVehicle(vehicleId);
 		JsonNode jNode = this.mapper.readTree(content);
 
 		if(jNode.get("fuel")!=null) {
@@ -221,11 +225,14 @@ public class VehicleService {
 		}
 
 		vRepo.save(v);
-		vehiculeToFireSim(v);
+		vehicleToFireSim(v);
 }
 
 	private void changeFacility(int id, int asInt) {
-		// TODO check doability test
+		//TODO test place
+		//if()
+		Vehicle v = getVehicle(id);
+		
 		
 		
 	}
