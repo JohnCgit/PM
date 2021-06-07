@@ -183,6 +183,66 @@ class VehicleApp{
     }
 
     Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
+
+        let selType;
+        let lqType;
+        
+        switch(type){
+            case 'CAR':
+                selType = `<option selected> Car </option>`;
+            break;
+
+            case 'FIRE_ENGINE':
+                selType = `<option selected> Fire Engine </option>`;
+            break;
+
+            case 'PUMPER_TRUCK':
+                selType = `<option selected> Pumper Truck </option>`;
+            break;
+
+            case 'WATER_TENDERS':
+                selType = `<option selected> Water Tender </option>`;
+            break;
+
+            case 'TURNTABLE_LADDER_TRUCK':
+                selType = `<option selected> Turntable Ladder Truck </option>`;
+            break;
+
+            case 'TRUCK':
+                selType = `<option selected> Truck </option>`;
+            break;
+
+            default:
+                selType = `<option selected> Choisissez une option </option>`;
+        }
+
+        /* switch(liquidType){
+            case 'ALL':
+                lqType = `<option selected> All </option>`;
+            break;
+
+            case 'WATER':
+                lqType = `<option selected> Water </option>`;
+            break;
+
+            case 'WATER_WITH_ADDITIVES':
+                lqType = `<option selected> Water with Additives </option>`;
+            break;
+
+            case 'CARBON_DIOXIDE':
+                lqType = `<option selected> Carbon Dioxide </option>`;
+            break;
+
+            case 'POWDER':
+                lqType = `<option selected> Powder </option>`;
+            break;
+
+            default:
+                lqType = `<option selected> Choisissez une option </option>`;
+        }
+ */
+
+
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
@@ -195,8 +255,9 @@ class VehicleApp{
              `<br/>`+
               `<label for="type"><b>Type</b></label>
               <br/>
-              <select id="type" name="type">
-                 <option value="CAR">Car</option>
+              <select id="type" name="type">` /*+
+                selType +*/
+                 `<option value="CAR">Car</option>
                  <option value="FIRE_ENGINE">Fire Engine</option>
                  <option value="PUMPER_TRUCK">Pumper Truck</option>
                  <option value="WATER_TENDERS">Water Tender</option>
@@ -206,8 +267,9 @@ class VehicleApp{
               <br/>`+
               `<label for="LiquidType"><b>LiquidType</b></label>
                 <br/>
-                <select id="lt" name="lt">
-                    <option value="ALL">All</option>
+                <select id="lt" name="lt">` + 
+                     lqType +
+                    `<option value="ALL">All</option>
                     <option value="WATER">Water</option>
                     <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
                     <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
