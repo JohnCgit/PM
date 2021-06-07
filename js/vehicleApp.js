@@ -255,8 +255,8 @@ class VehicleApp{
              `<br/>`+
               `<label for="type"><b>Type</b></label>
               <br/>
-              <select id="type" name="type">` /*+
-                selType +*/
+              <select id="type" name="type">` +
+                selType +
                  `<option value="CAR">Car</option>
                  <option value="FIRE_ENGINE">Fire Engine</option>
                  <option value="PUMPER_TRUCK">Pumper Truck</option>
@@ -267,8 +267,8 @@ class VehicleApp{
               <br/>`+
               `<label for="LiquidType"><b>LiquidType</b></label>
                 <br/>
-                <select id="lt" name="lt">` + 
-                     lqType +
+                <select id="lt" name="lt">` /*+ 
+                     lqType + */
                     `<option value="ALL">All</option>
                     <option value="WATER">Water</option>
                     <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
