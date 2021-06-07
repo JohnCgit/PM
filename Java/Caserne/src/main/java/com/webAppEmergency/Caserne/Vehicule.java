@@ -23,7 +23,7 @@ public class Vehicule {
 	private int idVehicle;
 	private VehiculeType type;
 	private double efficiency = 5.0;
-	private double liquidQuantity=100.0;
+	private double liquidQuantity=250.0;
 	private double fuel=100.0;
 	private int crewMember=6;
 	private int facilityRefID;
