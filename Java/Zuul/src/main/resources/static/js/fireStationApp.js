@@ -4,14 +4,14 @@ class FireStationApp{
         this.ListFireStation = ListFireStation;
     }
 
-    AddFireStation(FireStation){
+    /*AddFireStation(FireStation){
         L.circle([FireStation.lat,FireStation.lon], {
-            color: 'red',
+            color: 'blue',
             fillColor: '#f03',
             fillOpacity: 0.5,
             radius: Fire.range
-        }).addTo(this.markersFire);
-    }
+        }).addTo(this.markersFireStation);
+    }*/
 
     getFireStationAt(lat,lng){
         let fireStation = null;
@@ -26,9 +26,10 @@ class FireStationApp{
     }
 
     ToString(fireStation){
-        return "Le feu a la position ("+fire.lon+";"+fire.lat+") est d'intensité:"
-        +fire.intensity+", s'étend sur un rayon de:"+fire.range+"m et il est de type:"+fire.type;
-
+        return `<h3> Caserne n°` + fireStation.id + `</h3>` +
+        `<p> Nom: ` + fireStation.libelle + `</p>` +
+        `<p> Lat/Lon: (` + fireStation.lat + `,`  + fireStation.lon + `)` +`</p>` +
+        `<p> Capacité Max: ` + fire.capaciteMax +  `</p>`;
     }
 
     setListFireStation(ListFireStation){
@@ -39,4 +40,3 @@ class FireStationApp{
        return this.markersFireStation;
     }
 }
-
