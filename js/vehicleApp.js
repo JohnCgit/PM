@@ -35,7 +35,7 @@ class VehicleApp{
                         affiche=false; 
                     }
                     break;
-                case 'WATER_TENDER':
+                case 'WATER_TENDERS':
                     if(!typeWT){
                         affiche=false; 
                     }
@@ -115,11 +115,11 @@ class VehicleApp{
         let data = {};
 
         let type = document.getElementById("type").value;
-        let lt = document.getElementById("lt").value;
+        //let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
 
         if (type != "")    {data["type"] = type;}
-        if (lt != "")    {data["liquidType"] = lt;}
+        //if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
         if(!cU){
             data["id"]=id;
@@ -165,8 +165,8 @@ class VehicleApp{
           <option value="TRUCK">Truck</option>
         </select>
         <br/>
-        <label for="LiquidType"><b>LiquidType</b></label>
-        <input type="double" name="LiquidType" id="lt" >
+        <!--<label for="LiquidType"><b>LiquidType</b></label>
+        <input type="double" name="LiquidType" id="lt" >-->
         <button type="submit">Create</button>
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
@@ -179,6 +179,7 @@ class VehicleApp{
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
             `<div class="container">`+
+             `<h2> Modification du véhicule </h2>` +
               `<label for="lon"><b>Longitude</b></label>`+
               `<input type="double" name="lon" id="lon" placeholder=${lon}>`+
               `<label for="lat"><b>Latitude</b></label>`+

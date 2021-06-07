@@ -39,11 +39,12 @@
       <input type="checkbox" id="typeD_Metals" checked>
       <label for="typeD_Metals">D_Metals</label><br/>
       <input type="checkbox" id="typeE_Electric" checked>
-      <label for="typeE_Electric">E_Electric</label><br/>
+      <label for="typeE_Electric">E_Electric</label>
+      <br/></br>
+    <button id="display" onclick="mydisplayApp.hideDisplay(`content_fire`,true)">Display All</button>
+    <button id="hide" onclick="mydisplayApp.hideDisplay(`content_fire`,false)">Hide All</button>
 
-    </br>
-    <button onclick="mydisplayApp.hideDisplay(`content_fire`,true)">Display All</button>
-    <button onclick="mydisplayApp.hideDisplay(`content_fire`,false)">Hide All</button>
+  </br></br>
 
       <h3>Intensity</h3>
 
@@ -69,33 +70,29 @@
       <label for="pumpertruck">PUMPER_TRUCK</label>
       <br/>
       <input type="checkbox" id="watertender" checked>
-      <label for="watertender">WATER_TENDER</label><br/>
+      <label for="watertender">WATER_TENDERS</label><br/>
       <input type="checkbox" id="laddertruck" checked>
       <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
       <input type="checkbox" id="truck" checked>
       <label for="truck">TRUCK</label><br/>
 
+    </br>
+    <button id="display" onclick="mydisplayApp.hideDisplay(`content_vehicle`,true)">Display All</button>
+    <button id="hide" onclick="mydisplayApp.hideDisplay(`content_vehicle`,false)">Hide All</button>
+
   </div>    
   <!-- Button to open the modal login form -->
   <div id="content_caserne">
     <h2>Casernes</h2>
-    <h3>Vehicle type</h3>
-      <input type="checkbox" id="car" checked>
-      <label for="car">CAR</label>
-      <br/>
-      <input type="checkbox" id="fireengine" checked>
-      <label for="fireengine">FIRE_ENGINE</label>
-      <br/>
-      <input type="checkbox" id="pumpertruck" checked>
-      <label for="pumpertruck">PUMPER_TRUCK</label>
-      <br/>
-      <input type="checkbox" id="watertender" checked>
-      <label for="watertender">WATER_TENDER</label><br/>
-      <input type="checkbox" id="laddertruck" checked>
-      <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
-      <input type="checkbox" id="truck" checked>
-      <label for="truck">TRUCK</label><br/>
-    <button onclick="CreateVehicle(JSON.stringify({}))">Call a Vehicle</button>
+    <h3>Places disponibles</h3>
+    <input type="range"id="i" name="i" value="0" min="0" max="7" oninput="this.nextElementSibling.value = this.value">
+    <output>7</output>
+    </br></br>
+      <button id ="display" onclick="mydisplayApp.hideDisplay(`content_caserne`,true)">Display All</button>
+      <button id="hide" onclick="mydisplayApp.hideDisplay(`content_caserne`,false)">Hide All</button>
+      <br/></br>
+    <button id="call" onclick="CreateVehicle(JSON.stringify({}))">Call a Vehicle</button>
+ 
   </div>
 </div>
 
