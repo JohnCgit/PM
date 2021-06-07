@@ -108,7 +108,7 @@ public class FireStationService {
 		
 	public void addVehiculeWCaserne(FireStation c, int VehiculeID) {
 		System.out.println("[CASERNE-AddV2C] adding to"+c);
-		List<Integer> ListVehicule = c.getListVehicules();
+		List<Integer> ListVehicule = c.getListVehicles();
 		if (ListVehicule.isEmpty()) {
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
 			System.out.println(ListVehicule);
@@ -116,14 +116,14 @@ public class FireStationService {
 		else {
 			ListVehicule.add(VehiculeID);		
 		}
-		c.setListVehicules(ListVehicule);
+		c.setListVehicles(ListVehicule);
 		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 	
 	public void addVehiculeWCaserneID(int CaserneID, int VehiculeID) {
 		FireStation c = getCaserne(CaserneID);
-		List<Integer> ListVehicule = c.getListVehicules();
+		List<Integer> ListVehicule = c.getListVehicles();
 		if (ListVehicule.isEmpty()) {
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
 			System.out.println(ListVehicule);
@@ -134,7 +134,7 @@ public class FireStationService {
 				ListVehicule.add(VehiculeID);					
 			}	
 		}
-		c.setListVehicules(ListVehicule);
+		c.setListVehicles(ListVehicule);
 		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
