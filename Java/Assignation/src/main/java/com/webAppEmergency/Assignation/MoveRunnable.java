@@ -43,6 +43,7 @@ public class MoveRunnable implements Runnable{
 				Thread.sleep(10000);
 				Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicule[].class);
 				for (Vehicule v: tabVehicule) {
+					int vehiculeID = v.getId();
 					switch (v.getEtat()) {
 					case ALLER:
 						FireDto fire=this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
@@ -50,37 +51,37 @@ public class MoveRunnable implements Runnable{
 						Coord c1 = new Coord(v.getLon(), v.getLat());
 						Coord c2 = new Coord(fire.getLon(), fire.getLat());
 						if (v.getPath().size()==0) {
-							this.restTemplate.put("http://127.0.0.1:8070/move/"+v.getRealid()+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
+							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehiculeID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
 							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							System.out.println("[MOVE-RUN-A] Le vehicule "+v.getRealid()+" vas en extinction");
+							System.out.println("[MOVE-RUN-A] Le vehicule "+vehiculeID+" vas en extinction");
 							Caserne c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFacilityRefID(), Caserne.class);
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=EXTINCTION", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=EXTINCTION", null);
 							createPath(v, c); 
 						}
 						else {
-							System.out.println("[MOVE-RUN-A] Le vehicule "+v.getRealid()+" est a l aller");
+							System.out.println("[MOVE-RUN-A] Le vehicule "+vehiculeID+" est a l aller");
 							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
+							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehiculeID, null);
 						}
 						break;
 					case EXTINCTION:
-						System.out.println("[MOVE-RUN-E] "+v.getRealid()+ " est a l extinction");
+						System.out.println("[MOVE-RUN-E] "+vehiculeID+ " est a l extinction");
 						FireDto fire1 = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 						if (fire1==null) {
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=RETOUR", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=RETOUR", null);
 						}
 						else {
 							System.out.println("[MOVE-RUN-E] le feu "+" a une intensite de "+fire1.getIntensity());
 						}
 						break;
 					case RETOUR:
-						System.out.println("[MOVE-RUN-R] Le vehicule "+v.getRealid()+" est au retour");
+						System.out.println("[MOVE-RUN-R] Le vehicule "+vehiculeID+" est au retour");
 						if (v.getPath().size()==0) {
-							System.out.println("[MOVE-RUN-R] Le vehicule "+v.getRealid()+" est rentre");
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=DISPONIBLE", null);
+							System.out.println("[MOVE-RUN-R] Le vehicule "+vehiculeID+" est rentre");
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=DISPONIBLE", null);
 						}
 						else {
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getRealid(), null);
+							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehiculeID, null);
 						}
 						break;
 					default:
@@ -123,7 +124,7 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getRealid(), request);
+		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
 	}
 	
 }

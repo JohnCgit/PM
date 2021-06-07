@@ -63,8 +63,8 @@ public class MainRunnable implements Runnable {
 						}
 						System.out.println("[MAIN-RUN-64] "+v);
 
-						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getRealid()+"?state=ALLER", null);
-						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getRealid()+"/"+feu.getId(), null);
+						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getId()+"?state=ALLER", null);
+						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+feu.getId(), null);
 					}
 				}
 
@@ -168,6 +168,6 @@ public class MainRunnable implements Runnable {
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getRealid(), request);
+		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
 	}
 }

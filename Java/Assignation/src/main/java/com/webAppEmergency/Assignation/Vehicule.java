@@ -19,13 +19,14 @@ public class Vehicule {
 
 	@Id
 	@GeneratedValue
-	private int realid;
-	private int idVehicle;
+	private int id;
+	private int idFs;
 	private VehiculeType type;
+	
 	private double efficiency = 5.0;
 	private double liquidQuantity=250.0;
 	private double fuel=100.0;
-	private int crewMember=6;
+	private int crewMember;
 	private int facilityRefID;
 	private Etat etat=Etat.DISPONIBLE;
 	private double lon;
@@ -44,7 +45,7 @@ public class Vehicule {
 		this.type = type;
 		this.facilityRefID = facilityRefID;
 		this.idFire=-1;
-		this.idVehicle=-1;
+		this.id=-1;
 	}
 
 //////////////////////////////////////
@@ -53,7 +54,7 @@ public class Vehicule {
 	
 	@Override
 	public String toString() {
-		return "Vehicule [realid=" + realid + ", idVehicle=" + idVehicle + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
+		return "Vehicule [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
 				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
 				+ ", Etat=" + etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ type.getLiquidType()+"]";
@@ -77,12 +78,12 @@ public class Vehicule {
 		this.lon = lon;
 	}
 
-	public int getIdVehicle() {
-		return idVehicle;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdVehicle(int idVehicle) {
-		this.idVehicle = idVehicle;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public double getLat() {
@@ -141,12 +142,12 @@ public class Vehicule {
 		this.facilityRefID = facilityRefID;
 	}
 
-	public int getRealid() {
-		return realid;
+	public int getIdFs() {
+		return idFs;
 	}
 
-	public void setRealid(int realid) {
-		this.realid = realid;
+	public void setIdFs(int idFs) {
+		this.idFs = idFs;
 	}
 
 	public Etat getEtat() {
@@ -172,5 +173,29 @@ public class Vehicule {
 	public void setIdFire(Integer idFire) {
 		this.idFire = idFire;
 	}
+	
 
+	public LiquidType getLiquidType() {
+		return this.type.getLiquidType();
+	}
+
+	public double getLiquidConsumption() {
+		return type.getLiquidConsumption();
+	}
+	
+	public int getLiquidQuantityMax() {
+		return type.getLiquidQuantity();
+	}
+	
+	public double getFuelConsumption() {
+		return type.getFuelConsumption();
+	}
+	
+	public int getFuelQuantityMax() {
+		return type.getFuelQuantity();
+	}
+	
+	public int getVehicleCrewCapacity() {
+		return type.getVehicleCrewCapacity();
+	}
 }
