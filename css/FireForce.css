@@ -5,9 +5,6 @@
     height: 400px;
     margin: 0 auto;
 }
-div{
-    vertical-align:top;
-}
 
  /* The Modal (background) */
  .modal {
@@ -93,12 +90,16 @@ div{
 
 /* ===================================== PAGE ================================== */
 
+div{
+  vertical-align:top;
+}
+
 h1,h2 {
   text-align: center;
+  color:white;
 }
 
 h3 {
-  border: 1px solid black;
   text-align:center;
   background-color: grey;
   margin: 0%;
@@ -113,8 +114,6 @@ body {
   text-align:center;
 }
 
-
-
 #content_vehicle, #content_fire, #content_caserne {
   margin: 1%;
   display:inline-block;
@@ -122,7 +121,6 @@ body {
   background-color: lightgray;
   color : black;
   border:1px solid black;
-  border-radius: 10px;
 }
 
 #mapid:hover, #content_vehicle:hover, #content_fire:hover, #content_caserne:hover{
@@ -130,9 +128,10 @@ body {
 }
 
 div > h2 {
-  background-color: blueviolet;
+  background-color: rgb(34, 31, 26);
   font-family:Arial, Helvetica, sans-serif;
   margin:0%;
+  border: 1px solid black;
 }
 
 #content_caserne > button {

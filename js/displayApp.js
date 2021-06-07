@@ -85,7 +85,18 @@ class displayApp{
         }
 
     }
-    
 
+    hideDisplay(idElem,display) {
+        let res = document.getElementById(idElem);
+        if (!display) {
+        res.childNodes.forEach(c =>
+                c.checked=false
+        )
+        }
+        else {
+            res.childNodes.forEach(c =>
+                c.checked=true
+            )
+        }
+    } 
 }
-

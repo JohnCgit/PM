@@ -88,7 +88,7 @@ class VehicleApp{
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
                `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
-               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},${vehicle.type},
+               `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},\'${vehicle.type}\',
                ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.facilityRefID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
                `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
@@ -185,8 +185,17 @@ class VehicleApp{
               `<input type="double" name="lat" id="lat" placeholder=${lat}>`+
              `<br/>`+
               `<label for="type"><b>Type</b></label>
-              <input type="text" name="type" id="type" placeholder=${type}>`+
-              `<br/>`+
+              <label for="type"><b>Type</b></label>
+              <br/>
+              <select id="type" name="type">
+                 <option value="CAR">Car</option>
+                 <option value="FIRE_ENGINE">Fire Engine</option>
+                 <option value="PUMPER_TRUCK">Pumper Truck</option>
+                 <option value="WATER_TENDERS">Water Tender</option>
+                 <option value="TURNTABLE_LADDER_TRUCK">Turntable Ladder Truck</option>
+                 <option value="TRUCK">Truck</option>
+              </select>
+              <br/>`+
               `<label for="LiquidType"><b>LiquidType</b></label>`+
             `<input type="double" name="LiquidType" id="lt" placeholder=`+liquidType+`>`+
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
