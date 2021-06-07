@@ -38,6 +38,7 @@ public enum VehiculeType {
 		this.liquidConsumption=liquidConsumption;
 		this.fuelQuantityMax=fuelQuantity;
 		this.fuelConsumption=fuelConsumption;
+		
 	}
 	
 	public int getSpaceUsedInFacility() {

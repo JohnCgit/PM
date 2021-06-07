@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>FireForce</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <link rel="stylesheet" href="./css/FireForce.css"/>
+    
+</head>
+
+<body>
+  <div id="main">
+  <h1>Projet Emergency</h1> 
+  <div id="mapid" ></div>
+  <div id="content_fire">
+      <h2>Fires</h2>
+      <h3>Fire type</h3>
+      <input type="checkbox" id="typeA" checked>
+      <label for="typeA">A</label>
+      <br/>
+      <input type="checkbox" id="typeB_Gasoline" checked>
+      <label for="typeB_Gasoline">B_Gasoline</label>
+      <br/>
+      <input type="checkbox" id="typeB_Alcohol" checked>
+      <label for="typeB_Alcohol">B_Alcohol</label>
+      <br/>
+      <input type="checkbox" id="typeB_Plastics" checked>
+      <label for="typeB_Plastics">B_Plastics</label><br/>
+      <input type="checkbox" id="typeC_Flammable_Gases" checked>
+      <label for="typeC_Flammable_Gases">C_Flammable_Gases</label><br/>
+      <input type="checkbox" id="typeD_Metals" checked>
+      <label for="typeD_Metals">D_Metals</label><br/>
+      <input type="checkbox" id="typeE_Electric" checked>
+      <label for="typeE_Electric">E_Electric</label><br/>
+
+    </br>
+    <button onclick="mydisplayApp.hideDisplay(`content_fire`,true)">Display All</button>
+    <button onclick="mydisplayApp.hideDisplay(`content_fire`,false)">Hide All</button>
+
+      <h3>Intensity</h3>
+
+      <input type="range"id="i" name="i" value="100" min="0" max="50" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+
+      <h3>Range</h3>
+      <input type="range" id="r" name="r" min="0" max="500" value="500" oninput="this.nextElementSibling.value = this.value">
+      <output>500</output>
+
+
+  </div>
+  <div id="content_vehicle">
+      <h2>Vehicles</h2>
+      <h3>Vehicle type</h3>
+      <input type="checkbox" id="car" checked>
+      <label for="car">CAR</label>
+      <br/>
+      <input type="checkbox" id="fireengine" checked>
+      <label for="fireengine">FIRE_ENGINE</label>
+      <br/>
+      <input type="checkbox" id="pumpertruck" checked>
+      <label for="pumpertruck">PUMPER_TRUCK</label>
+      <br/>
+      <input type="checkbox" id="watertender" checked>
+      <label for="watertender">WATER_TENDER</label><br/>
+      <input type="checkbox" id="laddertruck" checked>
+      <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
+      <input type="checkbox" id="truck" checked>
+      <label for="truck">TRUCK</label><br/>
+
+  </div>    
+  <!-- Button to open the modal login form -->
+  <div id="content_caserne">
+    <h2>Casernes</h2>
+    <h3>Vehicle type</h3>
+      <input type="checkbox" id="car" checked>
+      <label for="car">CAR</label>
+      <br/>
+      <input type="checkbox" id="fireengine" checked>
+      <label for="fireengine">FIRE_ENGINE</label>
+      <br/>
+      <input type="checkbox" id="pumpertruck" checked>
+      <label for="pumpertruck">PUMPER_TRUCK</label>
+      <br/>
+      <input type="checkbox" id="watertender" checked>
+      <label for="watertender">WATER_TENDER</label><br/>
+      <input type="checkbox" id="laddertruck" checked>
+      <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
+      <input type="checkbox" id="truck" checked>
+      <label for="truck">TRUCK</label><br/>
+    <button onclick="CreateVehicle(JSON.stringify({}))">Call a Vehicle</button>
+  </div>
+</div>
+
+  <!-- The Modal -->
+  <div id="id01" class="modal">
+
+    <!-- Modal Content -->
+    <div id="createForm"></div>
+  </div>
+
+  <!-- The Modal -->
+  <div id="id02" class="modal">
+      <div id="updateForm"></div>
+      </div>
+
+
+<header> <p>BERRADA Amine - CORNILLON Jean - GEHIN Sylvain - PERREYON Thomas</p> 
+         <p>Majeure CLBD - 4ETI - 2020/2021</p>
+</header>      
+</body>
+<script src="./js/apiTeamApp.js"></script>
+<script src="./js/fireApp.js"></script>
+<script src="./js/fireStationApp.js"></script>
+<script src="./js/vehicleApp.js"></script>
+<script src="./js/displayApp.js"></script>
+<script src="./js/mainApp.js"></script>
+
+

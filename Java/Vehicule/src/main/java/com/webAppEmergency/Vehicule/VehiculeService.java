@@ -43,9 +43,9 @@ public class VehiculeService {
 		return vRepo.findAll();
 	}
 	
-	public Vehicule getVehicule(int realid) {
+	public Vehicule getVehicule(int id) {
 		Vehicule res=null;
-		Optional<Vehicule> oVehicule = vRepo.findById(realid);
+		Optional<Vehicule> oVehicule = vRepo.findById(id);
 		if (oVehicule.isPresent()){res=oVehicule.get();}
 		return res;
 	}
@@ -55,9 +55,12 @@ public class VehiculeService {
 //////////////////////////////////////
 	
 	public Vehicule createVehicule(Vehicule v) {
-		Vehicule res = createVehiculeRepo(v);
-		createVehiculeFireSim(v);
-		linkVehiculeFacility(v);
+		Vehicule res = new Vehicule();
+		if (v.getFacilityRefID()!=0) {
+			createVehiculeRepo(v);
+			createVehiculeFireSim(v);
+			linkVehiculeFacility(v);
+		}
 		return res;
 	}
 	
@@ -68,7 +71,7 @@ public class VehiculeService {
 	}
 	
 	public void linkVehiculeFacility(Vehicule v) {
-		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getFacilityRefID()+"/"+v.getRealid(), null);
+		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getFacilityRefID()+"/"+v.getId(), null);
 	}
 	
 	public void createVehiculeFireSim(Vehicule v) {
@@ -76,8 +79,8 @@ public class VehiculeService {
 		try {
 			this.jNode = this.mapper.readTree(content);
 			JsonNode jId = this.jNode.get("id");
-			System.out.println("[VEHICULE-CREATE] Vehicule "+v.getRealid()+" id in fire sim is : "+jId);
-			v.setIdVehicle(jId.asInt());
+			System.out.println("[VEHICULE-CREATE] Vehicule "+v.getId()+" id in fire sim is : "+jId);
+			v.setIdFs(jId.asInt());
 			vRepo.save(v);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +89,7 @@ public class VehiculeService {
 	}
 	
 	public Vehicule createVehiculeRepo(Vehicule v) {
-		Optional<Vehicule> oVehicule = vRepo.findById(v.getRealid());
+		Optional<Vehicule> oVehicule = vRepo.findById(v.getId());
 		if (oVehicule.isEmpty()) {
 			vRepo.save(v);
 			}
@@ -95,7 +98,7 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
-		System.out.println("[VEHICULE-MOVE] vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
+		System.out.println("[VEHICULE-MOVE] vehicule"+v.getId()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
@@ -105,7 +108,7 @@ public class VehiculeService {
 	public void deleteVehicule(int id) {
 		Vehicule v = getVehicule(id);
 		vRepo.delete(v);
-		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdVehicle());
+		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdFs());
 	}
 	
 	public boolean followPath(int id) {
@@ -125,7 +128,7 @@ public class VehiculeService {
 	
 	public String vehiculeToFireSim(Vehicule v) {
 		JSONObject body = new JSONObject();
-		if (v.getIdVehicle()!=0) {body.put("id", v.getIdVehicle());}
+		if (v.getId()!=0) {body.put("id", v.getId());}
 		body.put("lon", v.getLon());
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
