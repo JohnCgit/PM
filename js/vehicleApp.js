@@ -204,8 +204,15 @@ class VehicleApp{
                  <option value="TRUCK">Truck</option>
               </select>
               <br/>`+
-              `<label for="LiquidType"><b>LiquidType</b></label>`+
-            `<input type="double" name="LiquidType" id="lt" placeholder=`+liquidType+`>`+
+              `<label for="LiquidType"><b>LiquidType</b></label>
+                <br/>
+                <select id="lt" name="lt">
+                    <option value="ALL">All</option>
+                    <option value="WATER">Water</option>
+                    <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
+                    <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
+                    <option value="POWDER">Powder</option>
+             </select> </br></br>` +
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
               `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
               `<br/>`+
