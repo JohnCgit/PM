@@ -28,7 +28,7 @@ public class Vehicle {
 	private double lon;
 	private double lat;
 	private Integer idFire; 
-	private LiquidType liquidType=LiquidType.ALL;
+	private LiquidType liquidType;
 	
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -36,11 +36,12 @@ public class Vehicle {
 	public Vehicle() {
 	}
 
-	public Vehicle(EnumVehicle type, int fireStationID) {
+	public Vehicle(EnumVehicle type, int fireStationID,LiquidType liquidType) {
 
 		super();
 		this.type = type;
 		this.fireStationID = fireStationID;
+		this.liquidType = liquidType;
 	}
 
 //////////////////////////////////////

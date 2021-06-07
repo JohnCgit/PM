@@ -3,15 +3,13 @@ class FireStationApp{
         this.markersFireStation = markersFireStation;
         this.ListFireStation = ListFireStation;
     }
-
-    /*AddFireStation(FireStation){
-        L.circle([FireStation.lat,FireStation.lon], {
-            color: 'blue',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: Fire.range
-        }).addTo(this.markersFireStation);
-    }*/
+    
+    AddFireStation(FireStation){
+      L.marker([FireStation.lat,FireStation.lon], {
+        icon: fireStationIcon
+      }).addTo(this.markersFireStation);
+    }
+    
 
     getFireStationAt(lat,lng){
         let fireStation = null;
@@ -25,11 +23,15 @@ class FireStationApp{
         return fireStation;    
     }
 
+	fireStationFilter(){
+	 this.ListFireStation.forEach(FireStation => 
+        this.AddFireStation(FireStation))
+	}
     ToString(fireStation){
         return `<h3> Caserne n°` + fireStation.id + `</h3>` +
         `<p> Nom: ` + fireStation.libelle + `</p>` +
         `<p> Lat/Lon: (` + fireStation.lat + `,`  + fireStation.lon + `)` +`</p>` +
-        `<p> Capacité Max: ` + fire.capaciteMax +  `</p>`;
+        `<p> Capacité Max: ` + fireStation.maxCapacity +  `</p>`;
     }
 
     setListFireStation(ListFireStation){

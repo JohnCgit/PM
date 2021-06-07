@@ -83,11 +83,11 @@ class VehicleApp{
     ToString(vehicle){
         //lancer tracer destination si etat occupé
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
-               `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.facilityRefID + `</p>` +
+               `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.fireStationID + `</p>` +
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
-               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.vehicleCrewCapacity + `</p>` +
                `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},\'${vehicle.type}\',
                ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.facilityRefID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
@@ -120,7 +120,7 @@ class VehicleApp{
 
         if (type != "")    {data["type"] = type;}
         if (lt != "")    {data["liquidType"] = lt;}
-        if (fRID != "")    {data["facilityRefID"] = fRID; }
+        if (fRID != "")    {data["fireStationID"] = fRID; }
         if(!cU){
             data["id"]=id;
             let lq = document.getElementById("lq").value;

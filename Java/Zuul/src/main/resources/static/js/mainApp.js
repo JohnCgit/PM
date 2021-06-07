@@ -29,7 +29,9 @@ function Display(){
     mydisplayApp.resetMarker(myFireStationApp.getMarkers());
 
     myFireApp.FireFilter();
+    myFireStationApp.fireStationFilter();
     myVehicleApp.VehicleFilter();
+
     
     mydisplayApp.addTo(myFireApp.getMarkers());
     mydisplayApp.addTo(myFireStationApp.getMarkers());
