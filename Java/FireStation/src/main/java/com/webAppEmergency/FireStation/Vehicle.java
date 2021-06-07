@@ -36,11 +36,11 @@ public class Vehicle {
 	public Vehicle() {
 	}
 
-	public Vehicle(EnumVehicle type, int facilityRefID) {
+	public Vehicle(EnumVehicle type, int fireStationID) {
 
 		super();
 		this.type = type;
-		this.fireStationID = facilityRefID;
+		this.fireStationID = fireStationID;
 		this.idFire=-1;
 		this.id=-1;
 		this.setLiquidType(LiquidType.ALL);
@@ -132,14 +132,6 @@ public class Vehicle {
 		this.crewMember = crewMember;
 	}
 
-	public int getfireStationID() {
-		return fireStationID;
-	}
-
-	public void setfireStationID(int facilityRefID) {
-		this.fireStationID = facilityRefID;
-	}
-
 	public int getIdFs() {
 		return idFs;
 	}
@@ -203,10 +195,10 @@ public class Vehicle {
 
 	public int getFireStationID() {
 		return fireStationID;
-	}
-
+	}	
+	
 	public void setFireStationID(int fireStationID) {
-		this.fireStationID = fireStationID;
+		this.fireStationID= fireStationID;
 	}
 
 	public State getState() {

@@ -87,23 +87,19 @@ public class FireStationService {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initVehicle(FireStation c) {
+	public void initVehicle(FireStation f) {
 		JSONObject body = new JSONObject();
-		body.put("type", "TRUCK");
-		body.put("efficiency", 2.0);
-		body.put("liquideQuantity", 12.0);
-		body.put("fuel", 42.0);
-		body.put("crewMember", 1);
-		body.put("facilityRefID", c.getId());
+		body.put("type", "CAR");
+		body.put("fireStationID", f.getId());
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 
 		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
-
+		System.out.println("[CASERNE-INITVEHICULE] vehicule created with : "+body);
 		Vehicle v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicle.class);
 
-		addVehicleWFireStation(c, v.getId());
+		addVehicleWFireStation(f, v.getId());
 	}
 		
 	public void addVehicleWFireStation(FireStation c, int VehicleID) {

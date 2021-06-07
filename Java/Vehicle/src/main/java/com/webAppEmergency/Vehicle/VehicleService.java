@@ -56,7 +56,7 @@ public class VehicleService {
 	
 	public Vehicle createVehicle(Vehicle v) {
 		Vehicle res = new Vehicle();
-		if (v.getfireStationID()!=0) {
+		if (v.getFireStationID()!=0) {
 			createVehicleRepo(v);
 			createVehicleFireSim(v);
 			linkVehicleFireStation(v);
@@ -71,11 +71,11 @@ public class VehicleService {
 	}
 	
 	public void linkVehicleFireStation(Vehicle v) {
-		this.restTemplate.put("http://127.0.0.1:8050/addVehicle/"+v.getfireStationID()+"/"+v.getId(), null);
+		this.restTemplate.put("http://127.0.0.1:8050/addVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
 	}
 
 	public void removeVehicleFireStation(Vehicle v) {
-		this.restTemplate.put("http://127.0.0.1:8050/removeVehicle/"+v.getfireStationID()+"/"+v.getId(), null);
+		this.restTemplate.put("http://127.0.0.1:8050/removeVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
 	}
 	
 	public void createVehicleFireSim(Vehicle v) {
@@ -132,7 +132,7 @@ public class VehicleService {
 	
 	public String vehicleToFireSim(Vehicle v) {
 		JSONObject body = new JSONObject();
-		if (v.getId()!=0) {body.put("id", v.getId());}
+		if (v.getId()!=0) {body.put("id", v.getIdFs());}
 		body.put("lon", v.getLon());
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
@@ -144,7 +144,7 @@ public class VehicleService {
 		body.put("fuelConsumption", v.getType().getFuelConsumption());
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
-		body.put("facilityRefID", v.getfireStationID());
+		body.put("facilityRefID", v.getFireStationID());
 		System.out.println("[VEHICLE-TOFIRESIM] Body is "+body);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
@@ -175,7 +175,7 @@ public class VehicleService {
 	
 	public void facilityVehicle(int vid, int cid) { //change facility
 		Vehicle v = getVehicle(vid);
-		v.getfireStationID();
+		v.getFireStationID();
 		vRepo.save(v);
 	}
 
