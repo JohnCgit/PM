@@ -1,5 +1,6 @@
 package com.webAppEmergency.Vehicle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,8 +85,8 @@ public class VehicleRestCrt {
 		vService.giveFire(VehiculeID,idFire);
 	}
 	
-//	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
-//	public void update(@PathVariable int id, @RequestBody String content) throws IOException {
-//		vService.update(id, content);
-//	}
+	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
+	public void update(@PathVariable int id, @RequestBody String content) throws IOException {
+		vService.update(id, content);
+	}
 }

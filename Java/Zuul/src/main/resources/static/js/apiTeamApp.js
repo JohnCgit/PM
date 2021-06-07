@@ -23,13 +23,11 @@ function getListFire(){
 
 
 function getFireStationById(id){
-    //return JSON.parse(loadRessource(`${host}/fireStation/${id}`,"GET"));
-    return Array();
+    return JSON.parse(loadRessource(`${host}/fireStation/${id}`,"GET"));
 };
 
 function getListFireStation(){
-    //return JSON.parse(loadRessource(`${host}/fireStation/getAll`,"GET"));
-    return Array();
+    return JSON.parse(loadRessource(`${host}/fireStation/getAll`,"GET"));
 };
 
 function getVehicleById(id){
