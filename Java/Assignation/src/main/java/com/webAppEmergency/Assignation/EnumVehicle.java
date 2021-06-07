@@ -1,6 +1,5 @@
 package com.webAppEmergency.Assignation;
 
-import com.project.model.dto.LiquidType;
 
 public enum EnumVehicle {
 	/*

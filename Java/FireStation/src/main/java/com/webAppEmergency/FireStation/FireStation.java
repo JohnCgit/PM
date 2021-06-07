@@ -33,14 +33,14 @@ public class FireStation {
 	
 	public FireStation() {}
 	
-	public FireStation(double lon, double lat, String libelle, List<Integer> ListVehicules, List<Integer> ListPompiers, int capaciteMax) {
+	public FireStation(double lon, double lat, String libelle, List<Integer> ListVehicles, List<Integer> ListPompiers, int capaciteMax) {
 		
 		super();
 		//this.coord=new Coord(lon, lat);
 		this.lon = lon;
 		this.lat = lat;
 		this.libelle = libelle;
-		this.ListVehicles = ListVehicules;
+		this.ListVehicles = ListVehicles;
 		this.ListPompiers = ListPompiers;
 		this.capaciteMax = capaciteMax;
 
@@ -87,11 +87,11 @@ public class FireStation {
 		this.libelle = libelle;
 	}
 
-	public List<Integer> getListVehicules() {
+	public List<Integer> getListVehicles() {
 		return ListVehicles;
 	}
 
-	public void setListVehicules(List<Integer> listVehicules) {
+	public void setListVehicles(List<Integer> listVehicules) {
 		ListVehicles = listVehicules;
 	}
 

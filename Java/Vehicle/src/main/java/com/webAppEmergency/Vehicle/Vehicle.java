@@ -7,12 +7,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
-import com.project.model.dto.Coord;
 import com.project.model.dto.LiquidType;
-import com.project.model.dto.VehicleType;
 
 @Entity
 public class Vehicle {
