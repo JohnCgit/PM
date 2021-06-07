@@ -169,13 +169,13 @@ public class VehicleService {
 		vRepo.save(v);		
 	}
 	
-	public void etatVehicle(int id, State state) { //change etat
+	public void stateVehicle(int id, State state) { //change etat
 		Vehicle v = getVehicle(id);
-		v.setEtat(state);;
+		v.setState(state);
 		vRepo.save(v);
 	}
 	
-	public void facilityVehicle(int vid, int cid) { //change facility
+	public void fireStationVehicle(int vid, int cid) { //change facility
 		Vehicle v = getVehicle(vid);
 		v.getFireStationID();
 		vRepo.save(v);

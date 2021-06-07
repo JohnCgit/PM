@@ -25,6 +25,7 @@ public class MainRunnable implements Runnable {
 	RestTemplateBuilder restTemplateBuilder;
 	ObjectMapper mapper;
 	JsonNode jNode;
+	List<Integer> LFireStation;
 //////////////////////////////////////
 //Rest template
 //////////////////////////////////////
@@ -88,10 +89,11 @@ public class MainRunnable implements Runnable {
 		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
 		Coord CoordFire= new Coord(fire.getLon(), fire.getLat());
 		Vehicle v = null;
-		List<Integer> LFireStation = new ArrayList<Integer>();
+		this.LFireStation = new ArrayList<Integer>();
 		while (v==null) {
 			System.out.println("[MAIN-RUN-PickV2] fire coordinates : "+fire.getLon()+", "+fire.getLat());
-			FireStation f = ClosestCaserne(CoordFire, LFireStation);
+			FireStation f = ClosestCaserne(CoordFire);
+			this.LFireStation.add(f.getId());
 			System.out.println("[MAIN-RUN-PickV2] closest firestation : "+f);
 			v = SelectVehicleInFireStation(f, fire.getType());
 		}
@@ -99,12 +101,12 @@ public class MainRunnable implements Runnable {
 		return v;
 	}
 	
-	public FireStation ClosestCaserne(Coord CoordFire, List<Integer> LFireStation) {
+	public FireStation ClosestCaserne(Coord CoordFire) {
 		FireStation[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", FireStation[].class);
 		FireStation res = new FireStation();
 		Integer minDistance = -1;
 		for (FireStation f:ListCaserne) { 
-			if (!LFireStation.contains(f.getId())) {
+			if (!this.LFireStation.contains(f.getId())) {
 				Integer Distance=GisTools.computeDistance2(new Coord(f.getLon(), f.getLat()), CoordFire);
 				if (minDistance<=0 || minDistance>=Distance) {
 					res=f;
@@ -130,7 +132,8 @@ public class MainRunnable implements Runnable {
 				System.out.println("[MAIN-RUN-SELECTV] vehicles treated : "+idVehicle);
 				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
 				System.out.println("[MAIN-RUN-SELECTV] "+v);
-				float efficiency = v.getLiquidType().getEfficiency(fireType);
+				float efficiency = v.getLiquidType().getEfficiency(fireType);// *v.getEfficiency
+				//TODO si le vehicule a assez de fuel / AE
 				if (v.getEtat()==State.DISPONIBLE) { 
 					if (efficiency>maxefficiency) { 
 						res=v; 						

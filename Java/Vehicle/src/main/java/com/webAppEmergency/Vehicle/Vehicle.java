@@ -139,14 +139,6 @@ public class Vehicle {
 		this.idFs = idFs;
 	}
 
-	public State getEtat() {
-		return state;
-	}
-
-	public void setEtat(State state) {
-		this.state = state;
-	}
-
 	public List<ArrayList<Double>> getPath() {
 		return Path;
 	}

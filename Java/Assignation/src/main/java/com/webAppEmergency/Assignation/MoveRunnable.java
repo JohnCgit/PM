@@ -136,7 +136,7 @@ public class MoveRunnable implements Runnable{
 		
 		int deplacement = v.getDeplacement();
 		
-		while (distance < deplacement && v.getPath().size()>0) {
+		while (distance < deplacement && v.getPath().size()>0) { //au moins 2 deplacement
 			deplacement -= (int)distance;
 			System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
 			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
@@ -144,6 +144,11 @@ public class MoveRunnable implements Runnable{
 			nextStep = v.getPath().remove(0);
 			c2 = new Coord(nextStep.get(0), nextStep.get(1));
 			distance = GisTools.computeDistance2(c1, c2);
+		}
+		if (distance < deplacement) {//plot armor
+			deplacement -= (int)distance;
+			System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
+			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
 		}
 		deplacement += v.getDeplacementType();
 		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId()+"/"+deplacement, null);

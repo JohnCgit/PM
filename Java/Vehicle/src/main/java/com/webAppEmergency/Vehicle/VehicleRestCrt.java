@@ -71,13 +71,13 @@ public class VehicleRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/state/{id}")
-	public void etatVehicle(@PathVariable int id, @RequestParam State state) {
-		vService.etatVehicle(id, state);
+	public void stateVehicle(@PathVariable int id, @RequestParam State state) {
+		vService.stateVehicle(id, state);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/setfireStationID/{vid}/{cid}")
-	public void etatVehicle(@PathVariable int vehicleID, @PathVariable int fireStationID) {
-		vService.facilityVehicle(vehicleID, fireStationID);
+	public void fireStationVehicle(@PathVariable int vehicleID, @PathVariable int fireStationID) {
+		vService.fireStationVehicle(vehicleID, fireStationID);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/giveFire/{VehiculeID}/{idFire}")
