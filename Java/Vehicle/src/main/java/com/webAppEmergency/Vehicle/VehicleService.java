@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.project.model.dto.LiquidType;
 @Service
 public class VehicleService {
 
@@ -184,10 +184,49 @@ public class VehicleService {
 
 
 	
-//	public void update(int vehicleId, String content) throws IOException {
-//		JsonNode jNode = this.mapper.readTree(content);
-//	}
-	// TODO Update, utiliser mapper.findTree pour trouver attributs a update  
-	// puis parcourir ces noms dans le jNode en .get(String)
+	public void update(int vehicleId, String content) throws IOException {
+		Vehicle v = getVehicule(vehicleId);
+		JsonNode jNode = this.mapper.readTree(content);
 
+		if(jNode.get("fuel")!=null) {
+			v.setFuel(jNode.get("fuel").asDouble());
+		}
+
+		if(jNode.get("lon")!=null) {
+			v.setLon(jNode.get("lon").asDouble());
+		}
+
+		if(jNode.get("lat")!=null) {
+			v.setLat(jNode.get("lat").asDouble());
+		}
+
+		if(jNode.get("crewMember")!=null) {
+			v.setCrewMember(jNode.get("crewMember").asInt());
+		}
+
+		if(jNode.get("liquidQuantity")!=null) {
+			v.setLiquidQuantity(jNode.get("liquidQuantity").asDouble());
+		}
+
+		if(jNode.get("facilityRefID")!=null) {
+			changeFacility(v.getId(),jNode.get("facilityRefID").asInt());
+		}
+
+		if(jNode.get("type").asText()!=null) {
+			v.setType(EnumVehicle.valueOf((jNode.get("type").asText())));
+		}
+
+		if(jNode.get("liquidType").asText()!=null) {
+			v.setLiquidType(LiquidType.valueOf((jNode.get("liquidType").asText())));
+		}
+
+		vRepo.save(v);
+		vehiculeToFireSim(v);
+}
+
+	private void changeFacility(int id, int asInt) {
+		// TODO check doability test
+		
+		
+	}
 }

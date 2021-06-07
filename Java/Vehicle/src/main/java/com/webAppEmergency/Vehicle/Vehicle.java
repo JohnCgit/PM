@@ -32,6 +32,7 @@ public class Vehicle {
 	private double lon;
 	private double lat;
 	private Integer idFire; 
+	private LiquidType liquidType;
 	
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -46,6 +47,7 @@ public class Vehicle {
 		this.fireStationID = facilityRefID;
 		this.idFire=-1;
 		this.id=-1;
+		this.liquidType = LiquidType.ALL;
 	}
 
 //////////////////////////////////////
@@ -114,16 +116,16 @@ public class Vehicle {
 		return liquidQuantity;
 	}
 
-	public void setLiquidQuantity(float liquidQuantity) {
-		this.liquidQuantity = liquidQuantity;
+	public void setLiquidQuantity(double d) {
+		this.liquidQuantity = d;
 	}
 
 	public double getFuel() {
 		return fuel;
 	}
 
-	public void setFuel(float fuel) {
-		this.fuel = fuel;
+	public void setFuel(double d) {
+		this.fuel = d;
 	}
 
 	public int getCrewMember() {
@@ -197,5 +199,10 @@ public class Vehicle {
 	
 	public int getVehicleCrewCapacity() {
 		return type.getVehicleCrewCapacity();
+	}
+
+	public void setLiquidType(LiquidType valueOf) {
+		// TODO Auto-generated method stub
+		
 	}
 }
