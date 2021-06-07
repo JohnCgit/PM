@@ -78,17 +78,16 @@ public class FireService{
 			probFire(1.0);
 			freqFire(100);
 			
-//	        Date d1 = new Date();
+	        Date d1 = new Date();
 
 			TimeUnit.MILLISECONDS.sleep(150);
 			
-			/*Date d2 = new Date();
+			Date d2 = new Date();
 
 			DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	        String Strd1 = sdf.format(d1);
-	        System.out.println(Strd1);
 	        String Strd2 = sdf.format(d2);
-	        System.out.println(Strd2); */
+	        System.out.println("[FIRE-STARTONE] un feu a ete cree entre "+Strd1+" et " +Strd2);
 
 			probFire(prob);
 			freqFire(freq);
@@ -97,11 +96,13 @@ public class FireService{
 		public void freqFire(int freq) {
 			this.creation.setFireCreationSleep(freq);
 			updateCreaSim();
+			System.out.println("[FIRE-FREQ] la frequence des feux est de "+freq);
 		}
 		
 		public void probFire(double prob) {
 			this.creation.setFireCreationProbability(prob);;
 			updateCreaSim();
+			System.out.println("[FIRE-PROB] la probabilite d un feu est de "+prob);
 		}
 		
 		public void updateCreaSim() {
@@ -123,6 +124,7 @@ public class FireService{
 		    List<JSONObject> ListJObj=new ArrayList<JSONObject>(List.of(jObj1, jObj2));
 		    
 		    body.put("fireCreationZone", ListJObj);
+		    System.out.println("[FIRE-UPDATECREATION] la nouvelle conf de creation est : "+body);
 		    HttpHeaders headers = new HttpHeaders();
 		    headers.setContentType(MediaType.APPLICATION_JSON);
 

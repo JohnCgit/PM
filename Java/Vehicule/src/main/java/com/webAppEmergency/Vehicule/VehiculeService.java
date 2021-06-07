@@ -91,6 +91,7 @@ public class VehiculeService {
 	public Vehicule createVehiculeRepo(Vehicule v) {
 		Optional<Vehicule> oVehicule = vRepo.findById(v.getId());
 		if (oVehicule.isEmpty()) {
+			v.setCrewMember(v.getType().getVehicleCrewCapacity());
 			vRepo.save(v);
 			}
 		return v;

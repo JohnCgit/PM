@@ -24,9 +24,9 @@ public class Vehicule {
 	private VehiculeType type;
 	
 	private double efficiency = 5.0;
-	private double liquidQuantity=100.0;
+	private double liquidQuantity=250.0;
 	private double fuel=100.0;
-	private int crewMember=6;
+	private int crewMember;
 	private int facilityRefID;
 	private Etat etat=Etat.DISPONIBLE;
 	private double lon;
@@ -174,8 +174,12 @@ public class Vehicule {
 		this.idFire = idFire;
 	}
 	
+
 	public LiquidType getLiquidType() {
 		return this.type.getLiquidType();
+
+	public double getFuelConsumption() {
+		return type.getFuelConsumption();
 	}
 
 }
