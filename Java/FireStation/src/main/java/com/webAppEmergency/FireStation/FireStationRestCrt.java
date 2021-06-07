@@ -41,7 +41,7 @@ public class FireStationRestCrt {
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/addVehicle/{facilityID}/{VehiculeID}")
+	@RequestMapping(method=RequestMethod.PUT, value="/addVehicle/{facilityID}/{VehicleID}")
 	public void addVehicule(@PathVariable int facilityID, @PathVariable int VehicleID) {
 		cService.addVehicleWFireStationID(facilityID, VehicleID);
 	}

@@ -71,6 +71,7 @@ public class VehicleService {
 	}
 	
 	public void linkVehicleFireStation(Vehicle v) {
+		System.out.print("http://127.0.0.1:8050/addVehicle/"+v.getFireStationID()+"/"+v.getId());
 		this.restTemplate.put("http://127.0.0.1:8050/addVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
 	}
 

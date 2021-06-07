@@ -120,7 +120,7 @@ class VehicleApp{
 
         if (type != "")    {data["type"] = type;}
         if (lt != "")    {data["liquidType"] = lt;}
-        if (fRID != "")    {data["facilityRefID"] = fRID; }
+        if (fRID != "")    {data["fireStationID"] = fRID; }
         if(!cU){
             data["id"]=id;
             let lq = document.getElementById("lq").value;
