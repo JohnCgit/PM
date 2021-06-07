@@ -36,7 +36,7 @@ public class Vehicle {
 	public Vehicle() {
 	}
 
-	public Vehicle(EnumVehicle type, int fireStationID,LiquidType liquidType) {
+	public Vehicle(EnumVehicle type, int fireStationID, LiquidType liquidType) {
 
 		super();
 		this.type = type;

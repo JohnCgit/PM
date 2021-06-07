@@ -28,7 +28,7 @@ public class Vehicle {
 	private double lon;
 	private double lat;
 	private Integer idFire; 
-	private LiquidType liquidType=LiquidType.ALL;
+	private LiquidType liquidType;
 	
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -36,11 +36,12 @@ public class Vehicle {
 	public Vehicle() {
 	}
 
-	public Vehicle(EnumVehicle type, int fireStationID) {
+	public Vehicle(EnumVehicle type, int fireStationID, LiquidType liquidType) {
 
 		super();
 		this.type = type;
 		this.fireStationID = fireStationID;
+		this.liquidType = liquidType;
 	}
 
 //////////////////////////////////////
@@ -50,7 +51,7 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return "Vehicle [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
-				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", fireStationID=" + fireStationID
+				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + fireStationID
 				+ ", Etat=" + state + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ getLiquidType()+"]";
 	}
