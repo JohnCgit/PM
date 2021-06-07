@@ -76,7 +76,7 @@ public class VehiculeService {
 		try {
 			this.jNode = this.mapper.readTree(content);
 			JsonNode jId = this.jNode.get("id");
-			System.out.println(jId);
+			System.out.println("[VEHICULE-CREATE] Vehicule "+v.getRealid()+" id in fire sim is : "+jId);
 			v.setIdVehicle(jId.asInt());
 			vRepo.save(v);
 		} catch (IOException e) {
@@ -88,6 +88,7 @@ public class VehiculeService {
 	public Vehicule createVehiculeRepo(Vehicule v) {
 		Optional<Vehicule> oVehicule = vRepo.findById(v.getRealid());
 		if (oVehicule.isEmpty()) {
+			v.setCrewMember(v.getType().getVehicleCrewCapacity());
 			vRepo.save(v);
 			}
 		return v;
@@ -95,7 +96,7 @@ public class VehiculeService {
 	
 	public void moveVehicule(int id, double lon, double lat) {
 		Vehicule v = getVehicule(id);
-		System.out.println("vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
+		System.out.println("[VEHICULE-MOVE] vehicule"+v.getRealid()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
@@ -125,20 +126,20 @@ public class VehiculeService {
 	
 	public String vehiculeToFireSim(Vehicule v) {
 		JSONObject body = new JSONObject();
-		body.put("id", v.getRealid());
+		if (v.getIdVehicle()!=0) {body.put("id", v.getIdVehicle());}
 		body.put("lon", v.getLon());
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
 		body.put("efficiency", v.getEfficiency());
 		body.put("liquideType", v.getType().getLiquidType());
-		body.put("liquideQuantity", v.getLiquidQuantity());
+		body.put("liquidQuantity", v.getLiquidQuantity());
 		body.put("liquidConsumption", v.getType().getLiquidConsumption());
 		body.put("fuel", v.getFuel());
 		body.put("fuelConsumption", v.getType().getFuelConsumption());
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
 		body.put("facilityRefID", v.getFacilityRefID());
-		System.out.println("Body is "+body);
+		System.out.println("[VEHICULE-TOFIRESIM] Body is "+body);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -146,6 +147,7 @@ public class VehiculeService {
 			      new HttpEntity<String>(body.toString(), headers);
 
 		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
+		System.out.println("[VEHICULE-TOFIRESIM] FireSim response : "+res);
 		return res;
 	} 
 	
