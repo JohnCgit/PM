@@ -14,26 +14,24 @@ public enum EnumVehicle {
 	 * FuelConsumption
 	 * )
 	 * */
-	CAR(2,2, LiquidType.ALL, 5, 0.5, 50,5),
-	FIRE_ENGINE(6,6, LiquidType.ALL, 10, 1, 100, 10),
-	PUMPER_TRUCK(6,4, LiquidType.ALL, 100, 10, 1000, 100),
-	WATER_TENDERS(4,2, LiquidType.ALL, 50, 5, 500, 50), 
-	TURNTABLE_LADDER_TRUCK(10,5, LiquidType.ALL, 20, 2, 200, 20),
-	TRUCK(10,8, LiquidType.ALL, 40, 4, 400, 40);
+	CAR(2,2, 5, 0.5, 50,5),
+	FIRE_ENGINE(6,6, 10, 1, 100, 10),
+	PUMPER_TRUCK(6,4, 100, 10, 1000, 100),
+	WATER_TENDERS(4,2, 50, 5, 500, 50), 
+	TURNTABLE_LADDER_TRUCK(10,5, 20, 2, 200, 20),
+	TRUCK(10,8, 40, 4, 400, 40);
 	
 	private int spaceUsedInFacility;
 	private int vehicleCrewCapacity;
-	private LiquidType liquidType;
 	private int liquidQuantityMax;
 	private double liquidConsumption;
 	private int fuelQuantityMax;
 	private double fuelConsumption;
 	
-	private EnumVehicle(int spaceUsedInFacility,int vehicleCrewCapacity, LiquidType liquidType,
+	private EnumVehicle(int spaceUsedInFacility,int vehicleCrewCapacity,
 			int liquidQuantity, double liquidConsumption, int fuelQuantity, double fuelConsumption) {
 		this.spaceUsedInFacility=spaceUsedInFacility;
 		this.vehicleCrewCapacity=vehicleCrewCapacity;
-		this.liquidType=liquidType;
 		this.liquidQuantityMax=liquidQuantity;
 		this.liquidConsumption=liquidConsumption;
 		this.fuelQuantityMax=fuelQuantity;
@@ -47,14 +45,6 @@ public enum EnumVehicle {
 	
 	public int getVehicleCrewCapacity() {
 		return this.vehicleCrewCapacity;
-	}
-
-	public LiquidType getLiquidType() {
-		return liquidType;
-	}
-
-	public void setLiquidType(LiquidType liquidType) {
-		this.liquidType = liquidType;
 	}
 
 	public int getLiquidQuantity() {

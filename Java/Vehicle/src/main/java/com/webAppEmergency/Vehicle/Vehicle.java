@@ -47,7 +47,7 @@ public class Vehicle {
 		this.fireStationID = facilityRefID;
 		this.idFire=-1;
 		this.id=-1;
-		this.liquidType = LiquidType.ALL;
+		this.setLiquidType(LiquidType.ALL);
 	}
 
 //////////////////////////////////////
@@ -59,7 +59,7 @@ public class Vehicle {
 		return "Vehicule [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
 				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + fireStationID
 				+ ", Etat=" + state + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
-				", LiquidType= "+ type.getLiquidType()+"]";
+				", LiquidType= "+ getLiquidType()+"]";
 	}
 	
 	
@@ -177,10 +177,6 @@ public class Vehicle {
 	}
 	
 
-	public LiquidType getLiquidType() {
-		return this.type.getLiquidType();
-	}
-
 	public double getLiquidConsumption() {
 		return type.getLiquidConsumption();
 	}
@@ -201,8 +197,13 @@ public class Vehicle {
 		return type.getVehicleCrewCapacity();
 	}
 
-	public void setLiquidType(LiquidType valueOf) {
-		// TODO Auto-generated method stub
-		
+	public void setLiquidType(LiquidType liquidType) {
+		this.liquidType = liquidType;
 	}
+	
+	public LiquidType getLiquidType() {
+		return liquidType;
+	}
+
+	
 }

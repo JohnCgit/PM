@@ -134,7 +134,7 @@ public class VehicleService {
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
 		body.put("efficiency", v.getEfficiency());
-		body.put("liquideType", v.getType().getLiquidType());
+		body.put("liquideType", v.getLiquidType());
 		body.put("liquidQuantity", v.getLiquidQuantity());
 		body.put("liquidConsumption", v.getType().getLiquidConsumption());
 		body.put("fuel", v.getFuel());
