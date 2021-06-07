@@ -42,7 +42,7 @@ public class FireStationService {
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
         System.out.println("[CASERNE-INIT] Current relative path is: " + s);
-        this.path = "src/main/java/com/webAppEmergency/Caserne/grandlyon.json";
+        this.path = "src/main/java/com/webAppEmergency/FireStation/grandlyon.json";
 //    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
@@ -64,7 +64,7 @@ public class FireStationService {
 	  	cRepo.save(c);
 	}
 	
-	public void initCaserneLyon() throws IOException, ParseException {
+	public void initFireStationLyon() throws IOException, ParseException {
 		List<FireStation> ListC = new ArrayList<>();
 		for (int i = 0; i < 30; i++) {
 		    JSONParser jsonP = new JSONParser();

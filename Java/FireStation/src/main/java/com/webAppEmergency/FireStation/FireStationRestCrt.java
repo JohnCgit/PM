@@ -47,8 +47,8 @@ public class FireStationRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/initLyon")
-	public void initCaserneLyon() throws IOException, ParseException{
-		cService.initCaserneLyon();
+	public void initFireStationLyon() throws IOException, ParseException{
+		cService.initFireStationLyon();
 	}
 
 }
