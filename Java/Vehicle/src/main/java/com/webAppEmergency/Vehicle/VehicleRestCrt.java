@@ -40,7 +40,7 @@ public class VehicleRestCrt {
 	
 	@RequestMapping(method=RequestMethod.POST, value="/fcreate")
 	public Vehicle createVehicleViaFireStation(@RequestBody Vehicle v) {
-		System.out.println(v);
+		System.out.println("[VEHICLERestCrt]"+v);
 		return vService.createVehicleViaFireStation(v);
 	}
 	

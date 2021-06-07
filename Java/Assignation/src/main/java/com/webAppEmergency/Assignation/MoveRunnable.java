@@ -53,7 +53,7 @@ public class MoveRunnable implements Runnable{
 							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
 							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
 							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
-							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getfireStationID(), FireStation.class);
+							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
 							createPath(v, c); 
 						}

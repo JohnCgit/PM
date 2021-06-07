@@ -103,6 +103,6 @@ public class FireStation {
 	@Override
 	public String toString() {
 		return "Caserne [id=" + id + ", libelle=" + libelle + ", lon=" + lon + ", lat=" + lat + ", capaciteMax="
-				+ maxCapacity + ", ListVehicules=" + ListVehicles + ", Listfireman=" + Listfireman + "]";
+				+ maxCapacity + ", ListVehicles=" + ListVehicles + ", Listfireman=" + Listfireman + "]";
 	}
 }

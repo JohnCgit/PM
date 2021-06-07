@@ -125,8 +125,11 @@ public class MainRunnable implements Runnable {
 		Vehicle res = null;
 		if (!f.getListVehicles().isEmpty()) {		
 			float maxefficiency=-1;
+			System.out.println("[MAIN-RUN-SELECTV] vehicles available : "+f.getListVehicles());
 			for (Integer idVehicle:f.getListVehicles()) { 
+				System.out.println("[MAIN-RUN-SELECTV] vehicles treated : "+idVehicle);
 				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
+				System.out.println("[MAIN-RUN-SELECTV] "+v);
 				float efficiency = v.getLiquidType().getEfficiency(fireType);
 				if (v.getEtat()==State.DISPONIBLE) { 
 					if (efficiency>maxefficiency) { 
