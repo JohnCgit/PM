@@ -1,6 +1,6 @@
-package com.webAppEmergency.Assignation;
+package com.webAppEmergency.Vehicle;
 
-public enum Etat {
+public enum State {
 	DISPONIBLE,
 	ALLER,
 	EXTINCTION,

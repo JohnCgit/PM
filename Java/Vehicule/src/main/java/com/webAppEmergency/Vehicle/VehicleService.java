@@ -1,4 +1,4 @@
-package com.webAppEmergency.Vehicule;
+package com.webAppEmergency.Vehicle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,10 +18,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class VehiculeService {
+public class VehicleService {
 
 	@Autowired
-	VehiculeRepository vRepo;
+	VehicleRepository vRepo;
 	private RestTemplate restTemplate;
 	JsonNode jNode;
 	ObjectMapper mapper;
@@ -30,7 +30,7 @@ public class VehiculeService {
 // Rest template
 //////////////////////////////////////
 		
-	public VehiculeService(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
+	public VehicleService(RestTemplateBuilder restTemplateBuilder) { // Gestion du rest template
         this.restTemplate = restTemplateBuilder.build();
         this.mapper=new ObjectMapper();
     }
@@ -39,13 +39,13 @@ public class VehiculeService {
 // get Vehicule
 //////////////////////////////////////
 
-	public List<Vehicule> getAll() {
+	public List<Vehicle> getAll() {
 		return vRepo.findAll();
 	}
 	
-	public Vehicule getVehicule(int id) {
-		Vehicule res=null;
-		Optional<Vehicule> oVehicule = vRepo.findById(id);
+	public Vehicle getVehicule(int id) {
+		Vehicle res=null;
+		Optional<Vehicle> oVehicule = vRepo.findById(id);
 		if (oVehicule.isPresent()){res=oVehicule.get();}
 		return res;
 	}
@@ -54,9 +54,9 @@ public class VehiculeService {
 //update/create Vehicule
 //////////////////////////////////////
 	
-	public Vehicule createVehicule(Vehicule v) {
-		Vehicule res = new Vehicule();
-		if (v.getFacilityRefID()!=0) {
+	public Vehicle createVehicule(Vehicle v) {
+		Vehicle res = new Vehicle();
+		if (v.getfireStationID()!=0) {
 			createVehiculeRepo(v);
 			createVehiculeFireSim(v);
 			linkVehiculeFacility(v);
@@ -64,17 +64,17 @@ public class VehiculeService {
 		return res;
 	}
 	
-	public Vehicule createVehiculeViaFacility(Vehicule v) {
-		Vehicule res = createVehiculeRepo(v);
+	public Vehicle createVehiculeViaFacility(Vehicle v) {
+		Vehicle res = createVehiculeRepo(v);
 		createVehiculeFireSim(v);
 		return res;
 	}
 	
-	public void linkVehiculeFacility(Vehicule v) {
-		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getFacilityRefID()+"/"+v.getId(), null);
+	public void linkVehiculeFacility(Vehicle v) {
+		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getfireStationID()+"/"+v.getId(), null);
 	}
 	
-	public void createVehiculeFireSim(Vehicule v) {
+	public void createVehiculeFireSim(Vehicle v) {
 		String content = vehiculeToFireSim(v);
 		try {
 			this.jNode = this.mapper.readTree(content);
@@ -88,8 +88,8 @@ public class VehiculeService {
 		}
 	}
 	
-	public Vehicule createVehiculeRepo(Vehicule v) {
-		Optional<Vehicule> oVehicule = vRepo.findById(v.getId());
+	public Vehicle createVehiculeRepo(Vehicle v) {
+		Optional<Vehicle> oVehicule = vRepo.findById(v.getId());
 		if (oVehicule.isEmpty()) {
 			v.setCrewMember(v.getType().getVehicleCrewCapacity());
 			vRepo.save(v);
@@ -98,7 +98,7 @@ public class VehiculeService {
 	}
 	
 	public void moveVehicule(int id, double lon, double lat) {
-		Vehicule v = getVehicule(id);
+		Vehicle v = getVehicule(id);
 		System.out.println("[VEHICULE-MOVE] vehicule"+v.getId()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
@@ -107,13 +107,13 @@ public class VehiculeService {
 	}
 	
 	public void deleteVehicule(int id) {
-		Vehicule v = getVehicule(id);
+		Vehicle v = getVehicule(id);
 		vRepo.delete(v);
 		this.restTemplate.delete("http://127.0.0.1:8081/vehicle/"+v.getIdFs());
 	}
 	
 	public boolean followPath(int id) {
-		Vehicule v = getVehicule(id);
+		Vehicle v = getVehicule(id);
 		boolean res=false;
 		if (v.getPath().size()>0) {			
 			ArrayList<Double> Coord = v.getPath().remove(0);
@@ -127,7 +127,7 @@ public class VehiculeService {
 //gestion fire simulator
 //////////////////////////////////////
 	
-	public String vehiculeToFireSim(Vehicule v) {
+	public String vehiculeToFireSim(Vehicle v) {
 		JSONObject body = new JSONObject();
 		if (v.getId()!=0) {body.put("id", v.getId());}
 		body.put("lon", v.getLon());
@@ -141,7 +141,7 @@ public class VehiculeService {
 		body.put("fuelConsumption", v.getType().getFuelConsumption());
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
-		body.put("facilityRefID", v.getFacilityRefID());
+		body.put("facilityRefID", v.getfireStationID());
 		System.out.println("[VEHICULE-TOFIRESIM] Body is "+body);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
@@ -159,25 +159,25 @@ public class VehiculeService {
 //////////////////////////////////////
 	
 	public void setPath(int id, ArrayList<ArrayList<Double>> newPath) { // change path
-		Vehicule v = getVehicule(id);
+		Vehicle v = getVehicule(id);
 		v.setPath(newPath);
 		vRepo.save(v);		
 	}
 	
-	public void etatVehicule(int id, Etat etat) { //change etat
-		Vehicule v = getVehicule(id);
-		v.setEtat(etat);;
+	public void etatVehicule(int id, State state) { //change etat
+		Vehicle v = getVehicule(id);
+		v.setEtat(state);;
 		vRepo.save(v);
 	}
 	
 	public void facilityVehicule(int vid, int cid) { //change facility
-		Vehicule v = getVehicule(vid);
-		v.setFacilityRefID(cid);
+		Vehicle v = getVehicule(vid);
+		v.getfireStationID();
 		vRepo.save(v);
 	}
 
 	public void giveFire(int vehiculeID, int idFire) { //change feu associe
-		Vehicule v = getVehicule(vehiculeID);
+		Vehicle v = getVehicule(vehiculeID);
 		v.setIdFire(idFire);
 		vRepo.save(v);
 	}

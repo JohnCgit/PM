@@ -1,6 +1,6 @@
-package com.webAppEmergency.Caserne;
+package com.webAppEmergency.Assignation;
 
-public enum Etat {
+public enum State {
 	DISPONIBLE,
 	ALLER,
 	EXTINCTION,

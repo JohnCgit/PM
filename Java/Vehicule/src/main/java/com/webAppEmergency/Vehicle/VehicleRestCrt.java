@@ -1,4 +1,4 @@
-package com.webAppEmergency.Vehicule;
+package com.webAppEmergency.Vehicle;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,26 +14,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.webAppEmergency.Vehicule.Vehicule;
+import com.webAppEmergency.Vehicle.Vehicle;
 
 @RestController
-public class VehiculeRestCrt {
+public class VehicleRestCrt {
 	
 	@Autowired
-	VehiculeService vService;
+	VehicleService vService;
 
 //////////////////////////////////////
 // Get Vehicule
 //////////////////////////////////////
 	
 	@RequestMapping(method=RequestMethod.GET, value="/get/{id}")
-	public Vehicule getUserById(@PathVariable int id){
-		Vehicule v=vService.getVehicule(Integer.valueOf(id));
+	public Vehicle getUserById(@PathVariable int id){
+		Vehicle v=vService.getVehicule(Integer.valueOf(id));
 	    return v;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/getAll")
-	public List<Vehicule> getAll(){
+	public List<Vehicle> getAll(){
 		return vService.getAll();
 	}
 	
@@ -42,13 +42,13 @@ public class VehiculeRestCrt {
 //////////////////////////////////////
 	
 	@RequestMapping(method=RequestMethod.POST, value="/fcreate")
-	public Vehicule createVehiculeViaFacility(@RequestBody Vehicule v) {
+	public Vehicle createVehiculeViaFacility(@RequestBody Vehicle v) {
 		System.out.println(v);
 		return vService.createVehiculeViaFacility(v);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
-	public Vehicule createVehicule(@RequestBody Vehicule v) {
+	public Vehicle createVehicule(@RequestBody Vehicle v) {
 		System.out.println(v);
 		return vService.createVehicule(v);
 	}
@@ -74,13 +74,13 @@ public class VehiculeRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/state/{id}")
-	public void etatVehicule(@PathVariable int id, @RequestParam Etat state) {
+	public void etatVehicule(@PathVariable int id, @RequestParam State state) {
 		vService.etatVehicule(id, state);
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/setFacilityRefID/{vid}/{cid}")
-	public void etatVehicule(@PathVariable int vid, @PathVariable int cid) {
-		vService.facilityVehicule(vid, cid);
+	@RequestMapping(method=RequestMethod.PUT, value="/setfireStationID/{vid}/{cid}")
+	public void etatVehicule(@PathVariable int vehicleID, @PathVariable int fireStationID) {
+		vService.facilityVehicule(vehicleID, fireStationID);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/giveFire/{VehiculeID}/{idFire}")

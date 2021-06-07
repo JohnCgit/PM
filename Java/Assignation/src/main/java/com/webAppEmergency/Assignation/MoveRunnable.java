@@ -41,9 +41,9 @@ public class MoveRunnable implements Runnable{
 		while (!this.isEnd) {
 			try{
 				Thread.sleep(10000);
-				Vehicule[] tabVehicule = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicule[].class);
-				for (Vehicule v: tabVehicule) {
-					int vehiculeID = v.getId();
+				Vehicle[] tabVehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
+				for (Vehicle v: tabVehicle) {
+					int vehicleID = v.getId();
 					switch (v.getEtat()) {
 					case ALLER:
 						FireDto fire=this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
@@ -51,11 +51,11 @@ public class MoveRunnable implements Runnable{
 						Coord c1 = new Coord(v.getLon(), v.getLat());
 						Coord c2 = new Coord(fire.getLon(), fire.getLat());
 						if (v.getPath().size()==0) {
-							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehiculeID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
+							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
 							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							System.out.println("[MOVE-RUN-A] Le vehicule "+vehiculeID+" vas en extinction");
-							Caserne c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFacilityRefID(), Caserne.class);
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=EXTINCTION", null);
+							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
+							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getfireStationID(), FireStation.class);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
 							createPath(v, c); 
 						}
 						else {

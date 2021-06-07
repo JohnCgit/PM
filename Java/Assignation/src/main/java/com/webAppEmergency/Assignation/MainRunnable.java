@@ -136,7 +136,7 @@ public class MainRunnable implements Runnable {
 			for (Integer idVehicule:c.getListVehicules()) { 
 				Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicule, Vehicule.class);
 				float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
-				if (v.getEtat()==Etat.DISPONIBLE) { 
+				if (v.getEtat()==State.DISPONIBLE) { 
 					if (efficacite>maxefficacite) { 
 						res=v; 						
 						maxefficacite=efficacite;

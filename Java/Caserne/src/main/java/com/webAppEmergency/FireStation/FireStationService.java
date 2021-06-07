@@ -1,4 +1,4 @@
-package com.webAppEmergency.Caserne;
+package com.webAppEmergency.FireStation;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -25,10 +25,10 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
-public class CaserneService {
+public class FireStationService {
 
 	@Autowired
-	CaserneRepository cRepo;
+	FireStationRepository cRepo;
 	ObjectMapper mapper;
 
 	
@@ -37,7 +37,7 @@ public class CaserneService {
 	public String path;
 
 		
-	public CaserneService(RestTemplateBuilder restTemplateBuilder){
+	public FireStationService(RestTemplateBuilder restTemplateBuilder){
         this.restTemplate = restTemplateBuilder.build();
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
@@ -49,23 +49,23 @@ public class CaserneService {
         mapper = new ObjectMapper();
 	}
 
-	public List<Caserne> getAll() {
+	public List<FireStation> getAll() {
 		return cRepo.findAll();
 	}
 	
-	public Caserne getCaserne(int realid) {
-		Caserne res=null;
-		Optional<Caserne> oCaserne = cRepo.findById(realid);
+	public FireStation getCaserne(int realid) {
+		FireStation res=null;
+		Optional<FireStation> oCaserne = cRepo.findById(realid);
 		if (oCaserne.isPresent()){res=oCaserne.get();}
 		return res;
 	}
 	
-	public void addCaserne(Caserne c) {
+	public void addCaserne(FireStation c) {
 	  	cRepo.save(c);
 	}
 	
 	public void initCaserneLyon() throws IOException, ParseException {
-		List<Caserne> ListC = new ArrayList<>();
+		List<FireStation> ListC = new ArrayList<>();
 		for (int i = 0; i < 30; i++) {
 		    JSONParser jsonP = new JSONParser();
 	        JSONObject jsonO = (JSONObject)jsonP.parse(new FileReader(this.path));
@@ -79,15 +79,15 @@ public class CaserneService {
 	        double lat = (double) coordinates.get(1);
 	        System.out.println("[CASERNE-INITLYON] libelle"+name);
 	        System.out.println("[CASERNE-INITLYON] Coordonnées : (" + lon + ","+ lat +")");
-	        Caserne c = new Caserne(lon, lat, name, Arrays.asList(), Arrays.asList(), 15);
+	        FireStation c = new FireStation(lon, lat, name, Arrays.asList(), Arrays.asList(), 15);
 			cRepo.save(c);	        
 	        ListC.add(c);
 		}
-		for (Caserne c: ListC) {initVehicule(c);cRepo.save(c);}
+		for (FireStation c: ListC) {initVehicule(c);cRepo.save(c);}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initVehicule(Caserne c) {
+	public void initVehicule(FireStation c) {
 		JSONObject body = new JSONObject();
 		body.put("type", "TRUCK");
 		body.put("efficiency", 2.0);
@@ -101,12 +101,12 @@ public class CaserneService {
 
 		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
 
-		Vehicule v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicule.class);
+		Vehicle v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicle.class);
 
-		addVehiculeWCaserne(c, v.getRealid());
+		addVehiculeWCaserne(c, v.getId());
 	}
 		
-	public void addVehiculeWCaserne(Caserne c, int VehiculeID) {
+	public void addVehiculeWCaserne(FireStation c, int VehiculeID) {
 		System.out.println("[CASERNE-AddV2C] adding to"+c);
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
@@ -122,7 +122,7 @@ public class CaserneService {
 	}
 	
 	public void addVehiculeWCaserneID(int CaserneID, int VehiculeID) {
-		Caserne c = getCaserne(CaserneID);
+		FireStation c = getCaserne(CaserneID);
 		List<Integer> ListVehicule = c.getListVehicules();
 		if (ListVehicule.isEmpty()) {
 			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));

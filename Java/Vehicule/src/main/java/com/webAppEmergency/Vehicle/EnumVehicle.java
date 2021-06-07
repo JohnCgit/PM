@@ -1,8 +1,8 @@
-package com.webAppEmergency.Vehicule;
+package com.webAppEmergency.Vehicle;
 
 import com.project.model.dto.LiquidType;
 
-public enum VehiculeType {
+public enum EnumVehicle {
 	/*
 	 * NOM (
 	 * place de parking?
@@ -29,7 +29,7 @@ public enum VehiculeType {
 	private int fuelQuantityMax;
 	private double fuelConsumption;
 	
-	private VehiculeType(int spaceUsedInFacility,int vehicleCrewCapacity, LiquidType liquidType,
+	private EnumVehicle(int spaceUsedInFacility,int vehicleCrewCapacity, LiquidType liquidType,
 			int liquidQuantity, double liquidConsumption, int fuelQuantity, double fuelConsumption) {
 		this.spaceUsedInFacility=spaceUsedInFacility;
 		this.vehicleCrewCapacity=vehicleCrewCapacity;

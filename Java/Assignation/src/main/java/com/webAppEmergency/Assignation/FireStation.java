@@ -1,4 +1,4 @@
-package com.webAppEmergency.Caserne;
+package com.webAppEmergency.Assignation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import com.project.model.dto.Coord;
 
 @Entity
-public class Caserne {
+public class FireStation {
 
 	@Id
 	@GeneratedValue
@@ -26,21 +26,21 @@ public class Caserne {
 	//private Coord coord;
 	
 	@ElementCollection
-	private List<Integer> ListVehicules = new ArrayList<Integer>(List.of(-1));
+	private List<Integer> ListVehicles = new ArrayList<Integer>(List.of(-1));
 	
 	@ElementCollection
 	private List<Integer> ListPompiers = new ArrayList<Integer>(List.of(-1));
 	
-	public Caserne() {}
+	public FireStation() {}
 	
-	public Caserne(double lon, double lat, String libelle, List<Integer> ListVehicules, List<Integer> ListPompiers, int capaciteMax) {
+	public FireStation(double lon, double lat, String libelle, List<Integer> ListVehicules, List<Integer> ListPompiers, int capaciteMax) {
 		
 		super();
 		//this.coord=new Coord(lon, lat);
 		this.lon = lon;
 		this.lat = lat;
 		this.libelle = libelle;
-		this.ListVehicules = ListVehicules;
+		this.ListVehicles = ListVehicules;
 		this.ListPompiers = ListPompiers;
 		this.capaciteMax = capaciteMax;
 
@@ -88,11 +88,11 @@ public class Caserne {
 	}
 
 	public List<Integer> getListVehicules() {
-		return ListVehicules;
+		return ListVehicles;
 	}
 
 	public void setListVehicules(List<Integer> listVehicules) {
-		ListVehicules = listVehicules;
+		ListVehicles = listVehicules;
 	}
 
 	public List<Integer> getListPompiers() {
@@ -114,6 +114,6 @@ public class Caserne {
 	@Override
 	public String toString() {
 		return "Caserne [id=" + id + ", libelle=" + libelle + ", lon=" + lon + ", lat=" + lat + ", capaciteMax="
-				+ capaciteMax + ", ListVehicules=" + ListVehicules + ", ListPompiers=" + ListPompiers + "]";
+				+ capaciteMax + ", ListVehicules=" + ListVehicles + ", ListPompiers=" + ListPompiers + "]";
 	}
 }

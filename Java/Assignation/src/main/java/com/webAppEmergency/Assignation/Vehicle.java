@@ -1,4 +1,4 @@
-package com.webAppEmergency.Caserne;
+package com.webAppEmergency.Assignation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +15,20 @@ import com.project.model.dto.LiquidType;
 import com.project.model.dto.VehicleType;
 
 @Entity
-public class Vehicule {
+public class Vehicle {
 
 	@Id
 	@GeneratedValue
 	private int id;
 	private int idFs;
-	private VehiculeType type;
+	private EnumVehicle type;
 	
 	private double efficiency = 5.0;
 	private double liquidQuantity=250.0;
 	private double fuel=100.0;
 	private int crewMember;
-	private int facilityRefID;
-	private Etat etat=Etat.DISPONIBLE;
+	private int fireStationID;
+	private State state=State.DISPONIBLE;
 	private double lon;
 	private double lat;
 	private Integer idFire; 
@@ -36,14 +36,14 @@ public class Vehicule {
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
 
-	public Vehicule() {
+	public Vehicle() {
 	}
 
-	public Vehicule(VehiculeType type, int facilityRefID) {
+	public Vehicle(EnumVehicle type, int facilityRefID) {
 
 		super();
 		this.type = type;
-		this.facilityRefID = facilityRefID;
+		this.fireStationID = facilityRefID;
 		this.idFire=-1;
 		this.id=-1;
 	}
@@ -55,8 +55,8 @@ public class Vehicule {
 	@Override
 	public String toString() {
 		return "Vehicule [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
-				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + facilityRefID
-				+ ", Etat=" + etat + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
+				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + fireStationID
+				+ ", Etat=" + state + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ type.getLiquidType()+"]";
 	}
 	
@@ -90,7 +90,7 @@ public class Vehicule {
 		return lat;
 	}
 	
-	public VehiculeType getType() {
+	public EnumVehicle getType() {
 		return type;
 	}
 
@@ -98,7 +98,7 @@ public class Vehicule {
 		this.lat = lat;
 	}
 
-	public void setType(VehiculeType type) {
+	public void setType(EnumVehicle type) {
 		this.type = type;
 	}
 
@@ -134,12 +134,12 @@ public class Vehicule {
 		this.crewMember = crewMember;
 	}
 
-	public int getFacilityRefID() {
-		return facilityRefID;
+	public int getfireStationID() {
+		return fireStationID;
 	}
 
-	public void setFacilityRefID(int facilityRefID) {
-		this.facilityRefID = facilityRefID;
+	public void setfireStationID(int facilityRefID) {
+		this.fireStationID = facilityRefID;
 	}
 
 	public int getIdFs() {
@@ -150,12 +150,12 @@ public class Vehicule {
 		this.idFs = idFs;
 	}
 
-	public Etat getEtat() {
-		return etat;
+	public State getEtat() {
+		return state;
 	}
 
-	public void setEtat(Etat etat) {
-		this.etat = etat;
+	public void setEtat(State state) {
+		this.state = state;
 	}
 
 	public List<ArrayList<Double>> getPath() {
