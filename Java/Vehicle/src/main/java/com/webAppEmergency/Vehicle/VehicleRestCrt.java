@@ -28,7 +28,7 @@ public class VehicleRestCrt {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/get/{id}")
 	public Vehicle getUserById(@PathVariable int id){
-		Vehicle v=vService.getVehicule(Integer.valueOf(id));
+		Vehicle v=vService.getVehicle(Integer.valueOf(id));
 	    return v;
 	}
 	
@@ -42,25 +42,25 @@ public class VehicleRestCrt {
 //////////////////////////////////////
 	
 	@RequestMapping(method=RequestMethod.POST, value="/fcreate")
-	public Vehicle createVehiculeViaFacility(@RequestBody Vehicle v) {
+	public Vehicle createVehicleViaFireStation(@RequestBody Vehicle v) {
 		System.out.println(v);
-		return vService.createVehiculeViaFacility(v);
+		return vService.createVehicleViaFireStation(v);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/create")
-	public Vehicle createVehicule(@RequestBody Vehicle v) {
+	public Vehicle createVehicle(@RequestBody Vehicle v) {
 		System.out.println(v);
-		return vService.createVehicule(v);
+		return vService.createVehicle(v);
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value="/delete/{id}")
 	public void delete(@PathVariable int id) {
-		vService.deleteVehicule(id);
+		vService.deleteVehicle(id);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/move/{id}")
 	public void move(@PathVariable int id, @RequestParam double lon, @RequestParam double lat) {
-		vService.moveVehicule(id, lon, lat);
+		vService.moveVehicle(id, lon, lat);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/followPath/{id}")
@@ -74,13 +74,13 @@ public class VehicleRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/state/{id}")
-	public void etatVehicule(@PathVariable int id, @RequestParam State state) {
-		vService.etatVehicule(id, state);
+	public void etatVehicle(@PathVariable int id, @RequestParam State state) {
+		vService.etatVehicle(id, state);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/setfireStationID/{vid}/{cid}")
-	public void etatVehicule(@PathVariable int vehicleID, @PathVariable int fireStationID) {
-		vService.facilityVehicule(vehicleID, fireStationID);
+	public void etatVehicle(@PathVariable int vehicleID, @PathVariable int fireStationID) {
+		vService.facilityVehicle(vehicleID, fireStationID);
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/giveFire/{VehiculeID}/{idFire}")
