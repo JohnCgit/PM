@@ -56,8 +56,10 @@ public class VehicleService {
 	
 	public Vehicle createVehicle(Vehicle v) {
 		Vehicle res = new Vehicle();
+		System.out.println("[VEHICLE-CREATE1] vehicle to be created : " +v);
 		if (v.getFireStationID()!=0) {
-			createVehicleRepo(v);
+			System.out.println("[VEHICLE-CREATE2] vehicle to be created : " +v);
+			Vehicle res = createVehicleRepo(v);
 			createVehicleFireSim(v);
 			linkVehicleFireStation(v);
 		}

@@ -50,7 +50,7 @@ public class Vehicle {
 	@Override
 	public String toString() {
 		return "Vehicle [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
-				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + fireStationID
+				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", fireStationID=" + fireStationID
 				+ ", Etat=" + state + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ getLiquidType()+"]";
 	}
