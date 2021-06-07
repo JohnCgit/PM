@@ -85,6 +85,11 @@ public class VehicleRestCrt {
 		vService.giveFire(VehiculeID,idFire);
 	}
 	
+	@RequestMapping(method=RequestMethod.PUT, value="/setDeplacement/{id}/{deplacement}")
+	public void setDeplacement(@PathVariable int id, @PathVariable int deplacement) {
+		vService.setDeplacement(id, deplacement);
+	}
+	
 	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
 	public void update(@PathVariable int id, @RequestBody String content) throws IOException {
 		vService.update(id, content);

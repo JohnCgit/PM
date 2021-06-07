@@ -13,12 +13,12 @@ public enum EnumVehicle {
 	 * FuelConsumption
 	 * )
 	 * */
-	CAR(2,2, 5, 0.5, 50,5),
-	FIRE_ENGINE(6,6, 10, 1, 100, 10),
-	PUMPER_TRUCK(6,4, 100, 10, 1000, 100),
-	WATER_TENDERS(4,2, 50, 5, 500, 50), 
-	TURNTABLE_LADDER_TRUCK(10,5, 20, 2, 200, 20),
-	TRUCK(10,8, 40, 4, 400, 40);
+	CAR(2, 2, 5, 0.5, 50, 5, 400),
+	FIRE_ENGINE(6, 6, 10, 1, 100, 10, 200),
+	PUMPER_TRUCK(6, 4, 100, 10, 1000, 100, 150),
+	WATER_TENDERS(4, 2, 50, 5, 500, 50, 300), 
+	TURNTABLE_LADDER_TRUCK(10, 5, 20, 2, 200, 20, 100),
+	TRUCK(10, 8, 40, 4, 400, 40, 150);
 	
 	private int spaceUsedInFacility;
 	private int vehicleCrewCapacity;
@@ -26,15 +26,17 @@ public enum EnumVehicle {
 	private double liquidConsumption;
 	private int fuelQuantityMax;
 	private double fuelConsumption;
+	private int deplacement;
 	
 	private EnumVehicle(int spaceUsedInFacility,int vehicleCrewCapacity,
-			int liquidQuantity, double liquidConsumption, int fuelQuantity, double fuelConsumption) {
+			int liquidQuantity, double liquidConsumption, int fuelQuantity, double fuelConsumption, int deplacement) {
 		this.spaceUsedInFacility=spaceUsedInFacility;
 		this.vehicleCrewCapacity=vehicleCrewCapacity;
 		this.liquidQuantityMax=liquidQuantity;
 		this.liquidConsumption=liquidConsumption;
 		this.fuelQuantityMax=fuelQuantity;
 		this.fuelConsumption=fuelConsumption;
+		this.deplacement = deplacement;
 		
 	}
 	
@@ -48,6 +50,14 @@ public enum EnumVehicle {
 
 	public int getLiquidQuantity() {
 		return liquidQuantityMax;
+	}
+
+	public int getDeplacement() {
+		return deplacement;
+	}
+
+	public void setDeplacement(int deplacement) {
+		this.deplacement = deplacement;
 	}
 
 	public void setLiquidQuantity(int liquidQuantity) {

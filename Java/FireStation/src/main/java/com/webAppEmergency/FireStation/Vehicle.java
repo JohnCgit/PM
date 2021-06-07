@@ -207,5 +207,12 @@ public class Vehicle {
 		this.state = state;
 	}
 
+	public int getDeplacement() {
+		return type.getDeplacement();
+	}
+
+	public void setDeplacement(int deplacement) {
+		this.type.setDeplacement(deplacement);
+	}
 	
 }

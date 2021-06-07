@@ -60,7 +60,7 @@ public class MoveRunnable implements Runnable{
 						else {
 							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" est a l aller");
 							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehicleID, null);
+							move(v);
 						}
 						break;
 					case EXTINCTION:
@@ -76,11 +76,13 @@ public class MoveRunnable implements Runnable{
 					case RETOUR:
 						System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est au retour");
 						if (v.getPath().size()==0) {
+							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
+							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 							System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est rentre");
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=DISPONIBLE", null);
 						}
 						else {
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehicleID, null);
+							move(v);
 						}
 						break;
 					default:
@@ -124,6 +126,27 @@ public class MoveRunnable implements Runnable{
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
 		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
+	}
+	
+	public void move(Vehicle v) {
+		Coord c1 = new Coord(v.getLon(), v.getLat());
+		List<Double> nextStep = v.getPath().remove(0);
+		Coord c2 = new Coord(nextStep.get(0), nextStep.get(1));
+		double distance = GisTools.computeDistance2(c1, c2);
+		
+		int deplacement = v.getDeplacement();
+		
+		while (distance < deplacement && v.getPath().size()>0) {
+			deplacement -= (int)distance;
+			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
+			
+			nextStep = v.getPath().remove(0);
+			c2 = new Coord(nextStep.get(0), nextStep.get(1));
+			distance = GisTools.computeDistance2(c1, c2);
+		}
+		deplacement += v.getDeplacement();
+		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId(), null);
+		
 	}
 	
 }

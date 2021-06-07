@@ -186,6 +186,11 @@ public class VehicleService {
 		vRepo.save(v);
 	}
 
+	public void setDeplacement(int vehicleID, int deplacement) {
+		Vehicle v = getVehicle(vehicleID);
+		v.setDeplacement(deplacement);
+		vRepo.save(v);
+	}
 
 	
 	public void update(int vehicleId, String content) throws IOException {
