@@ -35,7 +35,7 @@ class VehicleApp{
                         affiche=false; 
                     }
                     break;
-                case 'WATER_TENDER':
+                case 'WATER_TENDERS':
                     if(!typeWT){
                         affiche=false; 
                     }
@@ -181,18 +181,19 @@ class VehicleApp{
   </form>`;
   document.getElementById('id01').style.display='block';
     }
+
     Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
             `<div class="container">`+
+             `<h2> Modification du véhicule </h2>` +
               `<label for="lon"><b>Longitude</b></label>`+
               `<input type="double" name="lon" id="lon" placeholder=${lon}>`+
               `<label for="lat"><b>Latitude</b></label>`+
               `<input type="double" name="lat" id="lat" placeholder=${lat}>`+
              `<br/>`+
               `<label for="type"><b>Type</b></label>
-              <label for="type"><b>Type</b></label>
               <br/>
               <select id="type" name="type">
                  <option value="CAR">Car</option>
@@ -203,8 +204,15 @@ class VehicleApp{
                  <option value="TRUCK">Truck</option>
               </select>
               <br/>`+
-              `<label for="LiquidType"><b>LiquidType</b></label>`+
-            `<input type="double" name="LiquidType" id="lt" placeholder=`+liquidType+`>`+
+              `<label for="LiquidType"><b>LiquidType</b></label>
+                <br/>
+                <select id="lt" name="lt">
+                    <option value="ALL">All</option>
+                    <option value="WATER">Water</option>
+                    <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
+                    <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
+                    <option value="POWDER">Powder</option>
+             </select> </br></br>` +
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
               `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
               `<br/>`+
