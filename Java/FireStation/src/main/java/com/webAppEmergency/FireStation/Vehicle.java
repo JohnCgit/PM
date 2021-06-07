@@ -16,7 +16,7 @@ public class Vehicle {
 	@Id
 	@GeneratedValue
 	private int id;
-	private int idFs;
+	private int idFs=-1;
 	private EnumVehicle type;
 	
 	private double efficiency = 5.0;
@@ -28,7 +28,7 @@ public class Vehicle {
 	private double lon;
 	private double lat;
 	private Integer idFire; 
-	private LiquidType liquidType;
+	private LiquidType liquidType=LiquidType.ALL;
 	
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -41,9 +41,6 @@ public class Vehicle {
 		super();
 		this.type = type;
 		this.fireStationID = fireStationID;
-		this.idFire=-1;
-		this.id=-1;
-		this.setLiquidType(LiquidType.ALL);
 	}
 
 //////////////////////////////////////
