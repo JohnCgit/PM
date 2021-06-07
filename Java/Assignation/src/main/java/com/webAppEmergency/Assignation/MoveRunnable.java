@@ -59,29 +59,29 @@ public class MoveRunnable implements Runnable{
 							createPath(v, c); 
 						}
 						else {
-							System.out.println("[MOVE-RUN-A] Le vehicule "+vehiculeID+" est a l aller");
+							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" est a l aller");
 							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehiculeID, null);
+							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehicleID, null);
 						}
 						break;
 					case EXTINCTION:
-						System.out.println("[MOVE-RUN-E] "+vehiculeID+ " est a l extinction");
+						System.out.println("[MOVE-RUN-E] "+vehicleID+ " est a l extinction");
 						FireDto fire1 = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 						if (fire1==null) {
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=RETOUR", null);
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
 						}
 						else {
 							System.out.println("[MOVE-RUN-E] le feu "+" a une intensite de "+fire1.getIntensity());
 						}
 						break;
 					case RETOUR:
-						System.out.println("[MOVE-RUN-R] Le vehicule "+vehiculeID+" est au retour");
+						System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est au retour");
 						if (v.getPath().size()==0) {
-							System.out.println("[MOVE-RUN-R] Le vehicule "+vehiculeID+" est rentre");
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehiculeID+"?state=DISPONIBLE", null);
+							System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est rentre");
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=DISPONIBLE", null);
 						}
 						else {
-							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehiculeID, null);
+							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehicleID, null);
 						}
 						break;
 					default:
@@ -103,9 +103,9 @@ public class MoveRunnable implements Runnable{
 		this.isEnd=true;
 	}
 	
-	public void createPath(Vehicule v, Caserne c) throws IOException {
+	public void createPath(Vehicle v, FireStation f) throws IOException {
 		// Recupere le trajet sur mapbox api
-		String Path = c.getLon()+","+c.getLat()+";"+v.getLon()+","+v.getLat();
+		String Path = f.getLon()+","+f.getLat()+";"+v.getLon()+","+v.getLat();
 		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
 		String res = this.restTemplate.getForObject(url, String.class);
 		// Traduit la requete pour creer un path

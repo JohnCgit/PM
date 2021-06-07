@@ -53,7 +53,7 @@ public class MainRunnable implements Runnable {
 					System.out.println(feu.getId());
 					if (!this.List_Feu.contains(feu.getId())) {
 						System.out.println("[MAIN-RUN-55] qui est nouveau et associe avec : ");
-						Vehicule v=new Vehicule();
+						Vehicle v=new Vehicle();
 						try {
 							v = PickVehicule2(feu);
 							this.List_Feu.add(feu.getId());
@@ -87,16 +87,16 @@ public class MainRunnable implements Runnable {
 
 	// recupere la caserne la plus proche
 	//choisis le vehicule le lus adapte de cette caserne
-	public Vehicule PickVehicule2(FireDto feu) { // version actuelle
+	public Vehicle PickVehicule2(FireDto feu) { // version actuelle
 		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
 		Coord CoordFire= new Coord(feu.getLon(), feu.getLat());
-		Vehicule v = null;
+		Vehicle v = null;
 		List<Integer> LCaserne = new ArrayList<Integer>();
 		while (v==null) {
 			System.out.println("[MAIN-RUN-PickV2] Coord du feu : "+feu.getLon()+", "+feu.getLat());
-			Caserne c = ClosestCaserne(CoordFire, LCaserne);
+			FireStation f = ClosestCaserne(CoordFire, LCaserne);
 			System.out.println("[MAIN-RUN-PickV2] caserne la plus proche : "+c);
-			v = SelectVehiculeInCaserne(c, feu.getType());
+			v = SelectVehiculeInCaserne(f, feu.getType());
 			System.out.println("[MAIN-RUN-PickV2] vehicule choisi : "+v);
 		}
 		//TODO GetPompiers
@@ -105,11 +105,11 @@ public class MainRunnable implements Runnable {
 	
 	//regarde la plus proche des casernes
 	
-	public Caserne ClosestCaserne(Coord CoordFire, List<Integer> lCaserne) {
-		Caserne[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", Caserne[].class);
-		Caserne res = new Caserne();
+	public FireStation ClosestCaserne(Coord CoordFire, List<Integer> lCaserne) {
+		FireStation[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", FireStation[].class);
+		FireStation res = new FireStation();
 		Integer minDistance = -1;
-		for (Caserne c:ListCaserne) { 
+		for (FireStation c:ListCaserne) { 
 			if (!lCaserne.contains(c.getId())) {
 				Integer Distance=GisTools.computeDistance2(new Coord(c.getLon(), c.getLat()), CoordFire);
 				if (minDistance<=0 || minDistance>=Distance) {
@@ -128,13 +128,13 @@ public class MainRunnable implements Runnable {
 	// S'ils sont disponibles alors
 	// S'ils sont plus efficace alors
 	// Ils sont choisis, le dernier restant est renvoye
-	public Vehicule SelectVehiculeInCaserne(Caserne c, String fireType)
+	public Vehicle SelectVehiculeInCaserne(FireStation c, String fireType)
 	{
-		Vehicule res = null;
+		Vehicle res = null;
 		if (!c.getListVehicules().isEmpty()) {		
 			float maxefficacite=-1;
-			for (Integer idVehicule:c.getListVehicules()) { 
-				Vehicule v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicule, Vehicule.class);
+			for (Integer idVehicle:c.getListVehicules()) { 
+				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
 				float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
 				if (v.getEtat()==State.DISPONIBLE) { 
 					if (efficacite>maxefficacite) { 
