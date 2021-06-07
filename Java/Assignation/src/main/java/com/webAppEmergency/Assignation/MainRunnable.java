@@ -123,15 +123,15 @@ public class MainRunnable implements Runnable {
 	public Vehicle SelectVehicleInFireStation(FireStation f, String fireType)
 	{
 		Vehicle res = null;
-		if (!f.getListVehicules().isEmpty()) {		
-			float maxefficacite=-1;
-			for (Integer idVehicle:f.getListVehicules()) { 
+		if (!f.getListVehicles().isEmpty()) {		
+			float maxefficiency=-1;
+			for (Integer idVehicle:f.getListVehicles()) { 
 				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
-				float efficacite = v.getType().getLiquidType().getEfficiency(fireType);
+				float efficiency = v.getLiquidType().getEfficiency(fireType);
 				if (v.getEtat()==State.DISPONIBLE) { 
-					if (efficacite>maxefficacite) { 
+					if (efficiency>maxefficiency) { 
 						res=v; 						
-						maxefficacite=efficacite;
+						maxefficiency=efficiency;
 					}
 				}
 			}
@@ -153,7 +153,7 @@ public class MainRunnable implements Runnable {
 			double lat = coord.get(1).asDouble();
 			path.add(new ArrayList<>(List.of(lon, lat)));
 		}
-		System.out.println("[MAIN-RUN-P] the path is" + path);
+		System.out.println("[MAIN-RUN-P] new path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

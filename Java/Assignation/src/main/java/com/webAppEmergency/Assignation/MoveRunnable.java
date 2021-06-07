@@ -1,7 +1,6 @@
 package com.webAppEmergency.Assignation;
 
-import org.json.JSONObject;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -52,7 +51,7 @@ public class MoveRunnable implements Runnable{
 						Coord c2 = new Coord(fire.getLon(), fire.getLat());
 						if (v.getPath().size()==0) {
 							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
-							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
+							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
 							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
 							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getfireStationID(), FireStation.class);
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
@@ -60,7 +59,7 @@ public class MoveRunnable implements Runnable{
 						}
 						else {
 							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" est a l aller");
-							System.out.println("[MOVE-RUN-A] il est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
+							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
 							this.restTemplate.put("http://127.0.0.1:8070/followPath/"+vehicleID, null);
 						}
 						break;
@@ -117,7 +116,7 @@ public class MoveRunnable implements Runnable{
 			double lat = coord.get(1).asDouble();
 			path.add(new ArrayList<>(List.of(lon, lat)));
 		}
-		System.out.println("[MOVE-RUN-P] the path is" + path);
+		System.out.println("[MOVE-RUN-P] new path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

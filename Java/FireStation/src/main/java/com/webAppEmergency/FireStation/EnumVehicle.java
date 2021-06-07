@@ -1,6 +1,5 @@
 package com.webAppEmergency.FireStation;
 
-import com.project.model.dto.LiquidType;
 
 public enum EnumVehicle {
 	/*
