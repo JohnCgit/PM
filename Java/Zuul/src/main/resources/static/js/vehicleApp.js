@@ -166,14 +166,21 @@ class VehicleApp{
         </select>
         <br/>
         <label for="LiquidType"><b>LiquidType</b></label>
-        <input type="double" name="LiquidType" id="lt" >
+        <br/>
+        <select id="lt" name="lt">
+          <option value="ALL">All</option>
+          <option value="WATER">Water</option>
+          <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
+          <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
+          <option value="POWDER">Powder</option>
+        </select>
+        </br></br>
         <button type="submit">Create</button>
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
   </form>`;
   document.getElementById('id01').style.display='block';
     }
-
     Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
         document.getElementById('updateForm').innerHTML=
 
