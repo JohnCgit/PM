@@ -1,6 +1,7 @@
 package com.webAppEmergency.Assignation;
 
 
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -67,6 +68,7 @@ public class MoveRunnable implements Runnable{
 						System.out.println("[MOVE-RUN-E] "+vehicleID+ " est a l extinction");
 						FireDto fire1 = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
 						if (fire1==null) {
+//							useAE(v);
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
 						}
 						else {
@@ -153,6 +155,34 @@ public class MoveRunnable implements Runnable{
 		deplacement += v.getDeplacementType();
 		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId()+"/"+deplacement, null);
 		
+//		useFuel(v);
+		
+	}
+	
+	public void useFuel(Vehicle v) {
+		double fuel = v.getFuel();
+		double consumption = v.getFuelConsumption();
+		JSONObject body = new JSONObject();
+		body.put("fuel", fuel-consumption);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+		this.restTemplate.put("http://127.0.0.1:8070/update/1", request);
+	}
+	
+	public void useAE(Vehicle v) {
+		double liquid = v.getLiquidQuantity();
+		double consumption = v.getLiquidConsumption();
+		JSONObject body = new JSONObject();
+		body.put("fuel", liquid-consumption);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+		this.restTemplate.put("http://127.0.0.1:8070/update/1", request);
 	}
 	
 }
