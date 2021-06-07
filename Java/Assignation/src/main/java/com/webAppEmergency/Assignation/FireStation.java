@@ -18,7 +18,7 @@ public class FireStation {
 	private String libelle;
 	private double lon;
 	private double lat;
-	private int capaciteMax;
+	private int maxCapacity;
 	
 	//@Transient
 	//private Coord coord;
@@ -27,11 +27,11 @@ public class FireStation {
 	private List<Integer> ListVehicles = new ArrayList<Integer>(List.of(-1));
 	
 	@ElementCollection
-	private List<Integer> ListPompiers = new ArrayList<Integer>(List.of(-1));
+	private List<Integer> Listfireman = new ArrayList<Integer>(List.of(-1));
 	
 	public FireStation() {}
 	
-	public FireStation(double lon, double lat, String libelle, List<Integer> ListVehicles, List<Integer> ListPompiers, int capaciteMax) {
+	public FireStation(double lon, double lat, String libelle, List<Integer> ListVehicles, List<Integer> Listfireman, int maxCapacity) {
 		
 		super();
 		//this.coord=new Coord(lon, lat);
@@ -39,19 +39,10 @@ public class FireStation {
 		this.lat = lat;
 		this.libelle = libelle;
 		this.ListVehicles = ListVehicles;
-		this.ListPompiers = ListPompiers;
-		this.capaciteMax = capaciteMax;
+		this.Listfireman = Listfireman;
+		this.maxCapacity = maxCapacity;
 
 	}
-/*
-	public Coord getCoord() {
-		return this.coord;
-	}
-
-	public void setCoord(Coord coord) {
-		this.coord = coord;
-	}
-*/
 	
 	public int getId() {
 		return id;
@@ -93,25 +84,25 @@ public class FireStation {
 		ListVehicles = listVehicules;
 	}
 
-	public List<Integer> getListPompiers() {
-		return ListPompiers;
+	public List<Integer> getListfireman() {
+		return Listfireman;
 	}
 
-	public void setListPompiers(List<Integer> listPompiers) {
-		ListPompiers = listPompiers;
+	public void setListfireman(List<Integer> listfireman) {
+		Listfireman = listfireman;
 	}
 
-	public int getCapaciteMax() {
-		return capaciteMax;
+	public int getMaxCapacity() {
+		return maxCapacity;
 	}
 
-	public void setCapaciteMax(int capaciteMax) {
-		this.capaciteMax = capaciteMax;
+	public void setMaxCapacity(int capaciteMax) {
+		this.maxCapacity = capaciteMax;
 	}
 	
 	@Override
 	public String toString() {
 		return "Caserne [id=" + id + ", libelle=" + libelle + ", lon=" + lon + ", lat=" + lat + ", capaciteMax="
-				+ capaciteMax + ", ListVehicules=" + ListVehicles + ", ListPompiers=" + ListPompiers + "]";
+				+ maxCapacity + ", ListVehicules=" + ListVehicles + ", Listfireman=" + Listfireman + "]";
 	}
 }

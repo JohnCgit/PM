@@ -36,7 +36,7 @@ public class VehicleService {
     }
 		
 //////////////////////////////////////
-// get Vehicule
+// get Vehicle
 //////////////////////////////////////
 
 	public List<Vehicle> getAll() {
@@ -51,7 +51,7 @@ public class VehicleService {
 	}
 	
 //////////////////////////////////////
-//update/create Vehicule
+//update/create Vehicle
 //////////////////////////////////////
 	
 	public Vehicle createVehicle(Vehicle v) {
@@ -59,7 +59,7 @@ public class VehicleService {
 		if (v.getfireStationID()!=0) {
 			createVehicleRepo(v);
 			createVehicleFireSim(v);
-			linkVehiculeFireStation(v);
+			linkVehicleFireStation(v);
 		}
 		return res;
 	}
@@ -70,12 +70,12 @@ public class VehicleService {
 		return res;
 	}
 	
-	public void linkVehiculeFireStation(Vehicle v) {
-		this.restTemplate.put("http://127.0.0.1:8050/addVehicule/"+v.getfireStationID()+"/"+v.getId(), null);
+	public void linkVehicleFireStation(Vehicle v) {
+		this.restTemplate.put("http://127.0.0.1:8050/addVehicle/"+v.getfireStationID()+"/"+v.getId(), null);
 	}
 
-	public void removeVehiculeFireStation(Vehicle v) {
-		this.restTemplate.put("http://127.0.0.1:8050/removeVehicule/"+v.getfireStationID()+"/"+v.getId(), null);
+	public void removeVehicleFireStation(Vehicle v) {
+		this.restTemplate.put("http://127.0.0.1:8050/removeVehicle/"+v.getfireStationID()+"/"+v.getId(), null);
 	}
 	
 	public void createVehicleFireSim(Vehicle v) {
@@ -83,11 +83,10 @@ public class VehicleService {
 		try {
 			this.jNode = this.mapper.readTree(content);
 			JsonNode jId = this.jNode.get("id");
-			System.out.println("[VEHICULE-CREATE] Vehicule "+v.getId()+" id in fire sim is : "+jId);
+			System.out.println("[VEHICLE-CREATE] Vehicle "+v.getId()+" id in fire sim is : "+jId);
 			v.setIdFs(jId.asInt());
 			vRepo.save(v);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -103,7 +102,7 @@ public class VehicleService {
 	
 	public void moveVehicle(int id, double lon, double lat) {
 		Vehicle v = getVehicle(id);
-		System.out.println("[VEHICULE-MOVE] vehicule"+v.getId()+" is moving to : "+ lon+", "+lat);
+		System.out.println("[VEHICLE-MOVE] vehicle"+v.getId()+" is moving to : "+ lon+", "+lat);
 		v.setLon(lon);
 		v.setLat(lat);
 		vRepo.save(v);
@@ -146,7 +145,7 @@ public class VehicleService {
 		body.put("crewMember", v.getCrewMember());
 		body.put("crewMemberCapacity", v.getType().getVehicleCrewCapacity());
 		body.put("facilityRefID", v.getfireStationID());
-		System.out.println("[VEHICULE-TOFIRESIM] Body is "+body);
+		System.out.println("[VEHICLE-TOFIRESIM] Body is "+body);
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -154,7 +153,7 @@ public class VehicleService {
 			      new HttpEntity<String>(body.toString(), headers);
 
 		String res = this.restTemplate.postForObject("http://127.0.0.1:8081/vehicle", request, String.class);
-		System.out.println("[VEHICULE-TOFIRESIM] FireSim response : "+res);
+		System.out.println("[VEHICLE-TOFIRESIM] FireSim response : "+res);
 		return res;
 	} 
 	

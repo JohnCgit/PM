@@ -85,4 +85,20 @@ public enum EnumVehicle {
 	public void setVehicleCrewCapacity(int vehicleCrewCapacity) {
 		this.vehicleCrewCapacity = vehicleCrewCapacity;
 	}
+
+	public int getLiquidQuantityMax() {
+		return liquidQuantityMax;
+	}
+
+	public void setLiquidQuantityMax(int liquidQuantityMax) {
+		this.liquidQuantityMax = liquidQuantityMax;
+	}
+
+	public int getFuelQuantityMax() {
+		return fuelQuantityMax;
+	}
+
+	public void setFuelQuantityMax(int fuelQuantityMax) {
+		this.fuelQuantityMax = fuelQuantityMax;
+	}
 }

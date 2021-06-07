@@ -52,7 +52,7 @@ public class Vehicle {
 	
 	@Override
 	public String toString() {
-		return "Vehicule [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
+		return "Vehicle [id=" + id + ", idFs=" + idFs + ", type=" + type + ", efficiency=" + efficiency + ", liquidQuantity="
 				+ liquidQuantity + ", fuel=" + fuel + ", crewMember=" + crewMember + ", facilityRefID=" + fireStationID
 				+ ", Etat=" + state + ", lon=" + lon + ", lat=" + lat + ", idFire=" + idFire + ", Path=" + Path + 
 				", LiquidType= "+ getLiquidType()+"]";
@@ -199,6 +199,22 @@ public class Vehicle {
 	
 	public LiquidType getLiquidType() {
 		return liquidType;
+	}
+
+	public int getFireStationID() {
+		return fireStationID;
+	}
+
+	public void setFireStationID(int fireStationID) {
+		this.fireStationID = fireStationID;
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	

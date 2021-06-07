@@ -22,7 +22,7 @@ public class FireStationRestCrt {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/{id}")
 	public FireStation getCaserne(@PathVariable int id){
-		FireStation c=cService.getCaserne(Integer.valueOf(id));
+		FireStation c=cService.getFireStation(Integer.valueOf(id));
 	    return c;
 	}
 	
@@ -32,18 +32,18 @@ public class FireStationRestCrt {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value="/add")
-	public void addCaserne(@RequestBody FireStation c){
-		if(c.getLat() != 0 && c.getLon() !=0) {
-			if(c.getLibelle() == null) {
-				c.setLibelle("Nouvelle caserne");
+	public void addCaserne(@RequestBody FireStation f){
+		if(f.getLat() != 0 && f.getLon() !=0) {
+			if(f.getLibelle() == null) {
+				f.setLibelle("Nouvelle caserne");
 			}
-			cService.addCaserne(c);
+			cService.addFireStation(f);
 		}
 	}
 	
-	@RequestMapping(method=RequestMethod.PUT, value="/addVehicule/{facilityID}/{VehiculeID}")
+	@RequestMapping(method=RequestMethod.PUT, value="/addVehicle/{facilityID}/{VehiculeID}")
 	public void addVehicule(@PathVariable int facilityID, @PathVariable int VehicleID) {
-		cService.addVehiculeWCaserneID(facilityID, VehicleID);
+		cService.addVehicleWFireStationID(facilityID, VehicleID);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/initLyon")

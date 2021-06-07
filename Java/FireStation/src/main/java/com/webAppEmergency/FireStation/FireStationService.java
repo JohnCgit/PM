@@ -41,7 +41,7 @@ public class FireStationService {
         this.restTemplate = restTemplateBuilder.build();
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
-        System.out.println("[CASERNE-INIT] Current relative path is: " + s);
+        System.out.println("[FIRESTATION-INIT] Current relative path is: " + s);
         this.path = "src/main/java/com/webAppEmergency/FireStation/grandlyon.json";
 //    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         
@@ -53,14 +53,14 @@ public class FireStationService {
 		return cRepo.findAll();
 	}
 	
-	public FireStation getCaserne(int realid) {
+	public FireStation getFireStation(int realid) {
 		FireStation res=null;
-		Optional<FireStation> oCaserne = cRepo.findById(realid);
-		if (oCaserne.isPresent()){res=oCaserne.get();}
+		Optional<FireStation> oFS = cRepo.findById(realid);
+		if (oFS.isPresent()){res=oFS.get();}
 		return res;
 	}
 	
-	public void addCaserne(FireStation c) {
+	public void addFireStation(FireStation c) {
 	  	cRepo.save(c);
 	}
 	
@@ -77,17 +77,17 @@ public class FireStationService {
 	        JSONArray coordinates = (JSONArray) geometry.get("coordinates");
 	        double lon = (double) coordinates.get(0);
 	        double lat = (double) coordinates.get(1);
-	        System.out.println("[CASERNE-INITLYON] libelle"+name);
-	        System.out.println("[CASERNE-INITLYON] Coordonnées : (" + lon + ","+ lat +")");
+	        System.out.println("[FIRESTATION-INITLYON] libelle"+name);
+	        System.out.println("[FIRESTATION-INITLYON] Coordonnées : (" + lon + ","+ lat +")");
 	        FireStation c = new FireStation(lon, lat, name, Arrays.asList(), Arrays.asList(), 15);
 			cRepo.save(c);	        
 	        ListC.add(c);
 		}
-		for (FireStation c: ListC) {initVehicule(c);cRepo.save(c);}
+		for (FireStation c: ListC) {initVehicle(c);cRepo.save(c);}
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void initVehicule(FireStation c) {
+	public void initVehicle(FireStation c) {
 		JSONObject body = new JSONObject();
 		body.put("type", "TRUCK");
 		body.put("efficiency", 2.0);
@@ -103,39 +103,39 @@ public class FireStationService {
 
 		Vehicle v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicle.class);
 
-		addVehiculeWCaserne(c, v.getId());
+		addVehicleWFireStation(c, v.getId());
 	}
 		
-	public void addVehiculeWCaserne(FireStation c, int VehiculeID) {
-		System.out.println("[CASERNE-AddV2C] adding to"+c);
-		List<Integer> ListVehicule = c.getListVehicles();
-		if (ListVehicule.isEmpty()) {
-			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
-			System.out.println(ListVehicule);
+	public void addVehicleWFireStation(FireStation c, int VehicleID) {
+		System.out.println("[FIRESTATION-AddV2C] adding to"+c);
+		List<Integer> ListVehicle = c.getListVehicles();
+		if (ListVehicle.isEmpty()) {
+			ListVehicle = new ArrayList<Integer>(List.of(VehicleID));
+			System.out.println(ListVehicle);
 		}
 		else {
-			ListVehicule.add(VehiculeID);		
+			ListVehicle.add(VehicleID);		
 		}
-		c.setListVehicles(ListVehicule);
-		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		c.setListVehicles(ListVehicle);
+		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 	
-	public void addVehiculeWCaserneID(int CaserneID, int VehiculeID) {
-		FireStation c = getCaserne(CaserneID);
-		List<Integer> ListVehicule = c.getListVehicles();
-		if (ListVehicule.isEmpty()) {
-			ListVehicule = new ArrayList<Integer>(List.of(VehiculeID));
-			System.out.println(ListVehicule);
+	public void addVehicleWFireStationID(int FireStationID, int VehicleID) {
+		FireStation c = getFireStation(FireStationID);
+		List<Integer> ListVehicle = c.getListVehicles();
+		if (ListVehicle.isEmpty()) {
+			ListVehicle = new ArrayList<Integer>(List.of(VehicleID));
+			System.out.println(ListVehicle);
 		}
 		else {
-			System.out.println(!ListVehicule.contains(VehiculeID));
-			if (!ListVehicule.contains(VehiculeID)) {
-				ListVehicule.add(VehiculeID);					
+			System.out.println(!ListVehicle.contains(VehicleID));
+			if (!ListVehicle.contains(VehicleID)) {
+				ListVehicle.add(VehicleID);					
 			}	
 		}
-		c.setListVehicles(ListVehicule);
-		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehiculeID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		c.setListVehicles(ListVehicle);
+		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 }
