@@ -138,14 +138,15 @@ public class MoveRunnable implements Runnable{
 		
 		while (distance < deplacement && v.getPath().size()>0) {
 			deplacement -= (int)distance;
+			System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
 			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
 			
 			nextStep = v.getPath().remove(0);
 			c2 = new Coord(nextStep.get(0), nextStep.get(1));
 			distance = GisTools.computeDistance2(c1, c2);
 		}
-		deplacement += v.getDeplacement();
-		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId(), null);
+		deplacement += v.getDeplacementType();
+		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId()+"/"+deplacement, null);
 		
 	}
 	

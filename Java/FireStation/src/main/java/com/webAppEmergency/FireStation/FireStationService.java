@@ -91,6 +91,7 @@ public class FireStationService {
 		JSONObject body = new JSONObject();
 		body.put("type", "CAR");
 		body.put("fireStationID", f.getId());
+		body.put("liquidType","ALL");
 		
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

@@ -96,6 +96,7 @@ public class VehicleService {
 		Optional<Vehicle> oVehicle = vRepo.findById(v.getId());
 		if (oVehicle.isEmpty()) {
 			v.setCrewMember(v.getType().getVehicleCrewCapacity());
+			v.setDeplacement(v.getDeplacementType());
 			vRepo.save(v);
 			}
 		return v;
@@ -138,7 +139,7 @@ public class VehicleService {
 		body.put("lat", v.getLat());
 		body.put("type", v.getType());
 		body.put("efficiency", v.getEfficiency());
-		body.put("liquideType", v.getLiquidType());
+		body.put("liquidType", v.getLiquidType());
 		body.put("liquidQuantity", v.getLiquidQuantity());
 		body.put("liquidConsumption", v.getType().getLiquidConsumption());
 		body.put("fuel", v.getFuel());

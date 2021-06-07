@@ -29,6 +29,7 @@ public class Vehicle {
 	private double lat;
 	private Integer idFire; 
 	private LiquidType liquidType;
+	private int deplacement;
 	
 	@ElementCollection
 	private List<ArrayList<Double>> Path = new ArrayList<ArrayList<Double>>();
@@ -207,12 +208,22 @@ public class Vehicle {
 		this.state = state;
 	}
 
-	public int getDeplacement() {
+	public int getDeplacementType() {
 		return type.getDeplacement();
 	}
 
-	public void setDeplacement(int deplacement) {
+	public void setDeplacementType(int deplacement) {
 		this.type.setDeplacement(deplacement);
 	}
+
+	public int getDeplacement() {
+		return deplacement;
+	}
+
+	public void setDeplacement(int deplacement) {
+		this.deplacement = deplacement;
+	}
+	
+	
 	
 }
