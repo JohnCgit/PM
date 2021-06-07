@@ -186,7 +186,6 @@ class VehicleApp{
               `<input type="double" name="lat" id="lat" placeholder=${lat}>`+
              `<br/>`+
               `<label for="type"><b>Type</b></label>
-              <label for="type"><b>Type</b></label>
               <br/>
               <select id="type" name="type">
                  <option value="CAR">Car</option>
