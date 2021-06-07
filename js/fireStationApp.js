@@ -4,14 +4,14 @@ class FireStationApp{
         this.ListFireStation = ListFireStation;
     }
 
-    AddFireStation(FireStation){
+    /*AddFireStation(FireStation){
         L.circle([FireStation.lat,FireStation.lon], {
             color: 'blue',
             fillColor: '#f03',
             fillOpacity: 0.5,
             radius: Fire.range
         }).addTo(this.markersFireStation);
-    }
+    }*/
 
     getFireStationAt(lat,lng){
         let fireStation = null;

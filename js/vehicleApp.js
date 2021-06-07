@@ -115,11 +115,11 @@ class VehicleApp{
         let data = {};
 
         let type = document.getElementById("type").value;
-        //let lt = document.getElementById("lt").value;
+        let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
 
         if (type != "")    {data["type"] = type;}
-        //if (lt != "")    {data["liquidType"] = lt;}
+        if (lt != "")    {data["liquidType"] = lt;}
         if (fRID != "")    {data["facilityRefID"] = fRID; }
         if(!cU){
             data["id"]=id;
@@ -165,8 +165,16 @@ class VehicleApp{
           <option value="TRUCK">Truck</option>
         </select>
         <br/>
-        <!--<label for="LiquidType"><b>LiquidType</b></label>
-        <input type="double" name="LiquidType" id="lt" >-->
+        <label for="LiquidType"><b>LiquidType</b></label>
+        <br/>
+        <select id="lt" name="lt">
+          <option value="ALL">All</option>
+          <option value="WATER">Water</option>
+          <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
+          <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
+          <option value="POWDER">Powder</option>
+        </select>
+        </br></br>
         <button type="submit">Create</button>
         <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
       </div>
