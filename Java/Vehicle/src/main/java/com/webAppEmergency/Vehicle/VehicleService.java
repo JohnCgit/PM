@@ -199,35 +199,58 @@ public class VehicleService {
 		JsonNode jNode = this.mapper.readTree(content);
 
 		if(jNode.get("fuel")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update fuel");
 			v.setFuel(jNode.get("fuel").asDouble());
 		}
 
 		if(jNode.get("lon")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update lon");
 			v.setLon(jNode.get("lon").asDouble());
 		}
 
 		if(jNode.get("lat")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update lat");
 			v.setLat(jNode.get("lat").asDouble());
 		}
 
 		if(jNode.get("crewMember")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update crewMember");
 			v.setCrewMember(jNode.get("crewMember").asInt());
 		}
 
 		if(jNode.get("liquidQuantity")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update liquidQuantity");
 			v.setLiquidQuantity(jNode.get("liquidQuantity").asDouble());
 		}
 
-		if(jNode.get("facilityRefID")!=null) {
-			changeFacility(v.getId(),jNode.get("facilityRefID").asInt());
+		if(jNode.get("fireStationID")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update fireStationID");
+			changeFacility(v.getId(),jNode.get("fireStationID").asInt());
 		}
 
-		if(jNode.get("type").asText()!=null) {
+		if(jNode.get("type")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update type");
 			v.setType(EnumVehicle.valueOf((jNode.get("type").asText())));
 		}
 
-		if(jNode.get("liquidType").asText()!=null) {
+		if(jNode.get("liquidType")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update liquidType");
 			v.setLiquidType(LiquidType.valueOf((jNode.get("liquidType").asText())));
+		}
+		
+		if (jNode.get("idFire")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update idFire");
+			v.setIdFire(jNode.get("idFire").asInt());
+		}
+		
+		if (jNode.get("deplacement")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update deplacement");
+			v.setDeplacement(jNode.get("deplacement").asInt());
+		}
+		
+		if (jNode.get("efficiency")!=null) {
+			System.out.println("[vServ-Update] "+vehicleId+" update efficiency");
+			v.setEfficiency(jNode.get("efficiency").asDouble());
 		}
 
 		vRepo.save(v);
@@ -236,7 +259,7 @@ public class VehicleService {
 
 	private void changeFacility(int id, int asInt) {
 		//TODO test place
-		//if()
+		//if(firestation.spaceleft>vehicule.getspace)
 		Vehicle v = getVehicle(id);
 		
 		

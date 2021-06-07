@@ -92,6 +92,8 @@ public class VehicleRestCrt {
 	
 	@RequestMapping(method=RequestMethod.PUT, value="/update/{id}")
 	public void update(@PathVariable int id, @RequestBody String content) throws IOException {
+		System.out.println("[VEHICULERestCrt-Update] id : "+id);
+		System.out.println("[VEHICULERestCrt-Update] content : "+content);
 		vService.update(id, content);
 	}
 }

@@ -42,7 +42,7 @@ public class FireStationService {
         Path currentRelativePath = Paths.get("");
         String s = currentRelativePath.toAbsolutePath().toString();
         System.out.println("[FIRESTATION-INIT] Current relative path is: " + s);
-        this.path = "src/main/java/com/webAppEmergency/FireStation/grandlyon.json";
+        this.path = "src/main/java/com/webAppEmergency/FireStation/grandlyon2.json";
 //    	this.path="src\\main\\java\\com\\webAppEmergency\\Caserne\\grandlyon.json";
         
         this.url="https://download.data.grandlyon.com/wfs/grandlyon?SERVICE=WFS&VERSION=2.0.0&request=GetFeature&typename=adr_voie_lieu.adrsecourspct&outputFormat=application/json;subtype=geojson&SRSNAME=EPSG:4171&startIndex=0&count=100";
