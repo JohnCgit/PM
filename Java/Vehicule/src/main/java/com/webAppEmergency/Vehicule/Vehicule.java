@@ -177,6 +177,7 @@ public class Vehicule {
 
 	public LiquidType getLiquidType() {
 		return this.type.getLiquidType();
+	}
 
 	public double getFuelConsumption() {
 		return type.getFuelConsumption();
