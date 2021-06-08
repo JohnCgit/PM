@@ -13,12 +13,12 @@ public enum EnumVehicle {
 	 * FuelConsumption
 	 * )
 	 * */
-	CAR(2, 2, 5, 0.5, 50, 5, 400),
-	FIRE_ENGINE(6, 6, 10, 1, 100, 10, 200),
-	PUMPER_TRUCK(6, 4, 100, 10, 1000, 100, 150),
-	WATER_TENDERS(4, 2, 50, 5, 500, 50, 300), 
-	TURNTABLE_LADDER_TRUCK(10, 5, 20, 2, 200, 20, 100),
-	TRUCK(10, 8, 40, 4, 400, 40, 150);
+	CAR(2, 2, 5, 0.5, 100, 1, 400),
+	FIRE_ENGINE(6, 6, 10, 1, 100, 1, 200),
+	PUMPER_TRUCK(6, 4, 100, 10, 1000, 10, 150),
+	WATER_TENDERS(4, 2, 50, 5, 500, 5, 300), 
+	TURNTABLE_LADDER_TRUCK(10, 5, 20, 2, 200, 2, 100),
+	TRUCK(10, 8, 40, 4, 400, 4, 150);
 	
 	private int spaceUsedInFacility;
 	private int vehicleCrewCapacity;

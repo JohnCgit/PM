@@ -216,6 +216,4 @@ public class Vehicle {
 		this.deplacement = deplacement;
 	}
 	
-	
-	
 }

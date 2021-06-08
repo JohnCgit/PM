@@ -87,7 +87,14 @@ public class MoveRunnable implements Runnable{
 							move(v);
 						}
 						break;
-					default:
+					case DISPONIBLE:
+					case NON_OPERATIONNAL:
+						if (v.getFuel()<v.getFuelQuantityMax()) {	
+							refuel(v);
+						}
+						if (v.getLiquidQuantity()<v.getLiquidQuantityMax()) {	
+							refill(v);
+						}											
 						break;
 					}
 				}
@@ -185,4 +192,27 @@ public class MoveRunnable implements Runnable{
 		this.restTemplate.put("http://127.0.0.1:8070/update/1", request);
 	}
 	
+	public void refuel(Vehicle v) {
+		JSONObject body = new JSONObject();
+		int refuel = (int) Math.min(v.getFuel()+40, v.getLiquidQuantityMax());
+		body.put("fuel", refuel);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+			this.restTemplate.put("http://127.0.0.1:8070/update/"+v.getId(), request);
+	}
+	
+	public void refill (Vehicle v) {
+		JSONObject body = new JSONObject();
+		int refill = (int) Math.min(v.getLiquidQuantity()+40, v.getLiquidQuantityMax());
+		body.put("fuel", refill);
+		HttpHeaders headers = new HttpHeaders();
+	    headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<String> request = 
+			      new HttpEntity<String>(body.toString(), headers);
+			this.restTemplate.put("http://127.0.0.1:8070/update/"+v.getId(), request);
+	}
 }

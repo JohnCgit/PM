@@ -146,19 +146,7 @@ public class MainRunnable implements Runnable {
 	}
 	
 	public void createPath(Vehicle v, FireDto feu) throws IOException {
-		// Recupere le trajet sur mapbox api
-		String Path = v.getLon()+","+v.getLat()+";"+feu.getLon()+","+feu.getLat();
-		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
-		String res = this.restTemplate.getForObject(url, String.class);
-		// Traduit la requete pour creer un path
-		this.jNode = mapper.readTree(res);
-		JsonNode jPath = jNode.get("routes").get(0).get("geometry").get("coordinates");
-		ArrayList<ArrayList<Double>> path = new ArrayList<ArrayList<Double>>();
-		for (JsonNode coord: jPath) {
-			double lon = coord.get(0).asDouble();
-			double lat = coord.get(1).asDouble();
-			path.add(new ArrayList<>(List.of(lon, lat)));
-		}
+		ArrayList<ArrayList<Double>> path = wouldBePath(v, feu);
 		System.out.println("[MAIN-RUN-P] new path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
@@ -167,5 +155,52 @@ public class MainRunnable implements Runnable {
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
 		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
+	}
+	
+	public boolean canGoThereAndBack(Vehicle v, FireDto feu) {
+		boolean res1 = false;
+		boolean res2 = false;
+		ArrayList<ArrayList<Double>> path = wouldBePath(v, feu);
+		List<Integer> LDist = new ArrayList<Integer>();
+		path = wouldBePath(v, feu);
+		Coord c1 = new Coord(v.getLon(), v.getLat());
+		Coord c2 = new Coord();
+		//total distance /2
+		for (List<Double> nextStep:path) {
+			c2 = new Coord(nextStep.get(0), nextStep.get(1));
+			int distance = GisTools.computeDistance2(c1, c2);
+			LDist.add(distance);
+			c1 = new Coord(nextStep.get(0), nextStep.get(1));
+			}
+		int sum = 0;
+		for (int dist:LDist) {sum +=dist;}
+		sum *= 2;
+		int tic = sum/200;
+		tic++;
+		double ticLeft = v.getLiquidQuantity()/v.getLiquidConsumption();
+		if (ticLeft>tic) {res1 = true;}
+		return (res1 && res2);
+	}
+	
+	public ArrayList<ArrayList<Double>> wouldBePath(Vehicle v, FireDto feu) {
+		String Path = v.getLon()+","+v.getLat()+";"+feu.getLon()+","+feu.getLat();
+		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
+		String res = this.restTemplate.getForObject(url, String.class);
+		// Traduit la requete pour creer un path
+		try {
+			this.jNode = mapper.readTree(res);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JsonNode jPath = jNode.get("routes").get(0).get("geometry").get("coordinates");
+		ArrayList<ArrayList<Double>> path = new ArrayList<ArrayList<Double>>();
+		for (JsonNode coord: jPath) {
+			double lon = coord.get(0).asDouble();
+			double lat = coord.get(1).asDouble();
+			path.add(new ArrayList<>(List.of(lon, lat)));
+		}
+		
+		return path;
 	}
 }
