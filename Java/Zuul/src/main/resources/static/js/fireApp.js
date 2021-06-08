@@ -94,7 +94,7 @@ class FireApp{
     ToString(fire){     //lon et lat, intensity, range, type
         return `<h3> Feu n°` + fire.id + `</h3>` +
         `<p> Type: ` + fire.type + `</p>` +
-        `<p> Latitude/Longitude: (` + fire.lat + `,`  + fire.lon + `)` +`</p>` +
+        `<p> Lat/Lon: (` + fire.lat + `,`  + fire.lon + `)` +`</p>` +
         `<p> Rayon : ` + fire.range + `&nbsp --- Intensité :` + fire.intensity +  `</p>`;
     }
 

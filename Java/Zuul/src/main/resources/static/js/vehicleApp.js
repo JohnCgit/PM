@@ -87,9 +87,9 @@ class VehicleApp{
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
-               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.vehicleCrewCapacity + `</p>` +
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
                `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},\'${vehicle.type}\',
-               ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.facilityRefID});
+               ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.fireStationID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
                `<button onclick="myVehicleApp.Delete(${vehicle.id});this.parentNode.parentNode.parentNode.remove();">Delete Vehicle</button>`;
        }
@@ -152,8 +152,8 @@ class VehicleApp{
         `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(true)">
       <div class="container">
         <h2> Création de véhicule </h2>
-        <label for="facilityRefID"><b>facilityRefID</b></label>
-        <input type="int" name="facilityRefID" id="fRID" >
+        <label for="fireStationID"><b>fireStationID</b></label>
+        <input type="int" name="fireStationID" id="fRID" >
         <label for="type"><b>Type</b></label>
         <br/>
         <select id="type" name="type">
@@ -182,48 +182,109 @@ class VehicleApp{
   document.getElementById('id01').style.display='block';
     }
 
-    Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,facilityRefID){
+    Update(id,lon,lat,type,liquidQuantity,liquidType,fuel,crewMember,fireStationID){
+
+        let CarISsel ="";
+        let FEISsel ="";
+        let PTISsel="";
+        let WTISsel="";
+        let TLISsel="";
+        let TISsel="";
+        
+        switch(type){
+            case 'CAR':
+                CarISsel = "selected";
+            break;
+
+            case 'FIRE_ENGINE':
+                FEISsel = "selected";
+            break;
+
+            case 'PUMPER_TRUCK':
+                PTISsel = "selected";
+            break;
+
+            case 'WATER_TENDERS':
+                WTISsel = "selected";
+            break;
+
+            case 'TURNTABLE_LADDER_TRUCK':
+                TLISsel = "selected";
+            break;
+
+            case 'TRUCK':
+                TISsel = "selected";
+            break;
+        }
+        let AllISsel ="";
+        let WISsel ="";
+        let WAISsel="";
+        let CISsel="";
+        let PISsel="";
+        switch(liquidType){
+            case 'ALL':
+                AllISsel = "selected";
+            break;
+
+            case 'WATER':
+                WISsel= "selected";
+            break;
+
+            case 'WATER_WITH_ADDITIVES':
+                WAISsel= "selected";
+            break;
+
+            case 'CARBON_DIOXIDE':
+                CISsel = "selected";
+            break;
+
+            case 'POWDER':
+                PISsel = "selected";
+            break;
+        }
+
+
         document.getElementById('updateForm').innerHTML=
 
          `<form class="modal-content animate" action="javascript:;" onsubmit="myVehicleApp.createUpdate(false,${id})">`+
             `<div class="container">`+
              `<h2> Modification du véhicule </h2>` +
               `<label for="lon"><b>Longitude</b></label>`+
-              `<input type="double" name="lon" id="lon" placeholder=${lon}>`+
+              `<input type="double" name="lon" id="lon" value=${lon}>`+
               `<label for="lat"><b>Latitude</b></label>`+
-              `<input type="double" name="lat" id="lat" placeholder=${lat}>`+
+              `<input type="double" name="lat" id="lat" value=${lat}>`+
              `<br/>`+
               `<label for="type"><b>Type</b></label>
               <br/>
-              <select id="type" name="type">
-                 <option value="CAR">Car</option>
-                 <option value="FIRE_ENGINE">Fire Engine</option>
-                 <option value="PUMPER_TRUCK">Pumper Truck</option>
-                 <option value="WATER_TENDERS">Water Tender</option>
-                 <option value="TURNTABLE_LADDER_TRUCK">Turntable Ladder Truck</option>
-                 <option value="TRUCK">Truck</option>
+              <select id="type" name="type">` +
+                 `<option ${CarISsel} value="CAR">Car</option>
+                 <option ${FEISsel} value="FIRE_ENGINE">Fire Engine</option>
+                 <option ${PTISsel} value="PUMPER_TRUCK">Pumper Truck</option>
+                 <option ${WTISsel} value="WATER_TENDERS">Water Tender</option>
+                 <option ${TLISsel} value="TURNTABLE_LADDER_TRUCK">Turntable Ladder Truck</option>
+                 <option ${TISsel} value="TRUCK">Truck</option>
               </select>
               <br/>`+
               `<label for="LiquidType"><b>LiquidType</b></label>
                 <br/>
-                <select id="lt" name="lt">
-                    <option value="ALL">All</option>
-                    <option value="WATER">Water</option>
-                    <option value="WATER_WITH_ADDITIVES">Water with Additives</option>
-                    <option value="CARBON_DIOXIDE">Carbon Dioxide</option>
-                    <option value="POWDER">Powder</option>
+                <select id="lt" name="lt">` + 
+                    `<option ${AllISsel} value="ALL">All</option>
+                    <option ${WISsel} value="WATER">Water</option>
+                    <option ${WAISsel} value="WATER_WITH_ADDITIVES">Water with Additives</option>
+                    <option ${CISsel} value="CARBON_DIOXIDE">Carbon Dioxide</option>
+                    <option ${PISsel} value="POWDER">Powder</option>
              </select> </br></br>` +
               `<label for="LiquidQuantity"><b>LiquidQuantity</b></label>`+
-              `<input type="double" name="LiquidQuantity" id="lq" placeholder=${liquidQuantity}>`+
+              `<input type="double" name="LiquidQuantity" id="lq" value=${liquidQuantity}>`+
               `<br/>`+
               `<label for="fuel"><b>fuel</b></label>`+
-              `<input type="double" name="fuel" id="f" placeholder=${fuel}>`+
+              `<input type="double" name="fuel" id="f" value=${fuel}>`+
               `<br/>`+
               `<label for="CrewMember"><b>CrewMember</b></label>`+
-              `<input type="int" name="CrewMember" id="cm" placeholder=${crewMember}>`+
+              `<input type="int" name="CrewMember" id="cm" value=${crewMember}>`+
               `<br/>`+
-              `<label for="facilityRefID"><b>facilityRefID</b></label>`+
-              `<input type="int" name="facilityRefID" id="fRID" placeholder=${facilityRefID}>`+
+              `<label for="fireStationID"><b>fireStationID</b></label>`+
+              `<input type="int" name="fireStationID" id="fRID" value=${fireStationID}>`+
       
       
               `<button type="submit">Update</button>
