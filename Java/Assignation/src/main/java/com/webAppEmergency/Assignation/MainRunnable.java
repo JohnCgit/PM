@@ -47,10 +47,10 @@ public class MainRunnable implements Runnable {
 				System.out.println("[MAIN-RUN] Begin loop");
 				System.out.println("[MAIN-RUN] current list of has been assigned fire is : "+this.List_Fire);
 				Thread.sleep(2500); //wait 10sec
-				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
+				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8010/fire/getAll", FireDto[].class);
 				
 				for (FireDto fire:Tab_Fire) {
-					Vehicle[] Tab_Vehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
+					Vehicle[] Tab_Vehicle = this.restTemplate.getForObject("http://127.0.0.1:8010/vehicle/getAll", Vehicle[].class);
 					boolean isOneFree = false;
 					for (Vehicle v:Tab_Vehicle) {if (v.getState()==State.DISPONIBLE) {isOneFree=true;}}
 					if ((!this.List_Fire.contains(fire.getId())) && isOneFree) {
@@ -62,8 +62,8 @@ public class MainRunnable implements Runnable {
 							createPath(v, fire);
 							System.out.println("[MAIN-RUN] Choosed vehicle : "+v);
 
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getId()+"?state=ALLER", null);
-							this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+fire.getId(), null);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+v.getId()+"?state=ALLER", null);
+							this.restTemplate.put("http://127.0.0.1:8010:8010/vehicle/giveFire/"+v.getId()+"/"+fire.getId(), null);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -105,7 +105,7 @@ public class MainRunnable implements Runnable {
 	}
 	
 	public FireStation ClosestCaserne(Coord CoordFire) {
-		FireStation[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8050/getAll", FireStation[].class);
+		FireStation[] ListCaserne=this.restTemplate.getForObject("http://127.0.0.1:8010/fireStation/getAll", FireStation[].class);
 		FireStation res = new FireStation();
 		Integer minDistance = -1;
 		for (FireStation f:ListCaserne) { 
@@ -133,7 +133,7 @@ public class MainRunnable implements Runnable {
 //			System.out.println("[MAIN-RUN-SELECTV] vehicles available : "+f.getListVehicles());
 			for (Integer idVehicle:f.getListVehicles()) { 
 //				System.out.println("[MAIN-RUN-SELECTV] vehicles treated : "+idVehicle);
-				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
+				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8010/vehicle/get/"+idVehicle, Vehicle.class);
 //				System.out.println("[MAIN-RUN-SELECTV] "+v);
 				float efficiency = v.getLiquidType().getEfficiency(fireType);// *v.getEfficiency
 				//TODO si le vehicule a assez de fuel / AE
@@ -157,7 +157,7 @@ public class MainRunnable implements Runnable {
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/setPath/"+v.getId(), request);
 	}
 	
 	public boolean hasEnough(Vehicle v, FireDto feu) {

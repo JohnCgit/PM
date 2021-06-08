@@ -98,7 +98,7 @@ public class FireStationService {
 
 		HttpEntity<String> request = new HttpEntity<String>(body.toString(), headers);
 		System.out.println("[CASERNE-INITVEHICULE] vehicule created with : "+body);
-		Vehicle v = this.restTemplate.postForObject("http://127.0.0.1:8070/fcreate", request, Vehicle.class);
+		Vehicle v = this.restTemplate.postForObject("http://127.0.0.1:8010/vehicle/fcreate", request, Vehicle.class);
 
 		addVehicleWFireStation(f, v.getId());
 	}
@@ -114,7 +114,7 @@ public class FireStationService {
 			ListVehicle.add(VehicleID);		
 		}
 		c.setListVehicles(ListVehicle);
-		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 	
@@ -132,7 +132,7 @@ public class FireStationService {
 			}	
 		}
 		c.setListVehicles(ListVehicle);
-		this.restTemplate.put("http://127.0.0.1:8070/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/move/"+VehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 		cRepo.save(c);
 	}
 }

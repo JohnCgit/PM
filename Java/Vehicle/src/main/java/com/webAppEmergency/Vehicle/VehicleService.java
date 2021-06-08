@@ -71,12 +71,12 @@ public class VehicleService {
 	}
 	
 	public void linkVehicleFireStation(Vehicle v) {
-		System.out.print("http://127.0.0.1:8050/addVehicle/"+v.getFireStationID()+"/"+v.getId());
-		this.restTemplate.put("http://127.0.0.1:8050/addVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
+		System.out.print("http://127.0.0.1:8010/fireStation/addVehicle/"+v.getFireStationID()+"/"+v.getId());
+		this.restTemplate.put("http://127.0.0.1:8010/fireStation/addVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
 	}
 
 	public void removeVehicleFireStation(Vehicle v) {
-		this.restTemplate.put("http://127.0.0.1:8050/removeVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
+		this.restTemplate.put("http://127.0.0.1:8010/fireStation/removeVehicle/"+v.getFireStationID()+"/"+v.getId(), null);
 	}
 	
 	public void createVehicleFireSim(Vehicle v) {

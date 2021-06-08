@@ -41,27 +41,27 @@ public class MoveRunnable implements Runnable{
 		while (!this.isEnd) {
 			try{
 				Thread.sleep(1250);
-				Vehicle[] tabVehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
+				Vehicle[] tabVehicle = this.restTemplate.getForObject("http://127.0.0.1:8010/vehicle/getAll", Vehicle[].class);
 				for (Vehicle v: tabVehicle) {
 					int vehicleID = v.getId();
 					switch (v.getEtat()) {
 					case ALLER:
-						FireDto fire=this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
+						FireDto fire=this.restTemplate.getForObject("http://127.0.0.1:8010/fire/get/"+v.getIdFire(), FireDto.class);
 					
 						Coord c1 = new Coord(v.getLon(), v.getLat());
 						if (fire==null) {
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
-							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+vehicleID+"?state=RETOUR", null);
+							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8010/fireStation/"+v.getFireStationID(), FireStation.class);
 							createPath(v, c); 
 						}
 						else {
 							Coord c2 = new Coord(fire.getLon(), fire.getLat());
 							if (v.getPath().size()==0) {
-								this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
+								this.restTemplate.put("http://127.0.0.1:8010/vehicle/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
 								//System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
 								System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
-								FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
-								this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
+								FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8010/fireStation/"+v.getFireStationID(), FireStation.class);
+								this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+vehicleID+"?state=EXTINCTION", null);
 								createPath(v, c); 
 							}
 							else {
@@ -74,10 +74,10 @@ public class MoveRunnable implements Runnable{
 						break;
 					case EXTINCTION:
 						System.out.println("[MOVE-RUN-E] "+vehicleID+ " est a l extinction");
-						FireDto fire1 = this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
+						FireDto fire1 = this.restTemplate.getForObject("http://127.0.0.1:8010/fire/get/"+v.getIdFire(), FireDto.class);
 						if (fire1==null) {
 //							useAE(v);
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+vehicleID+"?state=RETOUR", null);
 						}
 						else {
 							System.out.println("[MOVE-RUN-E] le feu "+fire1.getId()+" a une intensite de "+fire1.getIntensity());
@@ -86,10 +86,10 @@ public class MoveRunnable implements Runnable{
 					case RETOUR:
 						System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est au retour");
 						if (v.getPath().size()==0) {
-							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
-							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
+							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8010/fireStation/"+v.getFireStationID(), FireStation.class);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/move/"+vehicleID+"?lon="+c.getLon()+"&lat="+c.getLat(), null);
 							System.out.println("[MOVE-RUN-R] Le vehicule "+vehicleID+" est rentre");
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=DISPONIBLE", null);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+vehicleID+"?state=DISPONIBLE", null);
 						}
 						else {
 							move(v);
@@ -142,7 +142,7 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(path.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/setPath/"+v.getId(), request);
 	}
 	
 	public void move(Vehicle v) {
@@ -156,7 +156,7 @@ public class MoveRunnable implements Runnable{
 		while (distance < deplacement && v.getPath().size()>0) { //au moins 2 deplacement
 			deplacement -= (int)distance;
 			//System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
-			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
+			this.restTemplate.put("http://127.0.0.1:8010/vehicle/followPath/"+v.getId(), null);
 			
 			nextStep = v.getPath().remove(0);
 			c2 = new Coord(nextStep.get(0), nextStep.get(1));
@@ -165,10 +165,10 @@ public class MoveRunnable implements Runnable{
 		if (distance < deplacement) {//plot armor
 			deplacement -= (int)distance;
 			//System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
-			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
+			this.restTemplate.put("http://127.0.0.1:8010/vehicle/followPath/"+v.getId(), null);
 		}
 		deplacement += v.getDeplacementType();
-		this.restTemplate.put("http://127.0.0.1:8070/setDeplacement/"+v.getId()+"/"+deplacement, null);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/setDeplacement/"+v.getId()+"/"+deplacement, null);
 		
 //		useFuel(v);
 		
@@ -184,7 +184,7 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/update/1", request);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/update/1", request);
 	}
 	
 	public void useAE(Vehicle v) {
@@ -197,7 +197,7 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(body.toString(), headers);
-		this.restTemplate.put("http://127.0.0.1:8070/update/1", request);
+		this.restTemplate.put("http://127.0.0.1:8010/vehicle/update/1", request);
 	}
 	
 	public void refuel(Vehicle v) {
@@ -209,7 +209,7 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8070/update/"+v.getId(), request);
+			this.restTemplate.put("http://127.0.0.1:8010/vehicle/update/"+v.getId(), request);
 	}
 	
 	public void refill (Vehicle v) {
@@ -221,6 +221,6 @@ public class MoveRunnable implements Runnable{
 
 		HttpEntity<String> request = 
 			      new HttpEntity<String>(body.toString(), headers);
-			this.restTemplate.put("http://127.0.0.1:8070/update/"+v.getId(), request);
+			this.restTemplate.put("http://127.0.0.1:8010/vehicle/update/"+v.getId(), request);
 	}
 }
