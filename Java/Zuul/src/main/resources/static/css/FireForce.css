@@ -65,14 +65,14 @@
   }
 
   .container>button[type=submit] {
-    background-color: #04AA6D;
+    background-color:lightgreen;
     color: white;
     border: none;
     float: right;
   }
 
   .container>button {
-    background-color: red;
+    background-color: indianred;
     color: white;
     border: none;
     float: left;
