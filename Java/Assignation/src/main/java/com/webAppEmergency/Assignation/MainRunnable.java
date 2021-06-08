@@ -63,7 +63,7 @@ public class MainRunnable implements Runnable {
 							System.out.println("[MAIN-RUN] Choosed vehicle : "+v);
 
 							this.restTemplate.put("http://127.0.0.1:8010/vehicle/state/"+v.getId()+"?state=ALLER", null);
-							this.restTemplate.put("http://127.0.0.1:8010:8010/vehicle/giveFire/"+v.getId()+"/"+fire.getId(), null);
+							this.restTemplate.put("http://127.0.0.1:8010/vehicle/giveFire/"+v.getId()+"/"+fire.getId(), null);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}

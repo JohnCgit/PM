@@ -90,7 +90,7 @@ class VehicleApp{
             
             if(affiche){
                 this.AddVehicle(Vehicle);
-                this.addPath(Vehicle.path);
+                //this.addPath(Vehicle.path);
                 this.ListVehicleVisible.push(Vehicle);
             }
         })
@@ -117,8 +117,10 @@ class VehicleApp{
 
     ToString(vehicle){
         //lancer tracer destination si etat occupé
+        //this.addPath(Vehicle.path);
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
-               `<p> Etat: ` + vehicle.state + `<p>` + `<p> Type: ` + vehicle.type + `<p>`+
+               `<p> Etat: ` + vehicle.state + ` &nbsp Type: ` + vehicle.type + `</p>`+
+               `<p> Caserne: ` + vehicle.fireStationID+ `</p>`+
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
