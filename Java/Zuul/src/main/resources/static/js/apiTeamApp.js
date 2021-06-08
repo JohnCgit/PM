@@ -55,5 +55,5 @@ function DeleteVehicle(id) {
 }
 
 function UpdateVehicle(id, data) {
-    return JSON.parse(loadRessource(`${host}/vehicle/update/${id}`, "PUT", data));
+    loadRessource(`${host}/vehicle/update/${id}`, "PUT", data);
 }
