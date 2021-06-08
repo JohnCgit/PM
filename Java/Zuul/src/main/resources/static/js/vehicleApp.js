@@ -84,7 +84,7 @@ class VehicleApp{
     ToString(vehicle){
         //lancer tracer destination si etat occupé
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
-               `<p> Type: ` + vehicle.type + `&nbsp --- &nbsp Caserne associée: ` + vehicle.fireStationID + `</p>` +
+               `<p> Etat: ` + vehicle.state + `<p>` +
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
