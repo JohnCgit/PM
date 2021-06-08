@@ -2,6 +2,7 @@ class FireStationApp{
     constructor(markersFireStation,ListFireStation){
         this.markersFireStation = markersFireStation;
         this.ListFireStation = ListFireStation;
+        this.ListFireStationVisible = ListFireStation;
     }
     
     AddFireStation(FireStation){
@@ -24,7 +25,7 @@ class FireStationApp{
     }
 
 	fireStationFilter(){
-	 this.ListFireStation.forEach(FireStation => 
+	 this.ListFireStationVisible.forEach(FireStation => 
         this.AddFireStation(FireStation))
 	}
     ToString(fireStation){
@@ -41,4 +42,13 @@ class FireStationApp{
     getMarkers(){
        return this.markersFireStation;
     }
+    
+    hideDisplay(display) {
+        if (!display) {
+        	this.ListFireStationVisible=Array();
+        }
+        else {
+            this.ListFireStationVisible=this.ListFireStation;
+        }
+    } 
 }

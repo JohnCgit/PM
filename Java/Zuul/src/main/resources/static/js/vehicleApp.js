@@ -14,6 +14,12 @@ class VehicleApp{
         let typeWT = document.getElementById("watertender").checked;
         let typeLT = document.getElementById("laddertruck").checked;
         let typeT = document.getElementById("truck").checked;
+        
+        let DISPONIBLE = document.getElementById("DISPONIBLE").checked;
+        let ALLER = document.getElementById("ALLER").checked;
+		let EXTINCTION = document.getElementById("EXTINCTION").checked;
+		let RETOUR = document.getElementById("RETOUR").checked;
+		let NON_OPERATIONNAL = document.getElementById("NON_OPERATIONNAL").checked;
 
         this.ListVehicleVisible=Array();
         this.ListVehicle.forEach(Vehicle=>{
@@ -52,6 +58,34 @@ class VehicleApp{
                     break;
                 default:
                     affiche = true;
+            }
+
+            switch(Vehicle.state){
+                case 'DISPONIBLE':
+                    if(!DISPONIBLE){
+                        affiche=false; 
+                    }
+                    break;
+    
+                case 'ALLER':
+                    if(!ALLER){
+                        affiche=false; 
+                    }
+                    break;
+                case 'EXTINCTION':
+                    if(!EXTINCTION){
+                        affiche=false; 
+                    }
+                    break;
+                case 'RETOUR':
+                    if(!RETOUR){
+                        affiche=false; 
+                    }
+                    break;
+                case 'NON_OPERATIONNAL':
+                    if(!NON_OPERATIONNAL){
+                        affiche=false; 
+                    }
             }
             
             if(affiche){

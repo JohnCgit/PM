@@ -37,7 +37,7 @@
     position:absolute;
     color:black;
     background-color: #222222;
-    height:45%;
+    height:30%;
     width: 27%;
     left: 73%;
     top: 25%;
@@ -46,7 +46,7 @@
   #id02 {
     position:absolute;
     color:black;
-    height: 47%;
+    height: 30%;
     width: 27%;
     left: 0%;
     top: 25%;
@@ -124,6 +124,14 @@ body {
   border:1px solid black;
 }
 
+#content_vehicle{
+	font-size: 0;
+}
+#content_vehicle > div{
+	display : inline-block;
+	padding-bottom: 2%;
+	font-size: initial;
+}
 #mapid:hover, #content_vehicle:hover, #content_fire:hover, #content_caserne:hover{
   box-shadow: 0 8px 16px 0 lightgray;
 }
@@ -133,6 +141,7 @@ div > h2 {
   font-family:Arial, Helvetica, sans-serif;
   margin:0%;
   border: 1px solid black;
+  font-size: x-large
 }
 
 #content_caserne > #call {

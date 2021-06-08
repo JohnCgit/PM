@@ -58,8 +58,10 @@
 
   </div>
   <div id="content_vehicle">
-      <h2>Vehicles</h2>
-      <h3>Vehicle type</h3>
+  <h2>Vehicles</h2>
+  	<div id="type">
+      
+      <h3>Type</h3>
       <input type="checkbox" id="car" checked>
       <label for="car">CAR</label>
       <br/>
@@ -75,23 +77,38 @@
       <label for="laddertruck">TURNTABLE_LADDER_TRUCK</label><br/>
       <input type="checkbox" id="truck" checked>
       <label for="truck">TRUCK</label><br/>
-
+	</div>
+	<div id="state">
+      <h3>State</h3>
+      <input type="checkbox" id="NON_OPERATIONNAL" checked>
+      <label for="NON_OPERATIONNAL">NON_OPERATIONNAL</label><br/>
+      <input type="checkbox" id="DISPONIBLE" checked>
+      <label for="DISPONIBLE">DISPONIBLE</label>
+      <br/>
+      <input type="checkbox" id="ALLER" checked>
+      <label for="ALLER">ALLER</label><br/>
+      <input type="checkbox" id="EXTINCTION" checked>
+      <label for="EXTINCTION">EXTINCTION</label>
+      <br/>
+      <input type="checkbox" id="RETOUR" checked>
+      <label for="RETOUR">RETOUR</label>
+      <br/>
+      
+      
+      
+	</div>
     </br>
-    <button id="display" onclick="mydisplayApp.hideDisplay(`content_vehicle`,true)">Display All</button>
-    <button id="hide" onclick="mydisplayApp.hideDisplay(`content_vehicle`,false)">Hide All</button>
+    <button id="display" onclick="mydisplayApp.hideDisplay(`state`,true);mydisplayApp.hideDisplay(`type`,true)">Display All</button>
+    <button id="hide" onclick="mydisplayApp.hideDisplay(`state`,false);mydisplayApp.hideDisplay(`type`,false)">Hide All</button>
 
   </div>    
   <!-- Button to open the modal login form -->
   <div id="content_caserne">
-    <h2>Casernes</h2>
-    <h3>Places disponibles</h3>
-    <input type="range"id="i" name="i" value="0" min="0" max="7" oninput="this.nextElementSibling.value = this.value">
-    <output>0</output>
-    </br></br>
-      <button id ="display" onclick="mydisplayApp.hideDisplay(`content_caserne`,true)">Display All</button>
-      <button id="hide" onclick="mydisplayApp.hideDisplay(`content_caserne`,false)">Hide All</button>
-      <br/></br>
-    <button id="call" onclick="CreateVehicle(JSON.stringify({}))">Call a Vehicle</button>
+    <h2>Fire Station</h2>
+    <h3>Display</h3>
+      <button id ="display" onclick="myFireStationApp.hideDisplay(true)">Display All</button><br/>
+      <button id="hide" onclick="myFireStationApp.hideDisplay(false)">Hide All</button>
+      
  
   </div>
 </div>
