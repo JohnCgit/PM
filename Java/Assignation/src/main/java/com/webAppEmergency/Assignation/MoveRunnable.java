@@ -72,7 +72,7 @@ public class MoveRunnable implements Runnable{
 							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
 						}
 						else {
-							System.out.println("[MOVE-RUN-E] le feu "+" a une intensite de "+fire1.getIntensity());
+							System.out.println("[MOVE-RUN-E] le feu "+fire1.getId()+" a une intensite de "+fire1.getIntensity());
 						}
 						break;
 					case RETOUR:
@@ -127,7 +127,7 @@ public class MoveRunnable implements Runnable{
 			double lat = coord.get(1).asDouble();
 			path.add(new ArrayList<>(List.of(lon, lat)));
 		}
-		System.out.println("[MOVE-RUN-P] new path is" + path);
+		//System.out.println("[MOVE-RUN-P] new path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);
@@ -147,7 +147,7 @@ public class MoveRunnable implements Runnable{
 		
 		while (distance < deplacement && v.getPath().size()>0) { //au moins 2 deplacement
 			deplacement -= (int)distance;
-			System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
+			//System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
 			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
 			
 			nextStep = v.getPath().remove(0);
@@ -156,7 +156,7 @@ public class MoveRunnable implements Runnable{
 		}
 		if (distance < deplacement) {//plot armor
 			deplacement -= (int)distance;
-			System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
+			//System.out.println("[MOVE-MOVE-IT] le deplacement de "+v.getId()+" est de "+deplacement);
 			this.restTemplate.put("http://127.0.0.1:8070/followPath/"+v.getId(), null);
 		}
 		deplacement += v.getDeplacementType();

@@ -56,6 +56,7 @@ class VehicleApp{
             
             if(affiche){
                 this.AddVehicle(Vehicle);
+                this.addPath(Vehicle.path);
                 this.ListVehicleVisible.push(Vehicle);
             }
         })
