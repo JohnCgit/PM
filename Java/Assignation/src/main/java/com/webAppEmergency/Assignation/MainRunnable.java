@@ -42,27 +42,31 @@ public class MainRunnable implements Runnable {
 	@Override
 	public void run() {
 		while(!this.isEnd) {
+
 			try {
 				System.out.println("[MAIN-RUN] Begin loop");
 				System.out.println("[MAIN-RUN] current list of has been assigned fire is : "+this.List_Fire);
-				Thread.sleep(10000); //wait 10sec
+				Thread.sleep(5000); //wait 10sec
 				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 				
-				for (FireDto fire:Tab_Fire) {			
-					if (!this.List_Fire.contains(fire.getId())) {
+				for (FireDto fire:Tab_Fire) {
+					Vehicle[] Tab_Vehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
+					boolean isOneFree = false;
+					for (Vehicle v:Tab_Vehicle) {if (v.getState()==State.DISPONIBLE) {isOneFree=true;}}
+					if ((!this.List_Fire.contains(fire.getId())) && isOneFree) {
 						System.out.println("[MAIN-RUN] New fire : "+fire.getId());
 						Vehicle v=new Vehicle();
 						try {
 							v = PickVehicle2(fire);
 							this.List_Fire.add(fire.getId());
 							createPath(v, fire);
+							System.out.println("[MAIN-RUN] Choosed vehicle : "+v);
+
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getId()+"?state=ALLER", null);
+							this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+fire.getId(), null);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-						System.out.println("[MAIN-RUN] Choosed vehicle : "+v);
-
-						this.restTemplate.put("http://127.0.0.1:8070/state/"+v.getId()+"?state=ALLER", null);
-						this.restTemplate.put("http://127.0.0.1:8070/giveFire/"+v.getId()+"/"+fire.getId(), null);
 					}
 				}
 
@@ -86,18 +90,17 @@ public class MainRunnable implements Runnable {
 	// recupere la caserne la plus proche
 	//choisis le vehicule le lus adapte de cette caserne
 	public Vehicle PickVehicle2(FireDto fire) { // version actuelle
-		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
+//		System.out.println("[MAIN-RUN-PickV2] PickVehicule2");
 		Coord CoordFire= new Coord(fire.getLon(), fire.getLat());
 		Vehicle v = null;
 		this.LFireStation = new ArrayList<Integer>();
 		while (v==null) {
-			System.out.println("[MAIN-RUN-PickV2] fire coordinates : "+fire.getLon()+", "+fire.getLat());
+//			System.out.println("[MAIN-RUN-PickV2] fire coordinates : "+fire.getLon()+", "+fire.getLat());
 			FireStation f = ClosestCaserne(CoordFire);
 			this.LFireStation.add(f.getId());
-			System.out.println("[MAIN-RUN-PickV2] closest firestation : "+f);
+//			System.out.println("[MAIN-RUN-PickV2] closest firestation : "+f);
 			v = SelectVehicleInFireStation(f, fire.getType());
 		}
-		//TODO GetPompiers
 		return v;
 	}
 	
@@ -127,11 +130,11 @@ public class MainRunnable implements Runnable {
 		Vehicle res = null;
 		if (!f.getListVehicles().isEmpty()) {		
 			float maxefficiency=-1;
-			System.out.println("[MAIN-RUN-SELECTV] vehicles available : "+f.getListVehicles());
+//			System.out.println("[MAIN-RUN-SELECTV] vehicles available : "+f.getListVehicles());
 			for (Integer idVehicle:f.getListVehicles()) { 
-				System.out.println("[MAIN-RUN-SELECTV] vehicles treated : "+idVehicle);
+//				System.out.println("[MAIN-RUN-SELECTV] vehicles treated : "+idVehicle);
 				Vehicle v=this.restTemplate.getForObject("http://127.0.0.1:8070/get/"+idVehicle, Vehicle.class);
-				System.out.println("[MAIN-RUN-SELECTV] "+v);
+//				System.out.println("[MAIN-RUN-SELECTV] "+v);
 				float efficiency = v.getLiquidType().getEfficiency(fireType);// *v.getEfficiency
 				//TODO si le vehicule a assez de fuel / AE
 				if (v.getEtat()==State.DISPONIBLE) { 
@@ -147,7 +150,7 @@ public class MainRunnable implements Runnable {
 	
 	public void createPath(Vehicle v, FireDto feu) throws IOException {
 		ArrayList<ArrayList<Double>> path = wouldBePath(v, feu);
-		System.out.println("[MAIN-RUN-P] new path is" + path);
+//		System.out.println("[MAIN-RUN-P] new path is" + path);
 		//transmets ce path a vehicule
 		HttpHeaders headers = new HttpHeaders();
 	    headers.setContentType(MediaType.APPLICATION_JSON);

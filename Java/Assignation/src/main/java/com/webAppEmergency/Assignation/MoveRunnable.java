@@ -47,22 +47,30 @@ public class MoveRunnable implements Runnable{
 					switch (v.getEtat()) {
 					case ALLER:
 						FireDto fire=this.restTemplate.getForObject("http://127.0.0.1:8090/get/"+v.getIdFire(), FireDto.class);
-
+					
 						Coord c1 = new Coord(v.getLon(), v.getLat());
-						Coord c2 = new Coord(fire.getLon(), fire.getLat());
-						if (v.getPath().size()==0) {
-							this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
-							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
+						if (fire==null) {
+							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=RETOUR", null);
 							FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
-							this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
 							createPath(v, c); 
 						}
 						else {
-							System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" est a l aller");
-							System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
-							move(v);
+							Coord c2 = new Coord(fire.getLon(), fire.getLat());
+							if (v.getPath().size()==0) {
+								this.restTemplate.put("http://127.0.0.1:8070/move/"+vehicleID+"?lon="+fire.getLon()+"&lat="+fire.getLat(), null);
+								//System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
+								System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" vas en extinction");
+								FireStation c = this.restTemplate.getForObject("http://127.0.0.1:8050/"+v.getFireStationID(), FireStation.class);
+								this.restTemplate.put("http://127.0.0.1:8070/state/"+vehicleID+"?state=EXTINCTION", null);
+								createPath(v, c); 
+							}
+							else {
+								//System.out.println("[MOVE-RUN-A] Le vehicule "+vehicleID+" est a l aller");
+								System.out.println("[MOVE-RUN-A] "+vehicleID+" est a "+GisTools.computeDistance2(c1, c2)+"m du feu "+fire.getId());
+								move(v);
+							}
 						}
+						
 						break;
 					case EXTINCTION:
 						System.out.println("[MOVE-RUN-E] "+vehicleID+ " est a l extinction");
