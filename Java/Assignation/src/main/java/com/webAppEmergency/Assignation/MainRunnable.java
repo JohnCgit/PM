@@ -157,9 +157,14 @@ public class MainRunnable implements Runnable {
 		this.restTemplate.put("http://127.0.0.1:8070/setPath/"+v.getId(), request);
 	}
 	
+	public boolean hasEnough(Vehicle v, FireDto feu) {
+		boolean res1 = canGoThereAndBack(v, feu);
+		boolean res2 = canStopFire(v, feu);
+		return (res1 && res2);
+	}
+	
 	public boolean canGoThereAndBack(Vehicle v, FireDto feu) {
 		boolean res1 = false;
-		boolean res2 = false;
 		ArrayList<ArrayList<Double>> path = wouldBePath(v, feu);
 		List<Integer> LDist = new ArrayList<Integer>();
 		path = wouldBePath(v, feu);
@@ -177,9 +182,18 @@ public class MainRunnable implements Runnable {
 		sum *= 2;
 		int tic = sum/200;
 		tic++;
-		double ticLeft = v.getLiquidQuantity()/v.getLiquidConsumption();
+		double ticLeft = v.getFuel()/v.getFuelConsumption();
 		if (ticLeft>tic) {res1 = true;}
-		return (res1 && res2);
+		return (res1);
+	}
+	
+	public boolean canStopFire(Vehicle v, FireDto feu) { //assume fires will be at 50 by time someones over there
+		boolean res2 = false;
+		int progress = (int) (0.8*v.getEfficiency()*v.getLiquidType().getEfficiency(feu.getType()) - 0.1);
+		int tic = 50 / progress;
+		int ticLeft = (int) (v.getLiquidQuantity()/v.getLiquidConsumption());
+		if (ticLeft>tic) {res2 = true;}
+		return res2;
 	}
 	
 	public ArrayList<ArrayList<Double>> wouldBePath(Vehicle v, FireDto feu) {

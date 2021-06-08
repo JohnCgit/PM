@@ -40,7 +40,7 @@ public class MoveRunnable implements Runnable{
 	public void run() {
 		while (!this.isEnd) {
 			try{
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 				Vehicle[] tabVehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
 				for (Vehicle v: tabVehicle) {
 					int vehicleID = v.getId();
@@ -115,7 +115,7 @@ public class MoveRunnable implements Runnable{
 	
 	public void createPath(Vehicle v, FireStation f) throws IOException {
 		// Recupere le trajet sur mapbox api
-		String Path = f.getLon()+","+f.getLat()+";"+v.getLon()+","+v.getLat();
+		String Path = v.getLon()+","+v.getLat()+";"+f.getLon()+","+f.getLat();
 		String url="https://api.mapbox.com/directions/v5/mapbox/driving/"+Path+"?alternatives=false&geometries=geojson&steps=false&access_token=pk.eyJ1IjoiZXJtaXphaGQiLCJhIjoiY2twaTJxdGRjMGY3MjJ1cGM1NDNqc3NsNyJ9.xxjbVbTAlxUklvOFvXG9Bw";
 		String res = this.restTemplate.getForObject(url, String.class);
 		// Traduit la requete pour creer un path
