@@ -46,7 +46,7 @@ public class MainRunnable implements Runnable {
 			try {
 				System.out.println("[MAIN-RUN] Begin loop");
 				System.out.println("[MAIN-RUN] current list of has been assigned fire is : "+this.List_Fire);
-				Thread.sleep(5000); //wait 10sec
+				Thread.sleep(2500); //wait 10sec
 				FireDto Tab_Fire[]=this.restTemplate.getForObject("http://127.0.0.1:8081/fire", FireDto[].class);
 				
 				for (FireDto fire:Tab_Fire) {

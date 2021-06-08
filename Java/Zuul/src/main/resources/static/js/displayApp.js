@@ -60,7 +60,7 @@ class displayApp{
     onMapClick(e){
         let Fire = myFireApp.getFireAt(e.latlng.lat,e.latlng.lng);
         let FireStation = myFireStationApp.getFireStationAt(e.latlng.lat,e.latlng.lng);
-        let Vehicle = myVehicleApp.getVehicleAt(e.latlng.lat,e.latlng.lng);
+        let Vehicles = myVehicleApp.getVehiclesAt(e.latlng.lat,e.latlng.lng);
         let string ="";
 
         if(Fire != null){
@@ -69,8 +69,9 @@ class displayApp{
         if(FireStation != null){
             string += myFireStationApp.ToString(FireStation);
         }
-        if(Vehicle != null){
-            string += myVehicleApp.ToString(Vehicle);
+        if(Vehicles != null){
+        	Vehicles.forEach(Vehicle=> {
+            string += myVehicleApp.ToString(Vehicle);})
         }
 
         if(string != ""){

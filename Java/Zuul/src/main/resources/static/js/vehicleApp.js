@@ -103,13 +103,13 @@ class VehicleApp{
           }).addTo(this.markersVehicle);
     }
 
-    getVehicleAt(lat,lng){
-        let vehicle = null;
+    getVehiclesAt(lat,lng){
+        let vehicle = Array();
         let radius = 50;
         this.ListVehicleVisible.forEach(Vehicle => {
             if(getDistanceFromLatLonInKm(Vehicle.lat,Vehicle.lon,lat,lng)*1000 <= radius)
             {
-                vehicle = Vehicle;
+                vehicle.push(Vehicle);
             }
         });
         return vehicle;    
@@ -118,11 +118,11 @@ class VehicleApp{
     ToString(vehicle){
         //lancer tracer destination si etat occupé
        return  `<h3> Véhicule n°` + vehicle.id + `</h3>` +
-               `<p> Etat: ` + vehicle.state + `<p>` +
+               `<p> Etat: ` + vehicle.state + `<p>` + `<p> Type: ` + vehicle.type + `<p>`+
                `<p> Latitude/Longitude: (` + vehicle.lat + `,`  + vehicle.lon + `) &nbsp --- Efficiency: ` + vehicle.efficiency  + `</p>` +
                `<p> Liquid : &nbsp Type: ` + vehicle.liquidType + `&nbsp --- Quantity: ` + vehicle.liquidQuantity + `&nbsp --- Consumption: ` + vehicle.liquidConsumption + `</p>`+
                `<p> Fuel: &nbsp Quantity:` + vehicle.fuel + `&nbsp --- Consumption: ` + vehicle.fuelConsumption + `</p>`+
-               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.crewMemberCapacity + `</p>` +
+               `<p> Crew Member: &nbsp Quantity: ` + vehicle.crewMember + `&nbsp --- Capacity: ` + vehicle.vehicleCrewCapacity + `</p>` +
                `<button onclick="myVehicleApp.Update(${vehicle.id},${vehicle.lon},${vehicle.lat},\'${vehicle.type}\',
                ${vehicle.liquidQuantity},\'${vehicle.liquidType}\',${vehicle.fuel},${vehicle.crewMember},${vehicle.fireStationID});
                this.parentNode.parentNode.parentNode.remove();">Update Vehicle</button>`+
@@ -149,7 +149,7 @@ class VehicleApp{
 
         let data = {};
 
-        let type = document.getElementById("type").value;
+        let type = document.getElementById("typeV").value;
         let lt = document.getElementById("lt").value;
         let fRID = document.getElementById("fRID").value;
 
@@ -191,7 +191,7 @@ class VehicleApp{
         <input type="int" name="fireStationID" id="fRID" >
         <label for="type"><b>Type</b></label>
         <br/>
-        <select id="type" name="type">
+        <select id="typeV" name="type">
           <option value="CAR">Car</option>
           <option value="FIRE_ENGINE">Fire Engine</option>
           <option value="PUMPER_TRUCK">Pumper Truck</option>
@@ -291,7 +291,7 @@ class VehicleApp{
              `<br/>`+
               `<label for="type"><b>Type</b></label>
               <br/>
-              <select id="type" name="type">` +
+              <select id="typeV" name="type">` +
                  `<option ${CarISsel} value="CAR">Car</option>
                  <option ${FEISsel} value="FIRE_ENGINE">Fire Engine</option>
                  <option ${PTISsel} value="PUMPER_TRUCK">Pumper Truck</option>

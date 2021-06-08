@@ -40,7 +40,7 @@ public class MoveRunnable implements Runnable{
 	public void run() {
 		while (!this.isEnd) {
 			try{
-				Thread.sleep(5000);
+				Thread.sleep(1250);
 				Vehicle[] tabVehicle = this.restTemplate.getForObject("http://127.0.0.1:8070/getAll", Vehicle[].class);
 				for (Vehicle v: tabVehicle) {
 					int vehicleID = v.getId();
